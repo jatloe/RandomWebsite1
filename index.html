@@ -72,6 +72,7 @@ function validateForm() {
         if (x[0] == user) {
             if (x[1] == pass) {
                 window.localStorage.setItem("user",user);
+                console.log(user);
                 if (user != "jatloe") {
                   window.location.href = "normalview.html";
                 } else {
