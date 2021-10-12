@@ -72,7 +72,11 @@ function validateForm() {
         if (x[0] == user) {
             if (x[1] == pass) {
                 window.localStorage.setItem("user",user);
-                window.location.href = "normalview.html";
+                if (user != "jatloe") {
+                  window.location.href = "normalview.html";
+                } else {
+                  window.location.href = "jatloeview.html";
+                }
                 return false;
             }
             document.getElementById('Info').innerText = "Your password does not match your username."
