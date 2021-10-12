@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#external {
+  display: table;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+#center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+  width: 400px;
+}
+#vertical {
+  vertical-align: middle;
+  display: table-cell;
+}
+#Info {
+  font-size: 14pt;
+}
+.textbox {
+  height:30px;
+  font-size:14pt;
+}
+.formsize {
+  font-size: 18pt;
+}
+.submit {
+  height:30px;
+  width:60px;
+  font-size: 12pt;
+  background-color:rgba(0,128,255,1);
+}
+body {
+  background-image: url('background.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+</style>
+</head>
+<body>
+<div id="external">
+<div id="vertical">
+<div id="center">
+<p id="Info"></p>
+<form name="myForm" onsubmit="return validateForm()">
+  <label for="user" class="formsize">Username:</label><br><br>
+  <input type="text" id="user" name="user" class="textbox"><br><br>
+  <label for="pass" class="formsize">Password:</label><br><br>
+  <input type="password" id="pass" name="pass" class="textbox"><br><br>
+  <input type="submit" value="Login" class="submit">
+</form>
+</div>
+</div>
+</div>
+</body>
+<script>
+function validateForm() {
+    let data = [
+        ["jatloe", "jatloepass"],
+    ];
+    let user = document.forms["myForm"]["user"].value;
+    let pass = document.forms["myForm"]["pass"].value;
+    for (let x of data) {
+        if (x[0] == user) {
+            if (x[1] == pass) {
+                window.localStorage.setItem("user",user);
+                window.location.href = "normalview.html";
+                return false;
+            }
+            document.getElementById('Info').innerText = "Your password does not match your username."
+            return false;
+        }
+    }
+    document.getElementById('Info').innerText = "Invalid username."
+    return false;
+}
+</script>
+</html>

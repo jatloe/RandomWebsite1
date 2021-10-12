@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#welcome{
+text-align: center;
+}
+</style>
+</head>
+<body onload="setWelcome();">
+<h1 id="welcome">Welcome, null.</h2>
+</body>
+<script>
+function setWelcome(){
+var user = window.localStorage.getItem("user");
+document.getElementById("welcome").innerHTML="Welcome, " + user + "."
+}
+</script>
+</html>
