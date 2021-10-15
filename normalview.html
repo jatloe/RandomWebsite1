@@ -18,7 +18,7 @@ var user = window.localStorage.getItem("user");
 document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
 }
 function addOne(){
-  buttonclicks=buttonclicks+Math.floor(Math.log(buttonclicks+2));
+  buttonclicks=buttonclicks+Math.floor(Math.log(buttonclicks+3));
   document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points. (Doesn't save)";
 }
 </script>
