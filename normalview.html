@@ -9,11 +9,17 @@ text-align: center;
 </head>
 <body onload="setWelcome();">
 <h1 id="welcome">Welcome, null.</h2>
+<button type="button" onclick="addOne()" id="addbutton">You have clicked this button 0 times. (Doesn't save)</button>
 </body>
 <script>
+let buttonclicks=0;
 function setWelcome(){
 var user = window.localStorage.getItem("user");
-document.getElementById("welcome").innerHTML="Welcome, " + user + "."
+document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
+}
+function addOne(){
+  buttonclicks=buttonclicks+1;
+  document.getElementById("addbutton").innerHTML="You have clicked this button " + buttonclicks + " times. (Doesn't save)";
 }
 </script>
 </html>
