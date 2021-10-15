@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html>
-<head>
-<style>
-#welcome{
-text-align: center;
-}
-</style>
-</head>
-<body onload="setWelcome();">
-<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><h1 id="welcome">Welcome, null.</h1></a>
-<button type="button" onclick="addOne()" id="addbutton">You have 0 points. (Doesn't save)</button>
-</body>
-<script>
-let buttonclicks=0;
-function setWelcome(){
-var user = window.localStorage.getItem("user");
-document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
-}
-function addOne(){
-  buttonclicks=buttonclicks+Math.floor(Math.log(buttonclicks+3));
-  document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points. (Doesn't save)";
-}
-</script>
+   <head>
+      <style>
+         #welcome{
+         text-align: center;
+         }
+      </style>
+   </head>
+   <body onload="setWelcome();">
+      <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+         <h1 id="welcome">Welcome, null.</h1>
+      </a>
+      <button type="button" onclick="addOne()" id="addbutton">You have 0 points. (Doesn't save)</button>
+   </body>
+   <script>
+      let buttonclicks=0;
+      function setWelcome(){
+      var user = window.localStorage.getItem("user");
+      document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
+      }
+      function addOne(){
+        buttonclicks=buttonclicks+Math.floor(Math.log(buttonclicks+3));
+        document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points. (Doesn't save)";
+      }
+   </script>
 </html>
