@@ -45,7 +45,7 @@
                onindex+=1;
                document.getElementById("binPrompt").innerHTML = document.getElementById("binPrompt").innerHTML + x;
             } else {
-               buttonclicks=buttonclicks*10;
+               buttonclicks=buttonclicks*Math.pow(2,digits);
                digits+=1;
                setBinary();
                document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points. (Doesn't save)";
