@@ -41,9 +41,9 @@
                onindex+=1;
                document.getElementById("binPrompt").innerHTML = document.getElementById("binPrompt").innerHTML + x;
             } else {
-               document.getElementById("binPrompt").innerHTML="You win!";
-               buttonclicks=buttonclicks*5;
-               setTimeout(setBinary(),3000);
+               buttonclicks=buttonclicks*10;
+               setBinary();
+               document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points. (Doesn't save)";
             }
          } else {
             window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
