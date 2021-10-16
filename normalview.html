@@ -33,7 +33,7 @@
          document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points. (Doesn't save)";
       }
       function binInput(x){
-         if (x==binaryanswer(onindex)) {
+         if (x==binaryanswer[onindex]) {
             if (onindex<7) {
                onindex+=1;
                document.getElementById("binPrompt").innerHTML = document.getElementById("binPrompt").innerHTML + x;
