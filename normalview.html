@@ -16,21 +16,23 @@
    </body>
    <script>
       let buttonclicks=0;
-      let binaryanswer=[1,0,0,0,0,0,0,0];
-      let binarysum=128;
+      let binaryanswer=[1,0];
+      let binarysum=2;
       let onindex=0;
+      let digits=2;
       function setWelcome(){
          var user = window.localStorage.getItem("user");
          document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
          setBinary();
       }
       function setBinary(){
-         binarysum=128;
+         binarysum=Math.pow(2,digits-1);
          onindex=0;
-         for (let i=1;i<8;i++) {
+         for (let i=1;i<digits-1;i++) {
             binaryanswer[i]=Math.floor(Math.random() * 2);
-            binarysum+=Math.pow(2,7-i)*binaryanswer[i];
+            binarysum+=Math.pow(2,digits-1-i)*binaryanswer[i];
          }
+         binaryanswer.push(Math.floor(Math.random() * 2));
          document.getElementById("binPrompt").innerHTML="Convert " + binarysum + " to binary."
       }
       function addOne(){
@@ -39,11 +41,12 @@
       }
       function binInput(x){
          if (x==binaryanswer[onindex]) {
-            if (onindex<7) {
+            if (onindex<digits-1) {
                onindex+=1;
                document.getElementById("binPrompt").innerHTML = document.getElementById("binPrompt").innerHTML + x;
             } else {
                buttonclicks=buttonclicks*10;
+               digits+=1;
                setBinary();
                document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points. (Doesn't save)";
             }
