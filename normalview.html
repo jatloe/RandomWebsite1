@@ -9,13 +9,13 @@
    </head>
    <body onload="setWelcome();">
       <h1 id="welcome">Welcome, null.</h1>
-      <button type="button" onclick="addOne()" id="addbutton">You have 0 points. (Doesn't save)</button>
+      <button type="button" onclick="addOne()" id="addbutton">You have 1 points. (Doesn't save)</button>
       <h4 id="binPrompt">Convert null to binary.</h4>
       <button type="button" onclick="binInput(1)">Input 1</button>
       <button type="button" onclick="binInput(0)">Input 0</button>
    </body>
    <script>
-      let buttonclicks=0;
+      let buttonclicks=1;
       let binaryanswer=[1];
       let binarysum=2;
       let onindex=0;
@@ -35,7 +35,6 @@
          binaryanswer.push(Math.floor(Math.random() * 2));
          binarysum+=binaryanswer[digits-1];
          document.getElementById("binPrompt").innerHTML="Convert " + binarysum + " to binary.";
-         console.log(binaryanswer);
       }
       function addOne(){
          buttonclicks=buttonclicks+Math.floor(Math.log(buttonclicks+3));
@@ -46,7 +45,6 @@
             if (onindex<digits-1) {
                onindex+=1;
                document.getElementById("binPrompt").innerHTML = document.getElementById("binPrompt").innerHTML + x;
-               console.log(binaryanswer[onindex+1]);
             } else {
                buttonclicks=buttonclicks*Math.pow(2,digits);
                digits+=1;
