@@ -22,7 +22,7 @@
          var user = window.localStorage.getItem("user");
          for (let i=1;i<8;i++) {
             binaryanswer[i]=Math.floor(Math.random() * 2);
-            binarysum+=Math.pow(2,7-i);
+            binarysum+=Math.pow(2,7-i)*binaryanswer[i];
          }
          document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
          document.getElementById("binPrompt").innerHTML="Convert " + binarysum + " to binary."
