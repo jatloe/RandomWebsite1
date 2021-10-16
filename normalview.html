@@ -8,16 +8,16 @@
       </style>
    </head>
    <body onload="setWelcome();">
-      <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-         <h1 id="welcome">Welcome, null.</h1>
-      </a>
+      <h1 id="welcome">Welcome, null.</h1>
       <button type="button" onclick="addOne()" id="addbutton">You have 0 points. (Doesn't save)</button>
       <h4 id="binPrompt">Convert null to binary.</h4>
+      <button type="button" onclick=
    </body>
    <script>
       let buttonclicks=0;
       let binaryanswer=[1,0,0,0,0,0,0,0];
       let binarysum=128;
+      let onindex=0;
       function setWelcome(){
          var user = window.localStorage.getItem("user");
          for (let i=1;i<8;i++) {
@@ -28,8 +28,20 @@
          document.getElementById("binPrompt").innerHTML="Convert " + binarysum + " to binary."
       }
       function addOne(){
-        buttonclicks=buttonclicks+Math.floor(Math.log(buttonclicks+3));
-        document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points. (Doesn't save)";
+         buttonclicks=buttonclicks+Math.floor(Math.log(buttonclicks+3));
+         document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points. (Doesn't save)";
+      }
+      function binInput(x){
+         if (x==binaryanswer(onindex)) {
+            if (onindex<7) {
+               onindex+=1;
+               document.getElementById("binPrompt").innerHTML = document.getElementById("binPrompt").innerHTML + x;
+            } else {
+               document.getElementById("binPrompt").innerHTML="You win!";
+            }
+         } else {
+            window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+         }
       }
    </script>
 </html>
