@@ -12,12 +12,20 @@
          <h1 id="welcome">Welcome, null.</h1>
       </a>
       <button type="button" onclick="addOne()" id="addbutton">You have 0 points. (Doesn't save)</button>
+      <h4 id="binPrompt">Convert null to binary.</h4>
    </body>
    <script>
       let buttonclicks=0;
+      let binaryanswer=[1,0,0,0,0,0,0,0];
+      let binarysum=128;
       function setWelcome(){
-      var user = window.localStorage.getItem("user");
-      document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
+         var user = window.localStorage.getItem("user");
+         for (let i=1;i<8,i++) {
+            binaryanswer[i]=Math.floor(Math.random() * 2);
+            binarysum+=Math.pow(2,7-i);
+         }
+         document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
+         document.getElementById("binPrompt").innerHTML="Convert " + binarysum + " to binary."
       }
       function addOne(){
         buttonclicks=buttonclicks+Math.floor(Math.log(buttonclicks+3));
