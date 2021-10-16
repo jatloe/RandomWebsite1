@@ -33,6 +33,7 @@
             binarysum+=Math.pow(2,digits-1-i)*binaryanswer[i];
          }
          binaryanswer.push(Math.floor(Math.random() * 2));
+         binarysum+=binaryanswer[digits-1];
          document.getElementById("binPrompt").innerHTML="Convert " + binarysum + " to binary.";
          console.log(binaryanswer);
       }
