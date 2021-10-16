@@ -21,11 +21,14 @@
       let onindex=0;
       function setWelcome(){
          var user = window.localStorage.getItem("user");
+         document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
+         setBinary();
+      }
+      function setBinary(){
          for (let i=1;i<8;i++) {
             binaryanswer[i]=Math.floor(Math.random() * 2);
             binarysum+=Math.pow(2,7-i)*binaryanswer[i];
          }
-         document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
          document.getElementById("binPrompt").innerHTML="Convert " + binarysum + " to binary."
       }
       function addOne(){
@@ -40,6 +43,7 @@
             } else {
                document.getElementById("binPrompt").innerHTML="You win!";
                buttonclicks=buttonclicks*5;
+               setTimeout(setBinary(),3000);
             }
          } else {
             window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
