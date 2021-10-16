@@ -44,6 +44,7 @@
             if (onindex<digits-1) {
                onindex+=1;
                document.getElementById("binPrompt").innerHTML = document.getElementById("binPrompt").innerHTML + x;
+               console.log(binaryanswer[onindex+1]);
             } else {
                buttonclicks=buttonclicks*Math.pow(2,digits);
                digits+=1;
