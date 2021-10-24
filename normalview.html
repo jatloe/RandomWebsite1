@@ -15,7 +15,7 @@
    <body onload="setWelcome();">
       <h1 id="welcome">Welcome, null.</h1>
       <div class="center">
-      <button type="button" onclick="addOne()" id="addbutton">You have 1 points. (Doesn't save)</button>
+      <button type="button" onclick="addOne()" id="addbutton">You have 1 points.</button>
       <h4 id="binPrompt">Convert null to binary.</h4>
       <button type="button" onclick="binInput(1)">Input 1</button>
       <button type="button" onclick="binInput(0)">Input 0</button>
@@ -45,7 +45,7 @@
       }
       function addOne(){
          buttonclicks=buttonclicks+Math.floor(Math.log(buttonclicks+3));
-         document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points. (Doesn't save)";
+         document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
       }
       function binInput(x){
          if (x==binaryanswer[onindex]) {
@@ -56,7 +56,7 @@
                buttonclicks=buttonclicks*Math.pow(2,digits);
                digits+=1;
                setBinary();
-               document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points. (Doesn't save)";
+               document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
             }
          } else {
             window.location.replace("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
