@@ -55,5 +55,12 @@
             window.location.replace("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
          }
       }
+      document.onkeyup = function(e) {
+         if (e.which == 49 || e.which == 97) {
+           binInput(1);
+         } else if (e.which == 48 || e.which == 96) {
+           binInput(0);
+         }
+      };
    </script>
 </html>
