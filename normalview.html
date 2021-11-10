@@ -24,6 +24,7 @@
    <body onload="setWelcome();">
       <h1 id="welcome">Welcome, null.</h1>
       <div class="center">
+         <p id="prestiges">You have 0 prestiges.</p> <br>
          <p id="binPrompt">Convert null to binary.</p> <br>
          <button type="button" onclick="binInput(1)">Input 1</button>
          <button type="button" onclick="binInput(0)">Input 0</button> <br> <br>
@@ -101,6 +102,7 @@
          document.getElementById("buttonAppear").innerHTML = '';
          document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
          prestiges=prestiges+1;
+         document.getElementById("prestiges").innerHTML="You have " + prestiges + " prestiges.";
       }
    </script>
 </html>
