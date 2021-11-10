@@ -46,7 +46,7 @@
       <br> <br>
       <div class="center">
          <p id="trinPrestiges">You have 0 prestiges.</p>
-         <p id="trinPrompt">Convert null to binary.</p> <br>
+         <p id="trinPrompt">Convert null to trinary.</p> <br>
          <button type="button" onclick="trinInput(2)">Input 2</button>
          <button type="button" onclick="trinInput(1)">Input 1</button>
          <button type="button" onclick="trinInput(0)">Input 0</button> <br> <br>
@@ -63,6 +63,14 @@
       let digits=2;
       let boost=1;
       let prestiges=0;
+      let trinonindex=0;
+      let trinarysum=6;
+      let trinaryanswer=[2];
+      let trindigits=2;
+      let trinboost=1;
+      let trinprestiges = 0;
+      let trinpresnum=0;
+      let trinbuttonclicks=1;
       function setWelcome(){
          var user = window.localStorage.getItem("user");
          document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
@@ -79,9 +87,24 @@
          binarysum+=binaryanswer[digits-1];
          document.getElementById("binPrompt").innerHTML="Convert " + binarysum + " to binary.";
       }
+      function setTrinary(){
+         trinarysum=Math.pow(3,trindigits-1);
+         trinonindex=0;
+         for (let i=1;i<trindigits-1;i++) {
+            trinaryanswer[i]=Math.floor(Math.random() * 3);
+            trinarysum+=Math.pow(3,digits-1-i)*trinaryanswer[i];
+         }
+         trinaryanswer.push(Math.floor(Math.random() * 3));
+         trinarysum+=trinaryanswer[trindigits-1];
+         document.getElementById("trinPrompt").innerHTML="Convert " + trinarysum + " to trinary.";
+      }
       function addOne(){
          buttonclicks=buttonclicks+Math.floor(Math.log(buttonclicks+3));
          document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
+      }
+      function trinAddOne(){
+         trinbuttonclicks=trinbuttonclicks+Math.floor(Math.log(trinbuttonclicks+3));
+         document.getElementById("trinaddbutton").innerHTML="You have " + trinbuttonclicks + " points.";
       }
       function binInput(x){
          if (x==binaryanswer[onindex]) {
@@ -101,6 +124,24 @@
             window.location.replace("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
          }
       }
+      function trinInput(x){
+         if (x==trinary[trinonindex]) {
+            if (trinonindex<trindigits-1) {
+               trinonindex+=1;
+               document.getElementById("trinPrompt").innerHTML = document.getElementById("trinPrompt").innerHTML + x;
+            } else {
+               buttonclicks=buttonclicks*Math.pow(3,digits)*trinboost;
+               trindigits+=1;
+               setTrinary();
+               document.getElementById("trinaddbutton").innerHTML="You have " + trinbuttonclicks + " points.";
+               if (Math.log10(buttonclicks)>=(25+(trinprestiges*5))) {
+                  trinButtonFunction(Math.floor(Math.log10(trinbuttonclicks)));
+               }
+            }
+         } else {
+            window.location.replace("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+         }
+      }
       document.onkeyup = function(e) {
          if (e.which == 49 || e.which == 97) {
            binInput(1);
@@ -111,6 +152,10 @@
       function buttonFunction(num){
          document.getElementById("buttonAppear").innerHTML = '<button onclick="prestige()">Prestige for x' + num.toString() + ' multiplier</button>';
          presnum = num;
+      }
+      function trinButtonFunction(num){
+         document.getElementById("trinButtonAppear").innerHTML = '<button onclick="trinPrestige()">Prestige for x' + num.toString() + ' multiplier</button>';
+         trinpresnum = num;
       }
       function prestige(){
          buttonclicks=1;
@@ -125,6 +170,20 @@
          document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
          prestiges=prestiges+1;
          document.getElementById("prestiges").innerHTML="You have " + prestiges + " prestiges.";
+      }
+      function trinPrestige(){
+         trinbuttonclicks=1;
+         trinaryanswer=[3];
+         trinarysum=6;
+         trinonindex=0;
+         trindigits=2;
+         setTrinary();
+         trinboost=trinboost * trinpresnum;
+         trinpresnum=1;
+         document.getElementById("trinButtonAppear").innerHTML = '';
+         document.getElementById("trinaddbutton").innerHTML="You have " + trinbuttonclicks + " points.";
+         trinprestiges=trinprestiges+1;
+         document.getElementById("trinPrestiges").innerHTML="You have " + trinprestiges + " prestiges.";
       }
    </script>
 </html>
