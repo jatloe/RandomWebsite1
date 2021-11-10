@@ -115,7 +115,7 @@
                onindex+=1;
                document.getElementById("binPrompt").innerHTML = document.getElementById("binPrompt").innerHTML + x;
             } else {
-               buttonclicks=buttonclicks*Math.pow(2,digits)*boost;
+               buttonclicks=buttonclicks*Math.pow(2,digits)*boost*trinboost;
                digits+=1;
                setBinary();
                document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
