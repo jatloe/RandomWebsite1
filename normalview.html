@@ -91,7 +91,7 @@
       function setTrinary(){
          trinarysum=Math.pow(3,trindigits-1);
          trinonindex=0;
-         for (let i=1;i<trindigits-1;i++) {
+         for (let i=0;i<trindigits-1;i++) {
             trinaryanswer[i]=Math.floor(Math.random() * 3);
             trinarysum+=Math.pow(3,trindigits-1-i)*trinaryanswer[i];
          }
