@@ -132,11 +132,11 @@
                trinonindex+=1;
                document.getElementById("trinPrompt").innerHTML = document.getElementById("trinPrompt").innerHTML + x;
             } else {
-               buttonclicks=buttonclicks*Math.pow(3,digits)*trinboost;
+               trinbuttonclicks=trinbuttonclicks*Math.pow(3,digits)*trinboost;
                trindigits+=1;
                setTrinary();
                document.getElementById("trinaddbutton").innerHTML="You have " + trinbuttonclicks + " points.";
-               if (Math.log10(buttonclicks)>=(25+(trinprestiges*5))) {
+               if (Math.log10(trinbuttonclicks)>=(25+(trinprestiges*5))) {
                   trinButtonFunction(Math.floor(Math.log10(trinbuttonclicks)));
                }
             }
