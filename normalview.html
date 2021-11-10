@@ -85,10 +85,10 @@
          }
       };
       function buttonFunction(num){
-         document.getElementById("buttonAppear").innerHTML = '<button onclick="secondFunction()">Prestige for x' + num.toString() + ' multiplier</button>';
+         document.getElementById("buttonAppear").innerHTML = '<button onclick="prestige()">Prestige for x' + num.toString() + ' multiplier</button>';
          presnum = num;
       }
-      function secondFunction(){
+      function prestige(){
          buttonclicks=1;
          binaryanswer=[1];
          binarysum=2;
@@ -97,6 +97,8 @@
          setBinary();
          boost=boost * presnum;
          presnum=1;
+         document.getElementById("buttonAppear").innerHTML = '';
+         document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
       }
    </script>
 </html>
