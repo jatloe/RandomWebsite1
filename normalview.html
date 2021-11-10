@@ -93,7 +93,7 @@
          trinonindex=0;
          for (let i=1;i<trindigits-1;i++) {
             trinaryanswer[i]=Math.floor(Math.random() * 3);
-            trinarysum+=Math.pow(3,digits-1-i)*trinaryanswer[i];
+            trinarysum+=Math.pow(3,trindigits-1-i)*trinaryanswer[i];
          }
          trinaryanswer.push(Math.floor(Math.random() * 3));
          trinarysum+=trinaryanswer[trindigits-1];
