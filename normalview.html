@@ -28,14 +28,17 @@
          <button type="button" onclick="binInput(1)">Input 1</button>
          <button type="button" onclick="binInput(0)">Input 0</button> <br> <br>
          <button type="button" onclick="addOne()" id="addbutton">You have 1 points.</button>
+         <span id="buttonAppear"></span>
       <div>
    </body>
    <script>
+      let presnum=0;
       let buttonclicks=1;
       let binaryanswer=[1];
       let binarysum=2;
       let onindex=0;
       let digits=2;
+      let boost=1;
       function setWelcome(){
          var user = window.localStorage.getItem("user");
          document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
@@ -62,10 +65,13 @@
                onindex+=1;
                document.getElementById("binPrompt").innerHTML = document.getElementById("binPrompt").innerHTML + x;
             } else {
-               buttonclicks=buttonclicks*Math.pow(2,digits);
+               buttonclicks=buttonclicks*Math.pow(2,digits)*boost;
                digits+=1;
                setBinary();
                document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
+               if (Math.log10(buttonclicks)>=30) {
+                  buttonFunction(Math.floor(Math.log10(buttonclicks)));
+               }
             }
          } else {
             window.location.replace("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
@@ -78,5 +84,19 @@
            binInput(0);
          }
       };
+      function buttonFunction(num){
+         document.getElementById("buttonAppear").innerHTML = '<button onclick="secondFunction()">Prestige for x' + num.toString() + ' multiplier</button>';
+         presnum = num;
+      }
+      function secondFunction(){
+         buttonclicks=1;
+         binaryanswer=[1];
+         binarysum=2;
+         onindex=0;
+         digits=2;
+         setBinary();
+         boost=boost * presnum;
+         presnum=1;
+      }
    </script>
 </html>
