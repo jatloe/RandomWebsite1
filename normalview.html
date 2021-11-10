@@ -99,7 +99,6 @@
          trinaryanswer.push(Math.floor(Math.random() * 3));
          trinarysum+=trinaryanswer[trindigits-1];
          document.getElementById("trinPrompt").innerHTML="Convert " + trinarysum + " to trinary.";
-         console.log(trinaryanswer);
       }
       function addOne(){
          buttonclicks=buttonclicks+Math.floor(Math.log(buttonclicks+3));
@@ -137,7 +136,7 @@
                trindigits+=1;
                setTrinary();
                document.getElementById("trinaddbutton").innerHTML="You have " + trinbuttonclicks + " points.";
-               if (Math.log10(trinbuttonclicks)>=(25+(trinprestiges*5))) {
+               if (Math.log10(trinbuttonclicks)>=(15+(trinprestiges*5))) {
                   trinButtonFunction(Math.floor(Math.log10(trinbuttonclicks)));
                }
             }
