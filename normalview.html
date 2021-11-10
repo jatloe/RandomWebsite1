@@ -39,6 +39,7 @@
       let onindex=0;
       let digits=2;
       let boost=1;
+      let prestiges=0;
       function setWelcome(){
          var user = window.localStorage.getItem("user");
          document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
@@ -69,7 +70,7 @@
                digits+=1;
                setBinary();
                document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
-               if (Math.log10(buttonclicks)>=20) {
+               if (Math.log10(buttonclicks)>=(20+(prestiges*5))) {
                   buttonFunction(Math.floor(Math.log10(buttonclicks)));
                }
             }
@@ -99,6 +100,7 @@
          presnum=1;
          document.getElementById("buttonAppear").innerHTML = '';
          document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
+         prestiges=prestiges+1;
       }
    </script>
 </html>
