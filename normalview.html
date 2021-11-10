@@ -44,7 +44,7 @@
          <span id="buttonAppear"></span>
       </div>
       <br> <br>
-      <div class="center">
+      <div class="center" id="trinaryConversion">
          <p id="trinPrestiges">You have 0 prestiges.</p>
          <p id="trinPrompt">Convert null to trinary.</p> <br>
          <button type="button" onclick="trinInput(2)">Input 2</button>
@@ -76,6 +76,7 @@
          document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
          setBinary();
          setTrinary();
+         document.getElementById("trinaryConversion").style.visibility="hidden";
       }
       function setBinary(){
          binarysum=Math.pow(2,digits-1);
@@ -172,6 +173,9 @@
          document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
          prestiges=prestiges+1;
          document.getElementById("prestiges").innerHTML="You have " + prestiges + " prestiges.";
+         if(prestiges == 3) {
+            document.getElementById("trinaryConversion").style.visibility="visible";
+         }
       }
       function trinPrestige(){
          trinbuttonclicks=1;
