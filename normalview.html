@@ -35,7 +35,7 @@
    </head>
    <body onload="setWelcome();">
       <h1 id="welcome">Welcome, null.</h1>
-      <div class="center">
+      <div class="center" id="binaryConversion">
          <p id="prestiges">You have 0 prestiges.</p>
          <p id="binPrompt">Convert null to binary.</p> <br>
          <button type="button" onclick="binInput(1)">Input 1</button>
@@ -124,7 +124,10 @@
                }
             }
          } else {
-            close();
+            var elem = document.getElementById("binaryConversion");
+            elem.parentNode.removeChild(elem);
+            var elem2 = document.getElementById("trinaryConversion");
+            elem2.parentNode.removeChild(elem2);
          }
       }
       function trinInput(x){
@@ -142,7 +145,10 @@
                }
             }
          } else {
-            close();
+            var elem = document.getElementById("binaryConversion");
+            elem.parentNode.removeChild(elem);
+            var elem2 = document.getElementById("trinaryConversion");
+            elem2.parentNode.removeChild(elem2);
          }
       }
       document.onkeyup = function(e) {
