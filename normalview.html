@@ -124,11 +124,7 @@
                }
             }
          } else {
-            var elem = document.getElementById("binaryConversion");
-            elem.parentNode.removeChild(elem);
-            var elem2 = document.getElementById("trinaryConversion");
-            elem2.parentNode.removeChild(elem2);
-            document.getElementById("welcome").innerHTML = "Rip, refresh to try again.";
+            gameEnd("Rip, refresh to try again.");
          }
       }
       function trinInput(x){
@@ -146,11 +142,7 @@
                }
             }
          } else {
-            var elem = document.getElementById("binaryConversion");
-            elem.parentNode.removeChild(elem);
-            var elem2 = document.getElementById("trinaryConversion");
-            elem2.parentNode.removeChild(elem2);
-            document.getElementById("welcome").innerHTML = "Rip, refresh to try again.";
+            gameEnd("Rip, refresh to try again.");
          }
       }
       document.onkeyup = function(e) {
@@ -169,6 +161,9 @@
          trinpresnum = num;
       }
       function prestige(){
+         if(isFinite(buttonclicks) == false) {
+            gameEnd("Good job! You won.");
+         }
          buttonclicks=1;
          binaryanswer=[1];
          binarysum=2;
@@ -198,6 +193,13 @@
          document.getElementById("trinaddbutton").innerHTML="You have " + trinbuttonclicks + " points.";
          trinprestiges=trinprestiges+1;
          document.getElementById("trinPrestiges").innerHTML="You have " + trinprestiges + " prestiges.";
+      }
+      function gameEnd(text){
+         var elem = document.getElementById("binaryConversion");
+         elem.parentNode.removeChild(elem);
+         var elem2 = document.getElementById("trinaryConversion");
+         elem2.parentNode.removeChild(elem2);
+         document.getElementById("welcome").innerHTML = text;
       }
    </script>
 </html>
