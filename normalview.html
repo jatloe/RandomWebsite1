@@ -119,7 +119,7 @@
                digits+=1;
                setBinary();
                document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
-               if (Math.log10(buttonclicks)>=(20+(prestiges*5))) {
+               if (Math.log10(buttonclicks)>=(20+(prestiges*5)+Math.pow(math.floor(prestiges/10)+1,10))) {
                   buttonFunction(Math.floor(Math.log10(buttonclicks)));
                }
             }
@@ -128,6 +128,7 @@
             elem.parentNode.removeChild(elem);
             var elem2 = document.getElementById("trinaryConversion");
             elem2.parentNode.removeChild(elem2);
+            document.getElementById("welcome").innerHTML = "Rip, refresh to try again.";
          }
       }
       function trinInput(x){
@@ -140,7 +141,7 @@
                trindigits+=1;
                setTrinary();
                document.getElementById("trinaddbutton").innerHTML="You have " + trinbuttonclicks + " points.";
-               if (Math.log10(trinbuttonclicks)>=(15+(trinprestiges*5))) {
+               if (Math.log10(trinbuttonclicks)>=(15+(trinprestiges*5)+Math.pow(math.floor(trinprestiges/5)+1,10))) {
                   trinButtonFunction(Math.floor(Math.log10(trinbuttonclicks)));
                }
             }
@@ -149,6 +150,7 @@
             elem.parentNode.removeChild(elem);
             var elem2 = document.getElementById("trinaryConversion");
             elem2.parentNode.removeChild(elem2);
+            document.getElementById("welcome").innerHTML = "Rip, refresh to try again.";
          }
       }
       document.onkeyup = function(e) {
