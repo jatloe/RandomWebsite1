@@ -35,6 +35,7 @@
    </head>
    <body onload="setWelcome();">
       <h1 id="welcome">Welcome, null.</h1>
+      <center><p style="font-size:24px" id="keyboardInput">Keyboard inputting for binary, press B/T to switch</p></center>
       <div class="center" id="binaryConversion">
          <p id="prestiges">You have 0 prestiges.</p>
          <p id="binPrompt">Convert null to binary.</p> <br>
@@ -77,6 +78,7 @@
          setBinary();
          setternary();
          document.getElementById("ternaryConversion").style.visibility="hidden";
+         document.getElementById("keyboardInput").style.visibility="hidden";
       }
       function setBinary(){
          binarysum=Math.pow(2,digits-1);
@@ -179,6 +181,7 @@
          document.getElementById("prestiges").innerHTML="You have " + prestiges + " prestiges.";
          if(prestiges == 3) {
             document.getElementById("ternaryConversion").style.visibility="visible";
+            document.getElementById("keyboardInput").style.visibility="visible";
          }
       }
       function ternPrestige(){
