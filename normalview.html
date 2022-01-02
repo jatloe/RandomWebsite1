@@ -72,6 +72,7 @@
       let ternprestiges = 0;
       let ternpresnum=0;
       let ternbuttonclicks=1;
+      let inputbase="binary";
       function setWelcome(){
          var user = window.localStorage.getItem("user");
          document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
@@ -148,10 +149,34 @@
          }
       }
       document.onkeyup = function(e) {
-         if (e.which == 49 || e.which == 97) {
-           binInput(1);
+         if (e.which == 66) {
+            inputbase="binary";
+            document.getElementById("keyboardInput").innerHTML="Keyboard inputting for binary, press B/T to switch";
+         } else if (e.which == 84) {
+            if (prestiges>=3) {
+               inputbase="ternary";
+               document.getElementById("keyboardInput").innerHTML="Keyboard inputting for ternary, press B/T to switch";
+            }
+         } else if (e.which == 49 || e.which == 97) {
+            if (inputbase=="binary") {
+               binInput(1);
+            } else if (inputbase=="ternary") {
+               ternInput(1);
+            } else {
+               console.log("Unintended input base: " + inputbase);
+            }
          } else if (e.which == 48 || e.which == 96) {
-           binInput(0);
+            if (inputbase=="binary") {
+               binInput(0);
+            } else if (inputbase=="ternary") {
+               ternInput(0);
+            } else {
+               console.log("Unintended input base: " + inputbase);
+            }
+         } else if (e.which == 50 || e.which == 98) {
+            if (inputbase=="ternary") {
+               ternInput(2);
+            }
          }
       };
       function buttonFunction(num){
@@ -203,6 +228,8 @@
          elem.parentNode.removeChild(elem);
          var elem2 = document.getElementById("ternaryConversion");
          elem2.parentNode.removeChild(elem2);
+         var elem3 = document.getElementById("keyboardInput");
+         elem3.parentNode.removeChild(elem3);
          document.getElementById("welcome").innerHTML = text;
       }
    </script>
