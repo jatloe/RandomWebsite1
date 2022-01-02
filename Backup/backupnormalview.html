@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <link rel="icon" href="jatloesmile-hd.png">
+      <style>
+         #welcome{
+            text-align: center;
+         }
+         .center{
+            margin: auto;
+            width: 20%;
+            text-align: center;
+            border-style: solid;
+            border-color: #add8e6;
+            border-width: 3px;
+            padding: 10px;
+         }
+         #binPrompt{
+            font-size: 20px;
+            margin: 0;
+         }
+         #prestiges{
+            font-size: 16px;
+            margin: 0;
+         }
+         #ternPrompt{
+            font-size: 20px;
+            margin: 0;
+         }
+         #ternPrestiges{
+            font-size: 16px;
+            margin: 0;
+         }
+      </style>
+   </head>
+   <body onload="setWelcome();">
+      <h1 id="welcome">Welcome, null.</h1>
+      <center><p style="font-size:24px" id="keyboardInput">Keyboard inputting for binary, press B/T to switch</p></center>
+      <div class="center" id="binaryConversion">
+         <p id="prestiges">You have 0 prestiges.</p>
+         <p id="binPrompt">Convert null to binary.</p> <br>
+         <button type="button" onclick="binInput(1)">Input 1</button>
+         <button type="button" onclick="binInput(0)">Input 0</button> <br> <br>
+         <button type="button" onclick="addOne()" id="addbutton">You have 1 points.</button>
+         <span id="buttonAppear"></span>
+      </div>
+      <br> <br>
+      <div class="center" id="ternaryConversion">
+         <p id="ternPrestiges">You have 0 prestiges.</p>
+         <p id="ternPrompt">Convert null to ternary.</p> <br>
+         <button type="button" onclick="ternInput(2)">Input 2</button>
+         <button type="button" onclick="ternInput(1)">Input 1</button>
+         <button type="button" onclick="ternInput(0)">Input 0</button> <br> <br>
+         <button type="button" onclick="ternAddOne()" id="ternaddbutton">You have 1 points.</button>
+         <span id="ternButtonAppear"></span>
+      </div>
+   </body>
+   <script>
+      let presnum=0;
+      let buttonclicks=1;
+      let binaryanswer=[1];
+      let binarysum=2;
+      let onindex=0;
+      let digits=2;
+      let boost=1;
+      let prestiges=0;
+      let ternonindex=0;
+      let ternarysum=6;
+      let ternaryanswer=[2];
+      let terndigits=2;
+      let ternboost=1;
+      let ternprestiges = 0;
+      let ternpresnum=0;
+      let ternbuttonclicks=1;
+      function setWelcome(){
+         var user = window.localStorage.getItem("user");
+         document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
+         setBinary();
+         setternary();
+         document.getElementById("ternaryConversion").style.visibility="hidden";
+         document.getElementById("keyboardInput").style.visibility="hidden";
+      }
+      function setBinary(){
+         binarysum=Math.pow(2,digits-1);
+         onindex=0;
+         for (let i=1;i<digits-1;i++) {
+            binaryanswer[i]=Math.floor(Math.random() * 2);
+            binarysum+=Math.pow(2,digits-1-i)*binaryanswer[i];
+         }
+         binaryanswer.push(Math.floor(Math.random() * 2));
+         binarysum+=binaryanswer[digits-1];
+         document.getElementById("binPrompt").innerHTML="Convert " + binarysum + " to binary.";
+      }
+      function setternary(){
+         ternaryanswer[0]=Math.floor(Math.random() * 2) + 1;
+         ternarysum=Math.pow(3,terndigits-1)*ternaryanswer[0];
+         ternonindex=0;
+         for (let i=1;i<terndigits-1;i++) {
+            ternaryanswer[i]=Math.floor(Math.random() * 3);
+            ternarysum+=Math.pow(3,terndigits-1-i)*ternaryanswer[i];
+         }
+         ternaryanswer.push(Math.floor(Math.random() * 3));
+         ternarysum+=ternaryanswer[terndigits-1];
+         document.getElementById("ternPrompt").innerHTML="Convert " + ternarysum + " to ternary.";
+      }
+      function addOne(){
+         buttonclicks=buttonclicks+Math.floor(Math.log(buttonclicks+3));
+         document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
+      }
+      function ternAddOne(){
+         ternbuttonclicks=ternbuttonclicks+Math.floor(Math.log(ternbuttonclicks+3));
+         document.getElementById("ternaddbutton").innerHTML="You have " + ternbuttonclicks + " points.";
+      }
+      function binInput(x){
+         if (x==binaryanswer[onindex]) {
+            if (onindex<digits-1) {
+               onindex+=1;
+               document.getElementById("binPrompt").innerHTML = document.getElementById("binPrompt").innerHTML + x;
+            } else {
+               buttonclicks=buttonclicks*Math.pow(2,digits)*boost*ternboost;
+               digits+=1;
+               setBinary();
+               document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
+               if (Math.log10(buttonclicks)>=(20+(prestiges*5)+Math.pow(Math.floor(prestiges/10)+1,10)-1)) {
+                  buttonFunction(Math.floor(Math.log10(buttonclicks)));
+               }
+            }
+         } else {
+            gameEnd("Rip, refresh to try again.");
+         }
+      }
+      function ternInput(x){
+         if (x==ternaryanswer[ternonindex]) {
+            if (ternonindex<terndigits-1) {
+               ternonindex+=1;
+               document.getElementById("ternPrompt").innerHTML = document.getElementById("ternPrompt").innerHTML + x;
+            } else {
+               ternbuttonclicks=ternbuttonclicks*Math.pow(3,digits)*ternboost;
+               terndigits+=1;
+               setternary();
+               document.getElementById("ternaddbutton").innerHTML="You have " + ternbuttonclicks + " points.";
+               if (Math.log10(ternbuttonclicks)>=(15+(ternprestiges*5)+Math.pow(Math.floor(ternprestiges/5)+1,10)-1)) {
+                  ternButtonFunction(Math.floor(Math.log10(ternbuttonclicks)));
+               }
+            }
+         } else {
+            gameEnd("Rip, refresh to try again.");
+         }
+      }
+      document.onkeyup = function(e) {
+         if (e.which == 49 || e.which == 97) {
+           binInput(1);
+         } else if (e.which == 48 || e.which == 96) {
+           binInput(0);
+         }
+      };
+      function buttonFunction(num){
+         document.getElementById("buttonAppear").innerHTML = '<button onclick="prestige()">Prestige for x' + num.toSterng() + ' multiplier</button>';
+         presnum = num;
+      }
+      function ternButtonFunction(num){
+         document.getElementById("ternButtonAppear").innerHTML = '<button onclick="ternPrestige()">Prestige for x' + num.toSterng() + ' multiplier</button>';
+         ternpresnum = num;
+      }
+      function prestige(){
+         if(isFinite(buttonclicks) == false) {
+            gameEnd("Good job! You won.");
+            return 0;
+         }
+         buttonclicks=1;
+         binaryanswer=[1];
+         binarysum=2;
+         onindex=0;
+         digits=2;
+         setBinary();
+         boost=boost * presnum;
+         presnum=1;
+         document.getElementById("buttonAppear").innerHTML = '';
+         document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
+         prestiges=prestiges+1;
+         document.getElementById("prestiges").innerHTML="You have " + prestiges + " prestiges.";
+         if(prestiges == 3) {
+            document.getElementById("ternaryConversion").style.visibility="visible";
+            document.getElementById("keyboardInput").style.visibility="visible";
+         }
+      }
+      function ternPrestige(){
+         ternbuttonclicks=1;
+         ternaryanswer=[3];
+         ternarysum=6;
+         ternonindex=0;
+         terndigits=2;
+         setternary();
+         ternboost=ternboost * ternpresnum;
+         ternpresnum=1;
+         document.getElementById("ternButtonAppear").innerHTML = '';
+         document.getElementById("ternaddbutton").innerHTML="You have " + ternbuttonclicks + " points.";
+         ternprestiges=ternprestiges+1;
+         document.getElementById("ternPrestiges").innerHTML="You have " + ternprestiges + " prestiges.";
+      }
+      function gameEnd(text){
+         var elem = document.getElementById("binaryConversion");
+         elem.parentNode.removeChild(elem);
+         var elem2 = document.getElementById("ternaryConversion");
+         elem2.parentNode.removeChild(elem2);
+         document.getElementById("welcome").innerHTML = text;
+      }
+   </script>
+</html>
