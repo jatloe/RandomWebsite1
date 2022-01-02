@@ -44,9 +44,9 @@
          <span id="buttonAppear"></span>
       </div>
       <br> <br>
-      <div class="center" id="trinaryConversion">
+      <div class="center" id="ternaryConversion">
          <p id="trinPrestiges">You have 0 prestiges.</p>
-         <p id="trinPrompt">Convert null to trinary.</p> <br>
+         <p id="trinPrompt">Convert null to ternary.</p> <br>
          <button type="button" onclick="trinInput(2)">Input 2</button>
          <button type="button" onclick="trinInput(1)">Input 1</button>
          <button type="button" onclick="trinInput(0)">Input 0</button> <br> <br>
@@ -64,8 +64,8 @@
       let boost=1;
       let prestiges=0;
       let trinonindex=0;
-      let trinarysum=6;
-      let trinaryanswer=[2];
+      let ternarysum=6;
+      let ternaryanswer=[2];
       let trindigits=2;
       let trinboost=1;
       let trinprestiges = 0;
@@ -75,8 +75,8 @@
          var user = window.localStorage.getItem("user");
          document.getElementById("welcome").innerHTML="Welcome, " + user + ".";
          setBinary();
-         setTrinary();
-         document.getElementById("trinaryConversion").style.visibility="hidden";
+         setternary();
+         document.getElementById("ternaryConversion").style.visibility="hidden";
       }
       function setBinary(){
          binarysum=Math.pow(2,digits-1);
@@ -89,17 +89,17 @@
          binarysum+=binaryanswer[digits-1];
          document.getElementById("binPrompt").innerHTML="Convert " + binarysum + " to binary.";
       }
-      function setTrinary(){
-         trinaryanswer[0]=Math.floor(Math.random() * 2) + 1;
-         trinarysum=Math.pow(3,trindigits-1)*trinaryanswer[0];
+      function setternary(){
+         ternaryanswer[0]=Math.floor(Math.random() * 2) + 1;
+         ternarysum=Math.pow(3,trindigits-1)*ternaryanswer[0];
          trinonindex=0;
          for (let i=1;i<trindigits-1;i++) {
-            trinaryanswer[i]=Math.floor(Math.random() * 3);
-            trinarysum+=Math.pow(3,trindigits-1-i)*trinaryanswer[i];
+            ternaryanswer[i]=Math.floor(Math.random() * 3);
+            ternarysum+=Math.pow(3,trindigits-1-i)*ternaryanswer[i];
          }
-         trinaryanswer.push(Math.floor(Math.random() * 3));
-         trinarysum+=trinaryanswer[trindigits-1];
-         document.getElementById("trinPrompt").innerHTML="Convert " + trinarysum + " to trinary.";
+         ternaryanswer.push(Math.floor(Math.random() * 3));
+         ternarysum+=ternaryanswer[trindigits-1];
+         document.getElementById("trinPrompt").innerHTML="Convert " + ternarysum + " to ternary.";
       }
       function addOne(){
          buttonclicks=buttonclicks+Math.floor(Math.log(buttonclicks+3));
@@ -128,14 +128,14 @@
          }
       }
       function trinInput(x){
-         if (x==trinaryanswer[trinonindex]) {
+         if (x==ternaryanswer[trinonindex]) {
             if (trinonindex<trindigits-1) {
                trinonindex+=1;
                document.getElementById("trinPrompt").innerHTML = document.getElementById("trinPrompt").innerHTML + x;
             } else {
                trinbuttonclicks=trinbuttonclicks*Math.pow(3,digits)*trinboost;
                trindigits+=1;
-               setTrinary();
+               setternary();
                document.getElementById("trinaddbutton").innerHTML="You have " + trinbuttonclicks + " points.";
                if (Math.log10(trinbuttonclicks)>=(15+(trinprestiges*5)+Math.pow(Math.floor(trinprestiges/5)+1,10)-1)) {
                   trinButtonFunction(Math.floor(Math.log10(trinbuttonclicks)));
@@ -178,16 +178,16 @@
          prestiges=prestiges+1;
          document.getElementById("prestiges").innerHTML="You have " + prestiges + " prestiges.";
          if(prestiges == 3) {
-            document.getElementById("trinaryConversion").style.visibility="visible";
+            document.getElementById("ternaryConversion").style.visibility="visible";
          }
       }
       function trinPrestige(){
          trinbuttonclicks=1;
-         trinaryanswer=[3];
-         trinarysum=6;
+         ternaryanswer=[3];
+         ternarysum=6;
          trinonindex=0;
          trindigits=2;
-         setTrinary();
+         setternary();
          trinboost=trinboost * trinpresnum;
          trinpresnum=1;
          document.getElementById("trinButtonAppear").innerHTML = '';
@@ -198,7 +198,7 @@
       function gameEnd(text){
          var elem = document.getElementById("binaryConversion");
          elem.parentNode.removeChild(elem);
-         var elem2 = document.getElementById("trinaryConversion");
+         var elem2 = document.getElementById("ternaryConversion");
          elem2.parentNode.removeChild(elem2);
          document.getElementById("welcome").innerHTML = text;
       }
