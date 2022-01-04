@@ -9,14 +9,15 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.1.5</p>
+    <p class="side">V1.1.6</p>
     <button onclick="save()">Save points only</button>
     <h3 id="points">You have 1 points.</h3>
     <p class="side" id="boostDisplay">Boost: 1</p>
     <button type="button" onclick="buyBoost()" id="boost">Buy boost: 100 points</button>
     <br>
     <p class="side" id="gen1Display">Generator 1: 1</p>
-    <button type="button" onclick="buyGen(1)" id="gen1">1 -> 1</button>
+    <button type="button" onclick="buyGen(1)" id="gen1" class="side">1 -> 1</button>
+    <button type="button" onclick="buyAuto(1)" id="auto1">Generator 1 autobuyer: 1e50 points</button>
     <br>
     <p class="side" id="gen2Display">Generator 2: 1</p>
     <button type="button" onclick="buyGen(2)" id="gen2">1 -> 1</button>
@@ -43,10 +44,15 @@
     let IP = 0;
     let rate = 1;
     let largestindex=0;
+    let autobuyer = [false,false,false];
+    let autocosts = [Math.pow(10,50),Math.pow(10,100),Math.pow(10,150)];
     setInterval(update,50);
     
     function update() {
       gencount[6] = points;
+      if(autobuyer[0] == true) {
+        gencount[0] = Math.sqrt(points);
+      }
       rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3);
       points = points + rate;
       document.getElementById("points").innerHTML = "You have " + stringify(points) + " points.";
@@ -87,8 +93,14 @@
         buyGen(5);
       } else if (e.which == 54 || e.which == 102) {
         buyGen(6);
+      } else if (e.which == 66) {
+        buyBoost();
       }
     };
+    
+    window.addEventListener('beforeunload', function(e) {
+      localStorage.setItem('johnidlepoints', points);
+    });
     
     function goodNumber(number) {
       return Math.round(number*1000)/1000;
@@ -144,6 +156,15 @@
     
     function workingIndex(num) {
       return (num+700)%7;
+    }
+    
+    function buyAuto(num) {
+      if(points>=autocosts[num-1]) {
+        points = points - autocosts[num-1]);
+        autobuyer[num-1]=true;
+        document.getElementById("auto1").innerHTML = "Generator 1 autobuyer bought!";
+        update();
+      }
     }
   </script>
 </html>
