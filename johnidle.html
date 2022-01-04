@@ -9,7 +9,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.1.6</p>
+    <p class="side">V1.1.7</p>
     <button onclick="save()">Save points only</button>
     <h3 id="points">You have 1 points.</h3>
     <p class="side" id="boostDisplay">Boost: 1</p>
@@ -160,7 +160,7 @@
     
     function buyAuto(num) {
       if(points>=autocosts[num-1]) {
-        points = points - autocosts[num-1]);
+        points = points - autocosts[num-1];
         autobuyer[num-1]=true;
         document.getElementById("auto1").innerHTML = "Generator 1 autobuyer bought!";
         update();
