@@ -9,7 +9,8 @@
     </style>
   </head>
   <body>
-    <p>V1.0.1</p>
+    <p class="side">V1.0.1</p>
+    <button onclick="save()">Save points only</button>
     <h3 id="points">You have 1 points.</h3>
     <p class="side" id="boostDisplay">Boost: 1</p>
     <button type="button" onclick="buyBoost()" id="boost">Buy boost: 100 points</button>
@@ -19,6 +20,9 @@
   </body>
   <script>
     let points = 1;
+    if(localStorage.getItem('johnidlepoints') != null) {
+      points = localStorage.getItem('johnidlepoints');
+    }
     let gencount = [1,1,1,1,1,1];
     let boost = 1;
     let IP = 0;
@@ -35,6 +39,10 @@
       document.getElementById("boostDisplay").innerHTML = "Boost: " + String(boost);
     }
       
+    function save() {
+      localStorage.setItem('johnidlepoints', points);
+    }
+    
     function goodNumber(number) {
       return Math.round(number*1000)/1000;
     }
