@@ -27,7 +27,7 @@
     function update() {
       rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3);
       points = points + rate;
-      document.getElementById("points").innerHTML = "You have " + goodNumber(points) + " points.";
+      document.getElementById("points").innerHTML = "You have " + stringify(points) + " points.";
       document.getElementById("gen1Display").innerHTML = "Generator 1: " + stringify(gencount[0]);
       document.getElementById("gen1").innerHTML = stringify(gencount[0]) + " -> " + stringify(Math.sqrt(points));
       document.getElementById("boost").innerHTML = "Buy boost: " + booststring(boostCost(boost)) + " points";
