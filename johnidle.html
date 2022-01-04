@@ -44,7 +44,7 @@
         let power = Math.floor(Math.log10(number));
         number = Math.round(number/Math.pow(10,power-3));
         let stringy = String(number);
-        return stringy.slice(0,-3) + "." + stringy.slice(-3);
+        return stringy.slice(0,-3) + "." + stringy.slice(-3) + "e" + String(power);
       }
     }
   </script>
