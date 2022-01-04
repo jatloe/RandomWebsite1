@@ -9,14 +9,15 @@
     </style>
   </head>
   <body>
+    <p>You have 0 points.</p>
     <p class="side">Boost: 1</p>
-    <button type="button" onclick="buyBoost()">Buy boost: 100 of generator 1 to triple the current boost</button>
-    <p>Generator 1: 0</p>
-    <p class="side">Generator 2: 0</p>
-    <button type="button" onclick="buyGen(2)">Buy 4 of generator 2</button>
+    <button type="button" onclick="buyBoost()">Buy boost: 100 points</button>
+    <p class="side">Generator 1: 0</p>
+    <button type="button" onclick="buyGen(1)">Buy 0 of generator 1</button>
   </body>
   <script>
-    let gencount = [0,0,0,0,0,0,0];
+    let points = 0;
+    let gencount = [0,0,0,0,0,0];
     let boost = 0;
     let IP = 0;
     
