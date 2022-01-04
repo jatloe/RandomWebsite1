@@ -27,8 +27,11 @@
     function update() {
       rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3);
       points = points + rate;
-      document.getElementById("points").innerHTML = "You have " + goodNumber(points) + " points."
-      document.getElementById("gen1").innerHTML = goodNumber(String(gencount[0])) + " -> " + goodNumber(String(Math.sqrt(points)))
+      document.getElementById("points").innerHTML = "You have " + goodNumber(points) + " points.";
+      document.getElementById("gen1Display") = "Generator 1: " + String(gencount[0]);
+      document.getElementById("gen1").innerHTML = stringify(gencount[0]) + " -> " + stringify(Math.sqrt(points));
+      document.getElementById("boost").innerHTML = "Buy boost: " + String(boostCost(boost)) + " points";
+      document.getElementById("boostDisplay").innerHTML = "Boost: " + String(boost);
     }
       
     function goodNumber(number) {
@@ -45,6 +48,22 @@
         number = Math.round(number/Math.pow(10,power-3));
         let stringy = String(number);
         return stringy.slice(0,-3) + "." + stringy.slice(-3) + "e" + String(power);
+      }
+    }
+    
+    function log(a,b) {
+      return Math.round(Math.log(b) / Math.log(a));
+    }
+    
+    function boostCost(x) {
+      points>=Math.pow(10,Math.pow(2,log(3,x)+1)
+    }
+    
+    function buyBoost() {
+      if(points>=boostCost(boost)) {
+        points = points - boostCost(boost);
+        boost = boost * 3;
+        update();
       }
     }
   </script>
