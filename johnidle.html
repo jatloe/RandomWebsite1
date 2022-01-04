@@ -9,17 +9,25 @@
     </style>
   </head>
   <body>
-    <h3>You have 0 points.</h3>
-    <p class="side">Boost: 1</p>
+    <h3 id="points">You have 1 points.</h3>
+    <p class="side" id="boostDisplay">Boost: 1</p>
     <button type="button" onclick="buyBoost()" id="boost">Buy boost: 100 points</button>
-    <p class="side">Generator 1: 0</p>
-    <button type="button" onclick="buyGen(1)" id="gen1">Buy 0 of generator 1</button>
+    <br>
+    <p class="side" id="gen1Display">Generator 1: 1</p>
+    <button type="button" onclick="buyGen(1)" id="gen1">1 -> 1</button>
   </body>
   <script>
-    let points = 0;
-    let gencount = [0,0,0,0,0,0];
-    let boost = 0;
+    let points = 1;
+    let gencount = [1,1,1,1,1,1];
+    let boost = 1;
     let IP = 0;
+    let rate = 1;
+    setInterval(update,50);
     
+    function update() {
+      rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3);
+      points = points + rate;
+      document.getElementById("points").innerHTML = "You have " + points + " points."
+    }
   </script>
 </html>
