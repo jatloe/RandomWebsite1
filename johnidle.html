@@ -9,7 +9,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.1.0</p>
+    <p class="side">V1.1.1</p>
     <button onclick="save()">Save points only</button>
     <h3 id="points">You have 1 points.</h3>
     <p class="side" id="boostDisplay">Boost: 1</p>
@@ -53,7 +53,7 @@
       document.getElementById("boostDisplay").innerHTML = "Boost: " + String(boost);
       for(i=0;i<6;i++) {
         document.getElementById("gen" + String(i+1) + "Display").innerHTML = "Generator " + String(i+1) + ": " + stringify(gencount[i]);
-        document.getElementById("gen" + String(i+1)).innerHTML = stringify(gencount[i]) + " -> " + stringify(Math.sqrt(gencount[i-1]));
+        document.getElementById("gen" + String(i+1)).innerHTML = stringify(gencount[i]) + " -> " + stringify(Math.sqrt(gencount[i+5]));
       }
     }
       
@@ -103,10 +103,10 @@
     }
     
     function buyGen(num) {
-      if(gencount[num-1] < Math.sqrt(gencount[num-2])) {
-        gencount[num-1] = Math.sqrt(gencount[num-2]);
+      if(gencount[num+5] < Math.sqrt(gencount[num+4])) {
+        gencount[num+5] = Math.sqrt(gencount[num+4]);
         for(let i=-1;i<num-1;i++) {
-          gencount[i]=1;
+          gencount[i+6]=1;
         }
         points = 1;
         update();
