@@ -77,9 +77,12 @@
     
     function buyGen(num) {
       if(num == 1) {
-        gencount[0] = Math.sqrt(points);
-        points = 1;
+        if(gencount[0] < Math.sqrt(points)) {
+          gencount[0] = Math.sqrt(points);
+          points = 1;
+        }
       }
+      update();
     }
     
   </script>
