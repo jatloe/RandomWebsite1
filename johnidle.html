@@ -9,11 +9,11 @@
     </style>
   </head>
   <body>
-    <p>You have 0 points.</p>
+    <h3>You have 0 points.</h3>
     <p class="side">Boost: 1</p>
-    <button type="button" onclick="buyBoost()">Buy boost: 100 points</button>
+    <button type="button" onclick="buyBoost()" id="boost">Buy boost: 100 points</button>
     <p class="side">Generator 1: 0</p>
-    <button type="button" onclick="buyGen(1)">Buy 0 of generator 1</button>
+    <button type="button" onclick="buyGen(1)" id="gen1">Buy 0 of generator 1</button>
   </body>
   <script>
     let points = 0;
