@@ -42,6 +42,7 @@
     let boost = 1;
     let IP = 0;
     let rate = 1;
+    let largestindex=0;
     setInterval(update,50);
     
     function update() {
@@ -51,9 +52,21 @@
       document.getElementById("points").innerHTML = "You have " + stringify(points) + " points.";
       document.getElementById("boost").innerHTML = "Buy boost: " + booststring(boostCost(boost)) + " points";
       document.getElementById("boostDisplay").innerHTML = "Boost: " + String(boost);
+      largestindex=0;
       for(i=0;i<6;i++) {
         document.getElementById("gen" + String(i+1) + "Display").innerHTML = "Generator " + String(i+1) + ": " + stringify(gencount[i]);
         document.getElementById("gen" + String(i+1)).innerHTML = stringify(gencount[i]) + " -> " + stringify(Math.sqrt(gencount[workingIndex(i+6)]));
+        if(gencount[i] != 1) {
+          largestindex=i;
+        }
+      }
+      for(j=0;j<=largestindex;j++) {
+        document.getElementById("gen" + String(j+1) + "Display").style.visibility = "visible";
+        document.getElementById("gen" + String(j+1)).style.visibility = "visible";
+      }
+      for(k=largestindex+1;k<6;k++) {
+        document.getElementById("gen" + String(k+1) + "Display").style.visibility = "hidden";
+        document.getElementById("gen" + String(k+1)).style.visibility = "hidden";
       }
     }
       
