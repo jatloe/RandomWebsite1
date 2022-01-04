@@ -21,7 +21,7 @@
   <script>
     let points = 1;
     if(localStorage.getItem('johnidlepoints') != null) {
-      points = localStorage.getItem('johnidlepoints');
+      points = Number(localStorage.getItem('johnidlepoints'));
     }
     let gencount = [1,1,1,1,1,1];
     let boost = 1;
