@@ -27,7 +27,12 @@
     function update() {
       rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3);
       points = points + rate;
-      document.getElementById("points").innerHTML = "You have " + points + " points."
+      document.getElementById("points").innerHTML = "You have " + goodNumber(points) + " points."
+      document.getElementById("gen1").innerHTML = goodNumber(String(gencount[0])) + " -> " + goodNumber(String(Math.sqrt(points)))
+    }
+      
+    function goodNumber(number) {
+      return Math.round(number*1000)/1000;
     }
   </script>
 </html>
