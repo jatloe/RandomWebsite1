@@ -53,7 +53,7 @@
       document.getElementById("boostDisplay").innerHTML = "Boost: " + String(boost);
       for(i=0;i<6;i++) {
         document.getElementById("gen" + String(i+1) + "Display").innerHTML = "Generator " + String(i+1) + ": " + stringify(gencount[i]);
-        document.getElementById("gen" + String(i+1)).innerHTML = stringify(gencount[i]) + " -> " + stringify(Math.sqrt(gencount[i+5]));
+        document.getElementById("gen" + String(i+1)).innerHTML = stringify(gencount[i]) + " -> " + stringify(Math.sqrt(gencount[i+6]));
       }
     }
       
@@ -103,10 +103,10 @@
     }
     
     function buyGen(num) {
-      if(gencount[num+5] < Math.sqrt(gencount[num+4])) {
-        gencount[num+5] = Math.sqrt(gencount[num+4]);
+      if(gencount[num+6] < Math.sqrt(gencount[num+5])) {
+        gencount[num+6] = Math.sqrt(gencount[num+5]);
         for(let i=-1;i<num-1;i++) {
-          gencount[i+6]=1;
+          gencount[i+7]=1;
         }
         points = 1;
         update();
