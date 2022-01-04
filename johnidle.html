@@ -9,7 +9,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.1.7</p>
+    <p class="side">V1.1.8</p>
     <button onclick="save()">Save points only</button>
     <h3 id="points">You have 1 points.</h3>
     <p class="side" id="boostDisplay">Boost: 1</p>
@@ -20,10 +20,12 @@
     <button type="button" onclick="buyAuto(1)" id="auto1">Generator 1 autobuyer: 1e50 points</button>
     <br>
     <p class="side" id="gen2Display">Generator 2: 1</p>
-    <button type="button" onclick="buyGen(2)" id="gen2">1 -> 1</button>
+    <button type="button" onclick="buyGen(2)" id="gen2" class="side">1 -> 1</button>
+    <button type="button" onclick="buyAuto(2)" id="auto2">Generator 2 autobuyer: 1e100 points</button>
     <br>
     <p class="side" id="gen3Display">Generator 3: 1</p>
-    <button type="button" onclick="buyGen(3)" id="gen3">1 -> 1</button>
+    <button type="button" onclick="buyGen(3)" id="gen3" class="side">1 -> 1</button>
+    <button type="button" onclick="buyAuto(3)" id="auto3">Generator 3 autobuyer: 1e150 points</button>
     <br>
     <p class="side" id="gen4Display">Generator 4: 1</p>
     <button type="button" onclick="buyGen(4)" id="gen4">1 -> 1</button>
@@ -52,6 +54,12 @@
       gencount[6] = points;
       if(autobuyer[0] == true) {
         gencount[0] = Math.sqrt(points);
+      }
+      if(autobuyer[1] == true) {
+        gencount[1] = Math.sqrt(gencount[0]);
+      }
+      if(autobuyer[2] == true) {
+        gencount[2] = Math.sqrt(gencount[1]);
       }
       rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3);
       points = points + rate;
@@ -162,7 +170,7 @@
       if(points>=autocosts[num-1]) {
         points = points - autocosts[num-1];
         autobuyer[num-1]=true;
-        document.getElementById("auto1").innerHTML = "Generator 1 autobuyer bought!";
+        document.getElementById("auto" + String(num)).innerHTML = "Generator " + String(num) + " autobuyer bought!";
         update();
       }
     }
