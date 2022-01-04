@@ -9,7 +9,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.1.3</p>
+    <p class="side">V1.1.4</p>
     <button onclick="save()">Save points only</button>
     <h3 id="points">You have 1 points.</h3>
     <p class="side" id="boostDisplay">Boost: 1</p>
@@ -60,11 +60,11 @@
           largestindex=i;
         }
       }
-      for(j=0;j<=largestindex;j++) {
+      for(j=0;j<=largestindex+1;j++) {
         document.getElementById("gen" + String(j+1) + "Display").style.visibility = "visible";
         document.getElementById("gen" + String(j+1)).style.visibility = "visible";
       }
-      for(k=largestindex+1;k<6;k++) {
+      for(k=largestindex+2;k<6;k++) {
         document.getElementById("gen" + String(k+1) + "Display").style.visibility = "hidden";
         document.getElementById("gen" + String(k+1)).style.visibility = "hidden";
       }
