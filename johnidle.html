@@ -9,7 +9,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.1.8</p>
+    <p class="side">V1.1.9</p>
     <button onclick="save()">Save points only</button>
     <h3 id="points">You have 1 points.</h3>
     <p class="side" id="boostDisplay">Boost: 1</p>
@@ -28,13 +28,16 @@
     <button type="button" onclick="buyAuto(3)" id="auto3">Generator 3 autobuyer: 1e150 points</button>
     <br>
     <p class="side" id="gen4Display">Generator 4: 1</p>
-    <button type="button" onclick="buyGen(4)" id="gen4">1 -> 1</button>
+    <button type="button" onclick="buyGen(4)" id="gen4" class="side">1 -> 1</button>
+    <button type="button" onclick="buyAuto(4)" id="auto4">Generator 4 autobuyer: 1e200 points</button>
     <br>
     <p class="side" id="gen5Display">Generator 5: 1</p>
-    <button type="button" onclick="buyGen(5)" id="gen5">1 -> 1</button>
+    <button type="button" onclick="buyGen(5)" id="gen5" class="side">1 -> 1</button>
+    <button type="button" onclick="buyAuto(5)" id="auto5">Generator 5 autobuyer: 1e250 points</button>
     <br>
-    <p class="side" id="gen6Display">Generator 6 1</p>
-    <button type="button" onclick="buyGen(6)" id="gen6">1 -> 1</button>
+    <p class="side" id="gen6Display">Generator 6: 1</p>
+    <button type="button" onclick="buyGen(6)" id="gen6" class="side">1 -> 1</button>
+    <button type="button" onclick="buyAuto(6)" id="auto6">Generator 6 autobuyer: 1e300 points</button>
   </body>
   <script>
     let points = 1;
@@ -46,8 +49,8 @@
     let IP = 0;
     let rate = 1;
     let largestindex=0;
-    let autobuyer = [false,false,false];
-    let autocosts = [Math.pow(10,50),Math.pow(10,100),Math.pow(10,150)];
+    let autobuyer = [false,false,false,false,false,false];
+    let autocosts = [Math.pow(10,50),Math.pow(10,100),Math.pow(10,150),Math.pow(10,200),Math.pow(10,250),Math.pow(10,300)];
     setInterval(update,50);
     
     function update() {
@@ -60,6 +63,15 @@
       }
       if(autobuyer[2] == true) {
         gencount[2] = Math.sqrt(gencount[1]);
+      }
+      if(autobuyer[3] == true) {
+        gencount[3] = Math.sqrt(gencount[2]);
+      }
+      if(autobuyer[4] == true) {
+        gencount[4] = Math.sqrt(gencount[3]);
+      }
+      if(autobuyer[5] == true) {
+        gencount[5] = Math.sqrt(gencount[4]);
       }
       rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3);
       points = points + rate;
@@ -77,10 +89,12 @@
       for(j=0;j<=largestindex+1;j++) {
         document.getElementById("gen" + String(j+1) + "Display").style.visibility = "visible";
         document.getElementById("gen" + String(j+1)).style.visibility = "visible";
+        document.getElementById("auto" + String(j+1)).style.visibility = "visible";
       }
       for(k=largestindex+2;k<6;k++) {
         document.getElementById("gen" + String(k+1) + "Display").style.visibility = "hidden";
         document.getElementById("gen" + String(k+1)).style.visibility = "hidden";
+        document.getElementById("auto" + String(k+1)).style.visibility = "hidden";
       }
     }
       
