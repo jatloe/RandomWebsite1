@@ -2,12 +2,17 @@
 <html>
   <head>
     <link rel="icon" href="jatloesmile-hd.png">
+    <style>
+      .side{
+        display: inline;
+      }
+    </style>
   </head>
   <body>
-    <p>Boost: 1</p>
+    <p class="side">Boost: 1</p>
     <button type="button" onclick="buyBoost()">Buy boost: 100 of generator 1 to triple the current boost</button>
     <p>Generator 1: 0</p>
-    <p>Generator 2: 0</p>
+    <p class="side">Generator 2: 0</p>
     <button type="button" onclick="buyGen(2)">Buy 4 of generator 2</button>
   </body>
   <script>
