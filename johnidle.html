@@ -36,8 +36,14 @@
     }
     
     function stringify(number) {
+      number = goodNumber(number);
       if(number<1000000) {
         let stringy = String(number*1000);
+        return stringy.slice(0,-3) + "." + stringy.slice(-3);
+      } else {
+        let power = Math.floor(Math.log10(number));
+        number = Math.round(number/Math.pow(10,power-3));
+        let stringy = String(number);
         return stringy.slice(0,-3) + "." + stringy.slice(-3);
       }
     }
