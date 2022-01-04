@@ -9,7 +9,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.0.3</p>
+    <p class="side">V1.1.0</p>
     <button onclick="save()">Save points only</button>
     <h3 id="points">You have 1 points.</h3>
     <p class="side" id="boostDisplay">Boost: 1</p>
@@ -17,26 +17,44 @@
     <br>
     <p class="side" id="gen1Display">Generator 1: 1</p>
     <button type="button" onclick="buyGen(1)" id="gen1">1 -> 1</button>
+    <br>
+    <p class="side" id="gen2Display">Generator 2: 1</p>
+    <button type="button" onclick="buyGen(2)" id="gen2">1 -> 1</button>
+    <br>
+    <p class="side" id="gen3Display">Generator 3: 1</p>
+    <button type="button" onclick="buyGen(3)" id="gen3">1 -> 1</button>
+    <br>
+    <p class="side" id="gen4Display">Generator 4: 1</p>
+    <button type="button" onclick="buyGen(4)" id="gen4">1 -> 1</button>
+    <br>
+    <p class="side" id="gen5Display">Generator 5: 1</p>
+    <button type="button" onclick="buyGen(5)" id="gen5">1 -> 1</button>
+    <br>
+    <p class="side" id="gen6Display">Generator 6 1</p>
+    <button type="button" onclick="buyGen(6)" id="gen6">1 -> 1</button>
   </body>
   <script>
     let points = 1;
     if(localStorage.getItem('johnidlepoints') != null) {
       points = Number(localStorage.getItem('johnidlepoints'));
     }
-    let gencount = [1,1,1,1,1,1];
+    let gencount = [1,1,1,1,1,1,points];
     let boost = 1;
     let IP = 0;
     let rate = 1;
     setInterval(update,50);
     
     function update() {
+      gencount[6] = points;
       rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3);
       points = points + rate;
       document.getElementById("points").innerHTML = "You have " + stringify(points) + " points.";
-      document.getElementById("gen1Display").innerHTML = "Generator 1: " + stringify(gencount[0]);
-      document.getElementById("gen1").innerHTML = stringify(gencount[0]) + " -> " + stringify(Math.sqrt(points));
       document.getElementById("boost").innerHTML = "Buy boost: " + booststring(boostCost(boost)) + " points";
       document.getElementById("boostDisplay").innerHTML = "Boost: " + String(boost);
+      for(i=0;i<6;i++) {
+        document.getElementById("gen" + String(i+1) + "Display").innerHTML = "Generator " + String(i+1) + ": " + stringify(gencount[i]);
+        document.getElementById("gen" + String(i+1)).innerHTML = stringify(gencount[i]) + " -> " + stringify(Math.sqrt(gencount[i-1]));
+      }
     }
       
     function save() {
@@ -85,13 +103,14 @@
     }
     
     function buyGen(num) {
-      if(num == 1) {
-        if(gencount[0] < Math.sqrt(points)) {
-          gencount[0] = Math.sqrt(points);
-          points = 1;
+      if(gencount[num-1] < Math.sqrt(gencount[num-2])) {
+        gencount[num-1] = Math.sqrt(gencount[num-2]);
+        for(let i=-1;i<num-1;i++) {
+          gencount[i]=1;
         }
+        points = 1;
+        update();
       }
-      update();
     }
     
   </script>
