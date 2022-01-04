@@ -34,5 +34,12 @@
     function goodNumber(number) {
       return Math.round(number*1000)/1000;
     }
+    
+    function stringify(number) {
+      if(number<1000000) {
+        let stringy = String(number*1000);
+        return stringy.slice(0,-3) + "." + stringy.slice(-3);
+      }
+    }
   </script>
 </html>
