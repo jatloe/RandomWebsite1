@@ -9,7 +9,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.1.10</p>
+    <p class="side">V1.1.11</p>
     <button onclick="save()">Save points only</button>
     <h3 id="points">You have 1 points.</h3>
     <p class="side" id="boostDisplay">Boost: 1</p>
@@ -126,10 +126,12 @@
     function stringify(number) {
       if(number<1000000) {
         return number.toFixed(3);
-      } else {
+      } else if(isFinite(number)) {
         let power = Math.floor(Math.log10(number));
         number = Math.round(number/Math.pow(10,power-3));
         return number.toFixed(3) + "e" + String(power);
+      } else {
+        return "Infinity";
       }
     }
     
