@@ -9,7 +9,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.1.16</p>
+    <p class="side">V1.1.17</p>
     <button onclick="save()" class="side">Save points only</button>
     <button onclick="reset()">RESET THE GAME(refresh before clicking this to reset)</button>
     <h3 id="points">You have 1 points.</h3>
@@ -130,7 +130,7 @@
         return number.toFixed(3);
       } else if(isFinite(number)) {
         let power = Math.floor(Math.log10(number));
-        number = Math.round(number/Math.pow(10,power));
+        number = number/Math.pow(10,power);
         return number.toFixed(3) + "e" + String(power);
       } else if(isNaN(number)) {
         return "NaN";
