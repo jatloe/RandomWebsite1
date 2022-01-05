@@ -9,7 +9,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.1.11</p>
+    <p class="side">V1.1.12</p>
     <button onclick="save()">Save points only</button>
     <h3 id="points">You have 1 points.</h3>
     <p class="side" id="boostDisplay">Boost: 1</p>
@@ -41,8 +41,9 @@
   </body>
   <script>
     /*Credits:
-    john0512 - Original game idea creator, he created the game on Scratch then gave me permission to put it on my website
+    john0512 - Original game idea creator, he created the game on Scratch then gave me permission to put it on my website; Playtester
     02C00000 - Gave numerous suggestions on improving the game
+    DottedCalculator: Playtester
     jatloe - Me!
     */
     
@@ -128,7 +129,7 @@
         return number.toFixed(3);
       } else if(isFinite(number)) {
         let power = Math.floor(Math.log10(number));
-        number = Math.round(number/Math.pow(10,power-3));
+        number = Math.round(number/Math.pow(10,power));
         return number.toFixed(3) + "e" + String(power);
       } else {
         return "Infinity";
