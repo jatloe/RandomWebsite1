@@ -9,7 +9,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.1.15</p>
+    <p class="side">V1.1.16</p>
     <button onclick="save()" class="side">Save points only</button>
     <button onclick="reset()">RESET THE GAME(refresh before clicking this to reset)</button>
     <h3 id="points">You have 1 points.</h3>
@@ -157,7 +157,7 @@
     }
     
     function buyBoost() {
-      if(points>=boostCost(boost)) {
+      if(points>=boostCost(boost) && isFinite(boostCost(boost))) {
         points = points - boostCost(boost);
         boost = boost * 3;
         update();
