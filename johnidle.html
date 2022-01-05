@@ -9,7 +9,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.1.12</p>
+    <p class="side">V1.1.13</p>
     <button onclick="save()">Save points only</button>
     <h3 id="points">You have 1 points.</h3>
     <p class="side" id="boostDisplay">Boost: 1</p>
@@ -131,6 +131,8 @@
         let power = Math.floor(Math.log10(number));
         number = Math.round(number/Math.pow(10,power));
         return number.toFixed(3) + "e" + String(power);
+      } else if(isNaN(number)) {
+        return "NaN";
       } else {
         return "Infinity";
       }
