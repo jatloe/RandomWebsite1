@@ -9,7 +9,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.1.9</p>
+    <p class="side">V1.1.10</p>
     <button onclick="save()">Save points only</button>
     <h3 id="points">You have 1 points.</h3>
     <p class="side" id="boostDisplay">Boost: 1</p>
@@ -40,6 +40,13 @@
     <button type="button" onclick="buyAuto(6)" id="auto6">Generator 6 autobuyer: 1e300 points</button>
   </body>
   <script>
+    /*Credits:
+    john0512 - Original game idea creator, he created the game on Scratch then gave me permission to put it on my website
+    02C00000 - Gave numerous suggestions on improving the game
+    jatloe - Me!
+    */
+    
+    //Basic setup
     let points = 1;
     if(localStorage.getItem('johnidlepoints') != null) {
       points = Number(localStorage.getItem('johnidlepoints'));
@@ -54,25 +61,14 @@
     setInterval(update,50);
     
     function update() {
-      gencount[6] = points;
-      if(autobuyer[0] == true) {
-        gencount[0] = Math.sqrt(points);
+      gencount[6] = points; // Essentially letting generator 0 to reference points in a for loop
+      //Check autobuyers
+      for(i=0;i<=5;i++) {
+        if(autobuyer[i] == true) {
+          gencount[i] = Math.sqrt(gencount[workingIndex(i-1)]);
+        }
       }
-      if(autobuyer[1] == true) {
-        gencount[1] = Math.sqrt(gencount[0]);
-      }
-      if(autobuyer[2] == true) {
-        gencount[2] = Math.sqrt(gencount[1]);
-      }
-      if(autobuyer[3] == true) {
-        gencount[3] = Math.sqrt(gencount[2]);
-      }
-      if(autobuyer[4] == true) {
-        gencount[4] = Math.sqrt(gencount[3]);
-      }
-      if(autobuyer[5] == true) {
-        gencount[5] = Math.sqrt(gencount[4]);
-      }
+      //Increase points, update displays
       rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3);
       points = points + rate;
       document.getElementById("points").innerHTML = "You have " + stringify(points) + " points.";
@@ -86,6 +82,7 @@
           largestindex=i;
         }
       }
+      //Hide and show generators based on if they are used
       for(j=0;j<=largestindex+1;j++) {
         document.getElementById("gen" + String(j+1) + "Display").style.visibility = "visible";
         document.getElementById("gen" + String(j+1)).style.visibility = "visible";
@@ -102,6 +99,7 @@
       localStorage.setItem('johnidlepoints', points);
     }
     
+    //Hotkeys
     document.onkeyup = function(e) {
       if (e.which == 49 || e.which == 97) {
         buyGen(1);
@@ -124,20 +122,14 @@
       localStorage.setItem('johnidlepoints', points);
     });
     
-    function goodNumber(number) {
-      return Math.round(number*1000)/1000;
-    }
-    
+    //This function turns numbers into nice numbers
     function stringify(number) {
-      number = goodNumber(number);
       if(number<1000000) {
-        let stringy = String(number*1000);
-        return stringy.slice(0,-3) + "." + stringy.slice(-3);
+        return number.toFixed(3);
       } else {
         let power = Math.floor(Math.log10(number));
         number = Math.round(number/Math.pow(10,power-3));
-        let stringy = String(number);
-        return stringy.slice(0,-3) + "." + stringy.slice(-3) + "e" + String(power);
+        return number.toFixed(3) + "e" + String(power);
       }
     }
     
@@ -149,6 +141,7 @@
       }
     }
     
+    //WOWLOG!!
     function log(a,b) {
       return Math.round(Math.log(b) / Math.log(a));
     }
@@ -165,6 +158,7 @@
       }
     }
     
+    //Really annoying with the workingIndex lol, I'm glad it worked
     function buyGen(num) {
       if(gencount[workingIndex(num+6)] < Math.sqrt(gencount[workingIndex(num+5)])) {
         gencount[workingIndex(num+6)] = Math.sqrt(gencount[workingIndex(num+5)]);
@@ -177,7 +171,7 @@
     }
     
     function workingIndex(num) {
-      return (num+700)%7;
+      return (num+700)%7; //Essentially forces the input to be positive without changing residue mod 7
     }
     
     function buyAuto(num) {
