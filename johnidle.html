@@ -11,7 +11,7 @@
   <body>
     <p class="side">V1.1.14</p>
     <button onclick="save()" class="side">Save points only</button>
-    <button onclick="reset()">RESET THE GAME</button>
+    <button onclick="reset()">RESET THE GAME(refresh before clicking this to reset)</button>
     <h3 id="points">You have 1 points.</h3>
     <p class="side" id="boostDisplay">Boost: 1</p>
     <button type="button" onclick="buyBoost()" id="boost">Buy boost: 100 points</button>
@@ -190,6 +190,7 @@
     }
     
     function reset() {
+      points=1;
       localStorage.setItem('johnidlepoints', 1);
       document.location.reload();
     }
