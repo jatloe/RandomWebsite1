@@ -9,8 +9,9 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.1.13</p>
-    <button onclick="save()">Save points only</button>
+    <p class="side">V1.1.14</p>
+    <button onclick="save()" class="side">Save points only</button>
+    <button onclick="reset()">RESET THE GAME</button>
     <h3 id="points">You have 1 points.</h3>
     <p class="side" id="boostDisplay">Boost: 1</p>
     <button type="button" onclick="buyBoost()" id="boost">Buy boost: 100 points</button>
@@ -186,6 +187,11 @@
         document.getElementById("auto" + String(num)).innerHTML = "Generator " + String(num) + " autobuyer bought!";
         update();
       }
+    }
+    
+    function reset() {
+      localStorage.setItem('johnidlepoints', 1);
+      document.location.reload();
     }
   </script>
 </html>
