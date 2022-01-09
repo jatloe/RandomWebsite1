@@ -10,7 +10,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.1.17</p>
+    <p class="side">V1.2.0</p>
     <button onclick="save()" class="side">Save points only</button>
     <button onclick="reset()">RESET THE GAME(refresh before clicking this to reset)</button>
     <h3 id="points">You have 1 points.</h3>
@@ -51,9 +51,6 @@
     
     //Basic setup
     let points = 1;
-    if(localStorage.getItem('johnidlepoints') != null) {
-      points = Number(localStorage.getItem('johnidlepoints'));
-    }
     let gencount = [1,1,1,1,1,1,points];
     let boost = 1;
     let IP = 0;
@@ -61,6 +58,7 @@
     let largestindex=0;
     let autobuyer = [false,false,false,false,false,false];
     let autocosts = [Math.pow(10,50),Math.pow(10,100),Math.pow(10,150),Math.pow(10,200),Math.pow(10,250),Math.pow(10,300)];
+    load();
     setInterval(update,50);
     
     function update() {
@@ -99,7 +97,22 @@
     }
       
     function save() {
-      localStorage.setItem('johnidlepoints', points);
+      let info = {"points":points,"gencount":gencount,"boost":boost,"IP":IP,"autobuyer":autobuyer};
+      let player = JSON.stringify(info);
+      localStorage.setItem('johnidlesave1', player);
+    }
+    
+    function load() {
+      if(localStorage.getItem('johnidlesave1') != null) {
+        info = JSON.parse(localStorage.getItem('johnidlesave1'));
+        points = info.points;
+        gencount = info.gencount;
+        boost = info.boost;
+        IP = info.IP;
+        autobuyer = info.autobuyer;
+      } else if (localStorage.getItem('johnidlepoints') != null) {
+        points = Number(localStorage.getItem('johnidlepoints'));
+      }
     }
     
     //Hotkeys
@@ -122,7 +135,7 @@
     };
     
     window.addEventListener('beforeunload', function(e) {
-      localStorage.setItem('johnidlepoints', points);
+      save();
     });
     
     //This function turns numbers into nice numbers
