@@ -10,7 +10,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.2.5</p>
+    <p class="side">V1.2.6</p>
     <button onclick="save()" class="side">Save</button>
     <button onclick="reset()">RESET THE GAME</button>
     <h3 id="points">You have 1 points.</h3>
@@ -107,7 +107,7 @@
       if(localStorage.getItem('johnidlesave1') != null) {
         info = JSON.parse(localStorage.getItem('johnidlesave1'));
         points = info.points;
-        if(points == 0) {
+        if(points === null) {
           points = Math.pow(10,310);
         }
         gencount = info.gencount;
