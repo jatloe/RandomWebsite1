@@ -10,7 +10,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.2.4</p>
+    <p class="side">V1.2.5</p>
     <button onclick="save()" class="side">Save</button>
     <button onclick="reset()">RESET THE GAME</button>
     <h3 id="points">You have 1 points.</h3>
@@ -106,7 +106,10 @@
     function load() {
       if(localStorage.getItem('johnidlesave1') != null) {
         info = JSON.parse(localStorage.getItem('johnidlesave1'));
-        points = Math.max(info.points,1);
+        points = info.points;
+        if(points == 0) {
+          points = Math.pow(10,310);
+        }
         gencount = info.gencount;
         boost = info.boost;
         IP = info.IP;
