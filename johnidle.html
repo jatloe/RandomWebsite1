@@ -10,7 +10,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.2.2</p>
+    <p class="side">V1.2.3</p>
     <button onclick="save()" class="side">Save</button>
     <button onclick="reset()">RESET THE GAME</button>
     <h3 id="points">You have 1 points.</h3>
@@ -85,7 +85,7 @@
         }
       }
       //Hide and show generators based on if they are used
-      for(j=0;j<=largestindex+1;j++) {
+      for(j=0;j<=Math.min(largestindex+1,5);j++) {
         document.getElementById("gen" + String(j+1) + "Display").style.visibility = "visible";
         document.getElementById("gen" + String(j+1)).style.visibility = "visible";
         document.getElementById("auto" + String(j+1)).style.visibility = "visible";
