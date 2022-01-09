@@ -10,9 +10,9 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.2.0</p>
-    <button onclick="save()" class="side">Save points only</button>
-    <button onclick="reset()">RESET THE GAME(refresh before clicking this to reset)</button>
+    <p class="side">V1.2.1</p>
+    <button onclick="save()" class="side">Save</button>
+    <button onclick="reset()">RESET THE GAME</button>
     <h3 id="points">You have 1 points.</h3>
     <p class="side" id="boostDisplay">Boost: 1</p>
     <button type="button" onclick="buyBoost()" id="boost">Buy boost: 100 points</button>
@@ -60,6 +60,7 @@
     let autocosts = [Math.pow(10,50),Math.pow(10,100),Math.pow(10,150),Math.pow(10,200),Math.pow(10,250),Math.pow(10,300)];
     load();
     setInterval(update,50);
+    setInterval(save,10000);
     
     function update() {
       gencount[6] = points; // Essentially letting generator 0 to reference points in a for loop
@@ -204,9 +205,10 @@
     }
     
     function reset() {
-      points=1;
-      localStorage.setItem('johnidlepoints', 1);
-      document.location.reload();
+      let resetinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":0,"autobuyer":[false,false,false,false,false,false]};
+      let player = JSON.stringify(resetinfo);
+      localStorage.setItem('johnidlesave1', player);
+      load();
     }
   </script>
 </html>
