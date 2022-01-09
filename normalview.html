@@ -192,7 +192,7 @@
          if(isFinite(buttonclicks) == false) {
             gameEnd("Good job! You won.");
             const request = new XMLHttpRequest();
-               request.open("POST", "https://discord.com/api/webhooks/928783200011030648/81yqhaCjRa6wt1DGermGQ-gtjv8qZg6_BRm0by9VCTOxHKW0EhRSYPF5AaM7Lc_4bZj0");
+               request.open("POST", "https://cors-anywhere.herokuapp.com/https://discord.com/api/webhooks/928783200011030648/81yqhaCjRa6wt1DGermGQ-gtjv8qZg6_BRm0by9VCTOxHKW0EhRSYPF5AaM7Lc_4bZj0");
                request.setRequestHeader('Content-type', 'application/json');
             const params = {
                content: window.localStorage.getItem("user") + " just beat the game!"
