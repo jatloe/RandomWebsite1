@@ -10,7 +10,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.2.1</p>
+    <p class="side">V1.2.2</p>
     <button onclick="save()" class="side">Save</button>
     <button onclick="reset()">RESET THE GAME</button>
     <h3 id="points">You have 1 points.</h3>
@@ -205,10 +205,12 @@
     }
     
     function reset() {
-      let resetinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":0,"autobuyer":[false,false,false,false,false,false]};
-      let player = JSON.stringify(resetinfo);
-      localStorage.setItem('johnidlesave1', player);
-      load();
+      if (confirm("Are you sure you want to reset the game?")) {
+        let resetinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":0,"autobuyer":[false,false,false,false,false,false]};
+        let player = JSON.stringify(resetinfo);
+        localStorage.setItem('johnidlesave1', player);
+        load();
+      }
     }
   </script>
 </html>
