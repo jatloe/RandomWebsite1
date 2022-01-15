@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.2.9</p>
+    <p class="side font">V1.2.10</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -62,6 +62,8 @@
     let largestindex=0;
     let autobuyer = [false,false,false,false,false,false];
     let autocosts = [Math.pow(10,50),Math.pow(10,100),Math.pow(10,150),Math.pow(10,200),Math.pow(10,250),Math.pow(10,300)];
+    let lasttick = Date.now();
+    let thistick = 0;
     load();
     setInterval(update,50);
     setInterval(save,10000);
@@ -75,7 +77,9 @@
         }
       }
       //Increase points, update displays
-      rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3);
+      thistick = Date.now();
+      rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3)*(thistick-lasttick)/50;
+      lasttick = thistick;
       points = points + rate;
       document.getElementById("points").innerHTML = "You have " + stringify(points) + " points.";
       document.getElementById("boost").innerHTML = "Buy boost: " + booststring(boostCost(boost)) + " points";
