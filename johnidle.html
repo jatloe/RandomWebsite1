@@ -14,13 +14,14 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.2.13</p>
+    <p class="side font">V1.2.14</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
     <button type="button" onclick="openTab(1)" class="side font">Points</button>
-    <button type="button" onclick="openTab(2)" class="side font">How to Play</button>
-    <br>
+    <button type="button" onclick="openTab(2)" class="side font" style="display:none;" id="tabbutton2">Infinity</button>
+    <button type="button" onclick="openTab(3)" class="side font">How to Play</button>
+    <br><br>
     <div id="tab1">
       <p class="side font" id="boostDisplay">Boost: 1</p>
       <button type="button" onclick="buyBoost()" id="boost" class="font">Buy boost: 100 points</button>
@@ -50,6 +51,9 @@
       <button type="button" onclick="buyAuto(6)" id="auto6" class="font">Generator 6 autobuyer: 1e300 points</button>
     </div>
     <div id="tab2" style="display:none;">
+      <p class="font">Coming soon!</p>
+    </div>
+    <div id="tab3" style="display:none;">
       <p class="font">In this game, when you buy a generator, all previous generators and points will reset. Each generator's new value when bought is equal to the square root of the previous generator's value(or points in the case of generator 1). Points gets increased based on the product of the generator values. Autobuyers constantly buy the generator without resetting the previous.</p>
     </div>
   </body>
@@ -84,6 +88,9 @@
         if(autobuyer[i] == true) {
           gencount[i] = Math.sqrt(gencount[workingIndex(i-1)]);
         }
+      }
+      if(isFinite(points) == false) {
+        document.getElementById("tabbutton2").style.display = "";
       }
       //Increase points, update displays
       thistick = Date.now();
