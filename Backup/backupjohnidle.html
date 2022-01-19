@@ -2,52 +2,111 @@
 <html>
   <head>
     <link rel="icon" href="jatloesmile-hd.png">
+    <title>John's Idle Game</title>
     <style>
       .side{
         display: inline;
       }
+      .font{
+        font-family: 'Monospace Typewriter', monospace;
+        font-size: 15px;
+      }
     </style>
   </head>
   <body>
-    <p class="side">V1.1.3</p>
-    <button onclick="save()">Save points only</button>
-    <h3 id="points">You have 1 points.</h3>
-    <p class="side" id="boostDisplay">Boost: 1</p>
-    <button type="button" onclick="buyBoost()" id="boost">Buy boost: 100 points</button>
-    <br>
-    <p class="side" id="gen1Display">Generator 1: 1</p>
-    <button type="button" onclick="buyGen(1)" id="gen1">1 -> 1</button>
-    <br>
-    <p class="side" id="gen2Display">Generator 2: 1</p>
-    <button type="button" onclick="buyGen(2)" id="gen2">1 -> 1</button>
-    <br>
-    <p class="side" id="gen3Display">Generator 3: 1</p>
-    <button type="button" onclick="buyGen(3)" id="gen3">1 -> 1</button>
-    <br>
-    <p class="side" id="gen4Display">Generator 4: 1</p>
-    <button type="button" onclick="buyGen(4)" id="gen4">1 -> 1</button>
-    <br>
-    <p class="side" id="gen5Display">Generator 5: 1</p>
-    <button type="button" onclick="buyGen(5)" id="gen5">1 -> 1</button>
-    <br>
-    <p class="side" id="gen6Display">Generator 6 1</p>
-    <button type="button" onclick="buyGen(6)" id="gen6">1 -> 1</button>
+    <p class="side font">V1.2.18</p>
+    <button onclick="save()" class="side font">Save</button>
+    <button onclick="reset()" class="font">RESET THE GAME</button>
+    <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
+    <button type="button" onclick="openTab(1)" class="side font">Points</button>
+    <button type="button" onclick="openTab(2)" class="side font" style="display:none;" id="tabbutton2">Infinity</button>
+    <button type="button" onclick="openTab(3)" class="side font">How to Play</button>
+    <br><br>
+    <div id="tab1">
+      <p class="side font" id="boostDisplay">Boost: 1</p>
+      <button type="button" onclick="buyBoost()" id="boost" class="font">Buy boost: 100 points</button>
+      <br>
+      <p class="side font" id="gen1Display">Generator 1: 1</p>
+      <button type="button" onclick="buyGen(1)" id="gen1" class="side font">1 -> 1</button>
+      <button type="button" onclick="buyAuto(1)" id="auto1" class="font">Generator 1 autobuyer: 1e50 points</button>
+      <br>
+      <p class="side font" id="gen2Display">Generator 2: 1</p>
+      <button type="button" onclick="buyGen(2)" id="gen2" class="side font">1 -> 1</button>
+      <button type="button" onclick="buyAuto(2)" id="auto2" class="font">Generator 2 autobuyer: 1e100 points</button>
+      <br>
+      <p class="side font" id="gen3Display">Generator 3: 1</p>
+      <button type="button" onclick="buyGen(3)" id="gen3" class="side font">1 -> 1</button>
+      <button type="button" onclick="buyAuto(3)" id="auto3" class="font">Generator 3 autobuyer: 1e150 points</button>
+      <br>
+      <p class="side font" id="gen4Display">Generator 4: 1</p>
+      <button type="button" onclick="buyGen(4)" id="gen4" class="side font">1 -> 1</button>
+      <button type="button" onclick="buyAuto(4)" id="auto4" class="font">Generator 4 autobuyer: 1e200 points</button>
+      <br>
+      <p class="side font" id="gen5Display">Generator 5: 1</p>
+      <button type="button" onclick="buyGen(5)" id="gen5" class="side font">1 -> 1</button>
+      <button type="button" onclick="buyAuto(5)" id="auto5" class="font">Generator 5 autobuyer: 1e250 points</button>
+      <br>
+      <p class="side font" id="gen6Display">Generator 6: 1</p>
+      <button type="button" onclick="buyGen(6)" id="gen6" class="side font">1 -> 1</button>
+      <button type="button" onclick="buyAuto(6)" id="auto6" class="font">Generator 6 autobuyer: 1e300 points</button>
+    </div>
+    <div id="tab2" style="display:none;">
+      <p class="font" id="IPdisplay">You have 1 Infinity Point(IP), boosting your game by 8x.</p>
+    </div>
+    <div id="tab3" style="display:none;">
+      <p class="font">In this game, when you buy a generator, all previous generators and points will reset. Each generator's new value when bought is equal to the square root of the previous generator's value(or points in the case of generator 1). Points gets increased based on the product of the generator values. Autobuyers constantly buy the generator without resetting the previous.</p>
+    </div>
   </body>
   <script>
+    /*Credits:
+    john0512 - Original game idea creator, he created the game on Scratch then gave me permission to put it on my website; Playtester
+    02C00000 - Gave numerous suggestions on improving the game
+    DottedCalculator: Playtester
+    jatloe - Me!
+    */
+    
+    //Basic setup
     let points = 1;
-    if(localStorage.getItem('johnidlepoints') != null) {
-      points = Number(localStorage.getItem('johnidlepoints'));
-    }
     let gencount = [1,1,1,1,1,1,points];
     let boost = 1;
     let IP = 0;
     let rate = 1;
     let largestindex=0;
+    let autobuyer = [false,false,false,false,false,false];
+    let autocosts = [Math.pow(10,50),Math.pow(10,100),Math.pow(10,150),Math.pow(10,200),Math.pow(10,250),Math.pow(10,300)];
+    let lasttick = Date.now();
+    let thistick = 0;
+    let currenttab = 1;
+    load();
     setInterval(update,50);
+    setInterval(save,10000);
     
     function update() {
-      gencount[6] = points;
-      rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3);
+      gencount[6] = points; // Essentially letting generator 0 to reference points in a for loop
+      //Check autobuyers
+      for(i=0;i<=5;i++) {
+        if(autobuyer[i] == true) {
+          gencount[i] = Math.sqrt(gencount[workingIndex(i-1)]);
+        }
+      }
+      if(isFinite(points) == false) {
+        document.getElementById("tabbutton2").style.display = "";
+        let newinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":IP+1,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now()};
+        let player = JSON.stringify(newinfo);
+        localStorage.setItem('johnidlesave2', player);
+        load();
+        for(i=1;i<=6;i++) {
+          document.getElementById("auto" + String(i)).innerHTML = "Generator " + String(i) + " autobuyer: 1e" + String(i*50) + " points";
+        }
+      }
+      if(IP != 0) {
+        document.getElementById("tabbutton2").style.display = "";
+      }
+      document.getElementById("IPdisplay").innerHTML = "You have " + String(IP) + " Infinity Point(IP), boosting your game by " + String(Math.pow(1+IP,3)) + "x.";
+      //Increase points, update displays
+      thistick = Date.now();
+      rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3)*Math.max(0,thistick-lasttick)/50;
+      lasttick = thistick;
       points = points + rate;
       document.getElementById("points").innerHTML = "You have " + stringify(points) + " points.";
       document.getElementById("boost").innerHTML = "Buy boost: " + booststring(boostCost(boost)) + " points";
@@ -60,34 +119,98 @@
           largestindex=i;
         }
       }
-      for(j=0;j<=largestindex;j++) {
+      //Hide and show generators based on if they are used
+      for(j=0;j<=Math.min(largestindex+1,5);j++) {
         document.getElementById("gen" + String(j+1) + "Display").style.visibility = "visible";
         document.getElementById("gen" + String(j+1)).style.visibility = "visible";
+        document.getElementById("auto" + String(j+1)).style.visibility = "visible";
       }
-      for(k=largestindex+1;k<6;k++) {
+      for(k=largestindex+2;k<6;k++) {
         document.getElementById("gen" + String(k+1) + "Display").style.visibility = "hidden";
         document.getElementById("gen" + String(k+1)).style.visibility = "hidden";
+        document.getElementById("auto" + String(k+1)).style.visibility = "hidden";
       }
     }
-      
+    
+    function openTab(tab) {
+      document.getElementById("tab" + String(currenttab)).style.display = "none";
+      document.getElementById("tab" + String(tab)).style.display = "";
+      currenttab=tab;
+    }
+    
     function save() {
-      localStorage.setItem('johnidlepoints', points);
+      let info = {"points":points,"gencount":gencount,"boost":boost,"IP":IP,"autobuyer":autobuyer,"lasttick":lasttick};
+      let player = JSON.stringify(info);
+      localStorage.setItem('johnidlesave2', player);
     }
     
-    function goodNumber(number) {
-      return Math.round(number*1000)/1000;
+    function load() {
+      if(localStorage.getItem('johnidlesave2') != null) {
+        info = JSON.parse(localStorage.getItem('johnidlesave2'));
+        points = info.points;
+        if(points === null) {
+          points = Math.pow(10,310);
+        }
+        gencount = info.gencount;
+        boost = info.boost;
+        IP = info.IP;
+        autobuyer = info.autobuyer;
+        lasttick = info.lasttick;
+      } else if(localStorage.getItem('johnidlesave1') != null) {
+        info = JSON.parse(localStorage.getItem('johnidlesave1'));
+        points = info.points;
+        if(points === null) {
+          points = Math.pow(10,310);
+        }
+        gencount = info.gencount;
+        boost = info.boost;
+        IP = info.IP;
+        autobuyer = info.autobuyer;
+      } else if (localStorage.getItem('johnidlepoints') != null) {
+        points = Number(localStorage.getItem('johnidlepoints'));
+      }
+      for(i=1;i<=6;i++) {
+        if(autobuyer[i-1]==true) {
+          document.getElementById("auto" + String(i)).innerHTML = "Generator " + String(i) + " autobuyer bought!";
+        }
+      }
     }
     
+    //Hotkeys
+    document.onkeyup = function(e) {
+      if (e.which == 49 || e.which == 97) {
+        buyGen(1);
+      } else if (e.which == 50 || e.which == 98) {
+        buyGen(2);
+      } else if (e.which == 51 || e.which == 99) {
+        buyGen(3);
+      } else if (e.which == 52 || e.which == 100) {
+        buyGen(4);
+      } else if (e.which == 53 || e.which == 101) {
+        buyGen(5);
+      } else if (e.which == 54 || e.which == 102) {
+        buyGen(6);
+      } else if (e.which == 66) {
+        buyBoost();
+      }
+    };
+    
+    window.addEventListener('beforeunload', function(e) {
+      save();
+    });
+    
+    //This function turns numbers into nice numbers
     function stringify(number) {
-      number = goodNumber(number);
       if(number<1000000) {
-        let stringy = String(number*1000);
-        return stringy.slice(0,-3) + "." + stringy.slice(-3);
-      } else {
+        return number.toFixed(3);
+      } else if(isFinite(number)) {
         let power = Math.floor(Math.log10(number));
-        number = Math.round(number/Math.pow(10,power-3));
-        let stringy = String(number);
-        return stringy.slice(0,-3) + "." + stringy.slice(-3) + "e" + String(power);
+        number = number/Math.pow(10,power);
+        return number.toFixed(3) + "e" + String(power);
+      } else if(isNaN(number)) {
+        return "NaN";
+      } else {
+        return "Infinity";
       }
     }
     
@@ -99,6 +222,7 @@
       }
     }
     
+    //WOWLOG!!
     function log(a,b) {
       return Math.round(Math.log(b) / Math.log(a));
     }
@@ -108,13 +232,14 @@
     }
     
     function buyBoost() {
-      if(points>=boostCost(boost)) {
+      if(points>=boostCost(boost) && isFinite(boostCost(boost))) {
         points = points - boostCost(boost);
         boost = boost * 3;
         update();
       }
     }
     
+    //Really annoying with the workingIndex lol, I'm glad it worked
     function buyGen(num) {
       if(gencount[workingIndex(num+6)] < Math.sqrt(gencount[workingIndex(num+5)])) {
         gencount[workingIndex(num+6)] = Math.sqrt(gencount[workingIndex(num+5)]);
@@ -127,7 +252,25 @@
     }
     
     function workingIndex(num) {
-      return (num+700)%7;
+      return (num+700)%7; //Essentially forces the input to be positive without changing residue mod 7
+    }
+    
+    function buyAuto(num) {
+      if(points>=autocosts[num-1]) {
+        points = points - autocosts[num-1];
+        autobuyer[num-1]=true;
+        document.getElementById("auto" + String(num)).innerHTML = "Generator " + String(num) + " autobuyer bought!";
+        update();
+      }
+    }
+    
+    function reset() {
+      if (confirm("Are you sure you want to reset the game?")) {
+        let resetinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":0,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now()};
+        let player = JSON.stringify(resetinfo);
+        localStorage.setItem('johnidlesave2', player);
+        load();
+      }
     }
   </script>
 </html>
