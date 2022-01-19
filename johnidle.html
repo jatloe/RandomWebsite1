@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.2.19, Please don't touch anything currently in the second tab</p>
+    <p class="side font">V1.2.20, Please don't touch anything currently in the second tab</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -99,9 +99,9 @@
       }
       if(isFinite(points) == false) {
         document.getElementById("tabbutton2").style.display = "";
-        let newinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":IP+1,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now()};
+        let newinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":IP+1,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now(),"infupgrade":infupgrade,"infbase":infbase,"infgen":infgen};
         let player = JSON.stringify(newinfo);
-        localStorage.setItem('johnidlesave2', player);
+        localStorage.setItem('johnidlesave3', player);
         load();
         for(i=1;i<=6;i++) {
           document.getElementById("auto" + String(i)).innerHTML = "Generator " + String(i) + " autobuyer: 1e" + String(i*50) + " points";
@@ -147,13 +147,27 @@
     }
     
     function save() {
-      let info = {"points":points,"gencount":gencount,"boost":boost,"IP":IP,"autobuyer":autobuyer,"lasttick":lasttick};
+      let info = {"points":points,"gencount":gencount,"boost":boost,"IP":IP,"autobuyer":autobuyer,"lasttick":lasttick,"infupgrade":infupgrade,"infbase":infbase,"infgen":infgen};
       let player = JSON.stringify(info);
-      localStorage.setItem('johnidlesave2', player);
+      localStorage.setItem('johnidlesave3', player);
     }
     
     function load() {
-      if(localStorage.getItem('johnidlesave2') != null) {
+      if(localStorage.getItem('johnidlesave3') != null) {
+        info = JSON.parse(localStorage.getItem('johnidlesave3'));
+        points = info.points;
+        if(points === null) {
+          points = Math.pow(10,310);
+        }
+        gencount = info.gencount;
+        boost = info.boost;
+        IP = info.IP;
+        autobuyer = info.autobuyer;
+        lasttick = info.lasttick;
+        infupgrade = info.infupgrade;
+        infbase = info.infbase;
+        infgen = info.infgen;
+      } else if(localStorage.getItem('johnidlesave2') != null) {
         info = JSON.parse(localStorage.getItem('johnidlesave2'));
         points = info.points;
         if(points === null) {
@@ -274,9 +288,9 @@
     
     function reset() {
       if (confirm("Are you sure you want to reset the game?")) {
-        let resetinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":0,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now()};
+        let resetinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":0,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now(),"infupgrade":[false,false,false,false,false,false,false,false,false,false],"infbase":1;"infgen":[1,1,1,1,1]};
         let player = JSON.stringify(resetinfo);
-        localStorage.setItem('johnidlesave2', player);
+        localStorage.setItem('johnidlesave3', player);
         load();
       }
     }
