@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.2.20, Please don't touch anything currently in the second tab</p>
+    <p class="side font">V1.2.21, Please don't touch anything currently in the second tab</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -288,7 +288,7 @@
     
     function reset() {
       if (confirm("Are you sure you want to reset the game?")) {
-        let resetinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":0,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now(),"infupgrade":[false,false,false,false,false,false,false,false,false,false],"infbase":1;"infgen":[1,1,1,1,1]};
+        let resetinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":0,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now(),"infupgrade":[false,false,false,false,false,false,false,false,false,false],"infbase":1,"infgen":[1,1,1,1,1]};
         let player = JSON.stringify(resetinfo);
         localStorage.setItem('johnidlesave3', player);
         load();
