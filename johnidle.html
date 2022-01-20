@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.3.12</p>
+    <p class="side font">V1.3.13</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -136,15 +136,15 @@
         for(i=1;i<=6;i++) {
           document.getElementById("auto" + String(i)).innerHTML = "Generator " + String(i) + " autobuyer: 1e" + String(i*50) + " points";
         }
-        if(infupgrade[5] == true) {
-          for(num = 1; num <= 4; num++) {
-            autobuyer[num-1]=true;
-            document.getElementById("auto" + String(num)).innerHTML = "Generator " + String(num) + " autobuyer bought!";
-          }
-        }
       }
       if(infinitied == true) {
         document.getElementById("tabbutton2").style.display = "";
+      }
+      if(infupgrade[5] == true) {
+        for(num = 1; num <= 4; num++) {
+          autobuyer[num-1]=true;
+          document.getElementById("auto" + String(num)).innerHTML = "Generator " + String(num) + " autobuyer bought!";
+        }
       }
       document.getElementById("IPdisplay").innerHTML = "You have " + String(IP) + " Infinity Point(IP), boosting your game by " + String(Math.pow(1+IP,3)) + "x.";
       //Increase points, update displays
