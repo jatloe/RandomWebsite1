@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.3.0</p>
+    <p class="side font">V1.3.1</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -169,11 +169,11 @@
         document.getElementById("infgen2").style.display = "";
       }
       for(i=0;i<5;i++) {
-        document.getElementById("infgen" + String(i+1) + "Display").innerHTML = "Infinity Generator " + String(i+1) + ": " + stringify(infgencount[i]);
+        document.getElementById("infgen" + String(i+1) + "Display").innerHTML = "Infinity Generator " + String(i+1) + ": " + stringify(infgen[i]);
         if(i == 0){
-          document.getElementById("infgen" + String(i+1)).innerHTML = stringify(infgencount[i]) + " -> " + stringify(Math.sqrt(infbase));
+          document.getElementById("infgen" + String(i+1)).innerHTML = stringify(infgen[i]) + " -> " + stringify(Math.sqrt(infbase));
         } else {
-          document.getElementById("infgen" + String(i+1)).innerHTML = stringify(infgencount[i]) + " -> " + stringify(Math.sqrt(infgencount[i-1]));
+          document.getElementById("infgen" + String(i+1)).innerHTML = stringify(infgen[i]) + " -> " + stringify(Math.sqrt(infgen[i-1]));
         }
       }
     }
