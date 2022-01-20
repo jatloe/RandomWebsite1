@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.3.3</p>
+    <p class="side font">V1.3.4</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -150,14 +150,14 @@
       }
       //Hide and show generators based on if they are used
       for(j=0;j<=Math.min(largestindex+1,5);j++) {
-        document.getElementById("gen" + String(j+1) + "Display").style.visibility = "visible";
-        document.getElementById("gen" + String(j+1)).style.visibility = "visible";
-        document.getElementById("auto" + String(j+1)).style.visibility = "visible";
+        document.getElementById("gen" + String(j+1) + "Display").style.display = "";
+        document.getElementById("gen" + String(j+1)).style.display = "";
+        document.getElementById("auto" + String(j+1)).style.display = "";
       }
       for(k=largestindex+2;k<6;k++) {
-        document.getElementById("gen" + String(k+1) + "Display").style.visibility = "hidden";
-        document.getElementById("gen" + String(k+1)).style.visibility = "hidden";
-        document.getElementById("auto" + String(k+1)).style.visibility = "hidden";
+        document.getElementById("gen" + String(k+1) + "Display").style.display = "none";
+        document.getElementById("gen" + String(k+1)).style.display = "none";
+        document.getElementById("auto" + String(k+1)).style.display = "none";
       }
       document.getElementById("infbases").innerHTML = "You have " + stringify(infbase) + " infinity bases.";
       if(infupgrade[0] == true) {
