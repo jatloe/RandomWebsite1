@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.3.15</p>
+    <p class="side font">V1.3.16</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -334,9 +334,10 @@
           buyInfGen(3);
         } else if (e.which == 52 || e.which == 100) {
           buyInfGen(4);
+        } else if (e.which == 53 || e.which == 101) {
+          buyInfGen(5);
         }
       }
-      
     };
     
     window.addEventListener('beforeunload', function(e) {
