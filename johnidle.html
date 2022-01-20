@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.2.25, Please don't touch anything currently in the second tab</p>
+    <p class="side font">V1.2.26, Please don't touch anything currently in the second tab</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -57,6 +57,14 @@
       <p class="font" id="infbases">You have 1 infinity bases.</p>
       <p class="side font" id="infgen1Display" style="display:none;">Infinity generator 1: 1</p>
       <button type="button" onclick="buyInfGen(1)" id="infgen1" class="font" style="display:none;">1 -> 1</button>
+      <p class="side font" id="infgen2Display" style="display:none;">Infinity generator 2: 1</p>
+      <button type="button" onclick="buyInfGen(2)" id="infgen2" class="font" style="display:none;">1 -> 1</button>
+      <p class="side font" id="infgen3Display" style="display:none;">Infinity generator 3: 1</p>
+      <button type="button" onclick="buyInfGen(3)" id="infgen3" class="font" style="display:none;">1 -> 1</button>
+      <p class="side font" id="infgen4Display" style="display:none;">Infinity generator 4: 1</p>
+      <button type="button" onclick="buyInfGen(4)" id="infgen4" class="font" style="display:none;">1 -> 1</button>
+      <p class="side font" id="infgen5Display" style="display:none;">Infinity generator 5: 1</p>
+      <button type="button" onclick="buyInfGen(5)" id="infgen5" class="font" style="display:none;">1 -> 1</button>
     </div>
     <div id="tab3" style="display:none;">
       <p class="font">In this game, when you buy a generator, all previous generators and points will reset. Each generator's new value when bought is equal to the square root of the previous generator's value(or points in the case of generator 1). Points gets increased based on the product of the generator values. Autobuyers constantly buy the generator without resetting the previous.</p>
@@ -150,7 +158,21 @@
         document.getElementById("auto" + String(k+1)).style.visibility = "hidden";
       }
       document.getElementById("infbases").innerHTML = "You have " + stringify(infbase) + " infinity bases.";
+      if(infupgrade[0] == true) {
+        document.getElementById("infgen1Display").style.display = "";
+        document.getElementById("infgen1").style.display = "";
+      }
+      for(i=0;i<5;i++) {
+        document.getElementById("infgen" + String(i+1) + "Display").innerHTML = "Infinity Generator " + String(i+1) + ": " + stringify(infgencount[i]);
+        if(i == 0){
+          document.getElementById("infgen" + String(i+1)).innerHTML = stringify(infgencount[i]) + " -> " + stringify(Math.sqrt(infbase));
+        } else {
+          document.getElementById("infgen" + String(i+1)).innerHTML = stringify(infgencount[i]) + " -> " + stringify(Math.sqrt(infgencount[i-1]));
+        }
+      }
     }
+    
+    //End of update function    
     
     function openTab(tab) {
       document.getElementById("tab" + String(currenttab)).style.display = "none";
