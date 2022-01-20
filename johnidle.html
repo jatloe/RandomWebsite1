@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.2.26, Please don't touch anything currently in the second tab</p>
+    <p class="side font">V1.3.0</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -53,6 +53,8 @@
     <div id="tab2" style="display:none;">
       <p class="font" id="IPdisplay">You have 1 Infinity Point(IP), boosting your game by 8x.</p>
       <button type="button" onclick="buyInfUpgrade(1)" id="infupgrade1" class="font">Unlock infinity generator 1<br>Cost: 1 IP</button>
+      <button type="button" onclick="buyInfUpgrade(2)" id="infupgrade2" class="font">Infinity base increases based on generators<br>Cost: 2 IP</button>
+      <button type="button" onclick="buyInfUpgrade(3)" id="infupgrade3" class="font">Unlock infinity generator 2<br>Cost: 3 IP</button>
       <br>
       <p class="font" id="infbases">You have 1 infinity bases.</p>
       <p class="side font" id="infgen1Display" style="display:none;">Infinity generator 1: 1</p>
@@ -161,6 +163,10 @@
       if(infupgrade[0] == true) {
         document.getElementById("infgen1Display").style.display = "";
         document.getElementById("infgen1").style.display = "";
+      }
+      if(infupgrade[2] == true) {
+        document.getElementById("infgen2Display").style.display = "";
+        document.getElementById("infgen2").style.display = "";
       }
       for(i=0;i<5;i++) {
         document.getElementById("infgen" + String(i+1) + "Display").innerHTML = "Infinity Generator " + String(i+1) + ": " + stringify(infgencount[i]);
@@ -352,7 +358,22 @@
     }
     
     function buyInfGen(num) {
-      
+      if(num == 1) {
+        if(infgencount[0] < Math.sqrt(infbase)) {
+          infgencount[0] = Math.sqrt(infbase);
+          infbase = 1;
+          update();
+        }
+      } else {
+        if(infgencount[num-1] < Math.sqrt(infgencount[num-2])) {
+          infgencount[num-1] = Math.sqrt(infgencount[num-2]);
+          for(let i=0;i<num-1;i++) {
+            infgencount[i]=1;
+          }
+          infbase = 1;
+          update();
+        }
+      }
     }
     
     function reset() {
