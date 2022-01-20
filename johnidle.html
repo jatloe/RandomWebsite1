@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.2.22, Please don't touch anything currently in the second tab</p>
+    <p class="side font">V1.2.23, Please don't touch anything currently in the second tab</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -83,6 +83,7 @@
     let infbase = 1;
     let infgen = [1,1,1,1,1];
     let infupgradecost = [1,2,3,99,99,99,99,99,99,99];
+    let infupgradetext = ["Unlock infinity generator 1","Infinity base increases more quickly","Unlock infinity generator 2"];
     let lasttick = Date.now();
     let thistick = 0;
     let currenttab = 1;
@@ -193,8 +194,13 @@
         points = Number(localStorage.getItem('johnidlepoints'));
       }
       for(i=1;i<=6;i++) {
-        if(autobuyer[i-1]==true) {
+        if(autobuyer[i-1] == true) {
           document.getElementById("auto" + String(i)).innerHTML = "Generator " + String(i) + " autobuyer bought!";
+        }
+      }
+      for(j=1;j<=10;j++) {
+        if(infupgrade[j-1] == true) {
+          document.getElementById("infupgrade" + String(j)).innerHTML = infupgradetext[j-1] + "<br>Bought!";
         }
       }
     }
@@ -291,7 +297,7 @@
       if(IP>=infupgradecost[num-1] && infupgrade[num-1] == false) {
         IP = IP - infupgradecost[num-1];
         infupgrade[num-1] = true;
-        
+        document.getElementById("infupgrade" + String(num)).innerHTML = infupgradetext[num-1] + "<br>Bought!";
       }
     }
     
