@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.3.5</p>
+    <p class="side font">V1.3.6</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -54,7 +54,8 @@
       <p class="font" id="IPdisplay">You have 1 Infinity Point(IP), boosting your game by 8x.</p>
       <button type="button" onclick="buyInfUpgrade(1)" id="infupgrade1" class="font">Unlock infinity generator 1<br>Cost: 1 IP</button> <br>
       <button type="button" onclick="buyInfUpgrade(2)" id="infupgrade2" class="font">Infinity base increases based on generators<br>Cost: 2 IP</button> <br>
-      <button type="button" onclick="buyInfUpgrade(3)" id="infupgrade3" class="font">Unlock infinity generator 2<br>Cost: 3 IP</button>
+      <button type="button" onclick="buyInfUpgrade(3)" id="infupgrade3" class="font">Unlock infinity generator 2<br>Cost: 3 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(4)" id="infupgrade4" class="font">Start each infinity with 1e51 points<br>Cost: 5 IP</button>
       <br>
       <p class="font" id="infbases">You have 1 infinity bases.</p>
       <p class="side font" id="infgen1Display" style="display:none;">Infinity generator 1: 1</p>
@@ -96,8 +97,8 @@
     let infupgrade = [false,false,false,false,false,false,false,false,false,false];
     let infbase = 1;
     let infgen = [1,1,1,1,1];
-    let infupgradecost = [1,2,3,99,99,99,99,99,99,99];
-    let infupgradetext = ["Unlock infinity generator 1","Infinity base increases more quickly","Unlock infinity generator 2"];
+    let infupgradecost = [1,2,3,5,99,99,99,99,99,99];
+    let infupgradetext = ["Unlock infinity generator 1","Infinity base increases more quickly","Unlock infinity generator 2","Start each infinity with 1e51 points"];
     let lasttick = Date.now();
     let thistick = 0;
     let currenttab = 1;
@@ -117,7 +118,11 @@
       if(isFinite(points) == false) {
         infinitied = true;
         document.getElementById("tabbutton2").style.display = "";
-        let newinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":IP+1,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now(),"infupgrade":infupgrade,"infbase":infbase,"infgen":infgen,"infinitied":true};
+        let newpoints = 1;
+        if(infupgrade[3] == true) {
+          newpoints = Math.pow(10,51);
+        }
+        let newinfo = {"points":newpoints,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":IP+1,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now(),"infupgrade":infupgrade,"infbase":infbase,"infgen":infgen,"infinitied":true};
         let player = JSON.stringify(newinfo);
         localStorage.setItem('johnidlesave4', player);
         load();
