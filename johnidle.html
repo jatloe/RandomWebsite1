@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.2.23, Please don't touch anything currently in the second tab</p>
+    <p class="side font">V1.2.24, Please don't touch anything currently in the second tab</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -87,6 +87,7 @@
     let lasttick = Date.now();
     let thistick = 0;
     let currenttab = 1;
+    let infinitied = false;
     load();
     setInterval(update,50);
     setInterval(save,10000);
@@ -100,22 +101,30 @@
         }
       }
       if(isFinite(points) == false) {
+        infinitied = true;
         document.getElementById("tabbutton2").style.display = "";
-        let newinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":IP+1,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now(),"infupgrade":infupgrade,"infbase":infbase,"infgen":infgen};
+        let newinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":IP+1,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now(),"infupgrade":infupgrade,"infbase":infbase,"infgen":infgen,"infinitied":true};
         let player = JSON.stringify(newinfo);
-        localStorage.setItem('johnidlesave3', player);
+        localStorage.setItem('johnidlesave4', player);
         load();
         for(i=1;i<=6;i++) {
           document.getElementById("auto" + String(i)).innerHTML = "Generator " + String(i) + " autobuyer: 1e" + String(i*50) + " points";
         }
       }
-      if(IP != 0) {
+      if(infinitied == true) {
         document.getElementById("tabbutton2").style.display = "";
       }
       document.getElementById("IPdisplay").innerHTML = "You have " + String(IP) + " Infinity Point(IP), boosting your game by " + String(Math.pow(1+IP,3)) + "x.";
       //Increase points, update displays
       thistick = Date.now();
-      rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3)*Math.max(0,thistick-lasttick)/50;
+      rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3)*infgen[0]*infgen[1]*infgen[2]*infgen[3]*infgen[4]*Math.max(0,thistick-lasttick)/50;
+      if(infinitied == true) {
+        if(infupgrade[1] == true) {
+          infbase = infbase + infgen[0]*infgen[1]*infgen[2]*infgen[3]*infgen[4]*Math.max(0,thistick-lasttick)/50;
+        } else {
+          infbase = infbase + Math.max(0,thistick-lasttick)/50;
+        }
+      }
       lasttick = thistick;
       points = points + rate;
       document.getElementById("points").innerHTML = "You have " + stringify(points) + " points.";
@@ -149,13 +158,28 @@
     }
     
     function save() {
-      let info = {"points":points,"gencount":gencount,"boost":boost,"IP":IP,"autobuyer":autobuyer,"lasttick":lasttick,"infupgrade":infupgrade,"infbase":infbase,"infgen":infgen};
+      let info = {"points":points,"gencount":gencount,"boost":boost,"IP":IP,"autobuyer":autobuyer,"lasttick":lasttick,"infupgrade":infupgrade,"infbase":infbase,"infgen":infgen,"infinitied":infinitied};
       let player = JSON.stringify(info);
-      localStorage.setItem('johnidlesave3', player);
+      localStorage.setItem('johnidlesave4', player);
     }
     
     function load() {
-      if(localStorage.getItem('johnidlesave3') != null) {
+      if(localStorage.getItem('johnidlesave4') != null) {
+        info = JSON.parse(localStorage.getItem('johnidlesave4'));
+        points = info.points;
+        if(points === null) {
+          points = Math.pow(10,310);
+        }
+        gencount = info.gencount;
+        boost = info.boost;
+        IP = info.IP;
+        autobuyer = info.autobuyer;
+        lasttick = info.lasttick;
+        infupgrade = info.infupgrade;
+        infbase = info.infbase;
+        infgen = info.infgen;        
+        infinitied = info.infinitied;
+      } else if(localStorage.getItem('johnidlesave3') != null) {
         info = JSON.parse(localStorage.getItem('johnidlesave3'));
         points = info.points;
         if(points === null) {
@@ -202,6 +226,9 @@
         if(infupgrade[j-1] == true) {
           document.getElementById("infupgrade" + String(j)).innerHTML = infupgradetext[j-1] + "<br>Bought!";
         }
+      }
+      if(IP > 0) {
+        infinitied = true;
       }
     }
     
@@ -307,9 +334,9 @@
     
     function reset() {
       if (confirm("Are you sure you want to reset the game?")) {
-        let resetinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":0,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now(),"infupgrade":[false,false,false,false,false,false,false,false,false,false],"infbase":1,"infgen":[1,1,1,1,1]};
+        let resetinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":0,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now(),"infupgrade":[false,false,false,false,false,false,false,false,false,false],"infbase":1,"infgen":[1,1,1,1,1],"infinitied":false};
         let player = JSON.stringify(resetinfo);
-        localStorage.setItem('johnidlesave3', player);
+        localStorage.setItem('johnidlesave4', player);
         load();
       }
     }
