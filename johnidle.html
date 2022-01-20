@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.3.10</p>
+    <p class="side font">V1.3.11</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -374,7 +374,7 @@
     }
     
     function buyAuto(num) {
-      if(points>=autocosts[num-1]) {
+      if(points>=autocosts[num-1] && autobuyer[num-1] == false) {
         points = points - autocosts[num-1];
         autobuyer[num-1]=true;
         document.getElementById("auto" + String(num)).innerHTML = "Generator " + String(num) + " autobuyer bought!";
