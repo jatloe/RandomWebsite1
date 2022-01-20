@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.3.11</p>
+    <p class="side font">V1.3.12</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -296,21 +296,34 @@
     
     //Hotkeys
     document.onkeyup = function(e) {
-      if (e.which == 49 || e.which == 97) {
-        buyGen(1);
-      } else if (e.which == 50 || e.which == 98) {
-        buyGen(2);
-      } else if (e.which == 51 || e.which == 99) {
-        buyGen(3);
-      } else if (e.which == 52 || e.which == 100) {
-        buyGen(4);
-      } else if (e.which == 53 || e.which == 101) {
-        buyGen(5);
-      } else if (e.which == 54 || e.which == 102) {
-        buyGen(6);
-      } else if (e.which == 66) {
-        buyBoost();
+      if(currenttab == 1) {
+        if (e.which == 49 || e.which == 97) {
+          buyGen(1);
+        } else if (e.which == 50 || e.which == 98) {
+          buyGen(2);
+        } else if (e.which == 51 || e.which == 99) {
+          buyGen(3);
+        } else if (e.which == 52 || e.which == 100) {
+          buyGen(4);
+        } else if (e.which == 53 || e.which == 101) {
+          buyGen(5);
+        } else if (e.which == 54 || e.which == 102) {
+          buyGen(6);
+        } else if (e.which == 66) {
+          buyBoost();
+        }
+      } else if(currenttab == 2) {
+        if (e.which == 49 || e.which == 97) {
+          buyInfGen(1);
+        } else if (e.which == 50 || e.which == 98) {
+          buyInfGen(2);
+        } else if (e.which == 51 || e.which == 99) {
+          buyInfGen(3);
+        } else if (e.which == 52 || e.which == 100) {
+          buyInfGen(4);
+        }
       }
+      
     };
     
     window.addEventListener('beforeunload', function(e) {
