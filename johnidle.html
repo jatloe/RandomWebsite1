@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.3.7</p>
+    <p class="side font">V1.3.8</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -57,6 +57,7 @@
       <button type="button" onclick="buyInfUpgrade(3)" id="infupgrade3" class="font">Unlock infinity generator 2<br>Cost: 3 IP</button> <br>
       <button type="button" onclick="buyInfUpgrade(4)" id="infupgrade4" class="font">Start each infinity with 1e51 points<br>Cost: 5 IP</button> <br>
       <button type="button" onclick="buyInfUpgrade(5)" id="infupgrade5" class="font">Unlock infinity generator 3, current IP boosts IP gain<br>Cost: 10 IP</button>
+      <button type="button" onclick="buyInfUpgrade(6)" id="infupgrade6" class="font">Keep autobuyers 1-4 through infinities, current IP boosts infinity base gain<br>Cost: 25 IP</button>
       <br>
       <p class="font" id="infbases">You have 1 infinity bases.</p>
       <p class="side font" id="infgen1Display" style="display:none;">Infinity generator 1: 1</p>
@@ -98,8 +99,8 @@
     let infupgrade = [false,false,false,false,false,false,false,false,false,false];
     let infbase = 1;
     let infgen = [1,1,1,1,1];
-    let infupgradecost = [1,2,3,5,10,99,99,99,99,99];
-    let infupgradetext = ["Unlock infinity generator 1","Infinity base increases more quickly","Unlock infinity generator 2","Start each infinity with 1e51 points","Unlock infinity generator 3, current IP boosts IP gain"];
+    let infupgradecost = [1,2,3,5,10,25,99,99,99,99];
+    let infupgradetext = ["Unlock infinity generator 1","Infinity base increases more quickly","Unlock infinity generator 2","Start each infinity with 1e51 points","Unlock infinity generator 3, current IP boosts IP gain","Keep autobuyers 1-4 through infinities, current IP boosts infinity base gain"];
     let lasttick = Date.now();
     let thistick = 0;
     let currenttab = 1;
@@ -134,6 +135,12 @@
         for(i=1;i<=6;i++) {
           document.getElementById("auto" + String(i)).innerHTML = "Generator " + String(i) + " autobuyer: 1e" + String(i*50) + " points";
         }
+        if(infupgrade[5] == true) {
+          for(num = 1; num <= 4; num++) {
+            autobuyer[num-1]=true;
+            document.getElementById("auto" + String(num)).innerHTML = "Generator " + String(num) + " autobuyer bought!";
+          }
+        }
       }
       if(infinitied == true) {
         document.getElementById("tabbutton2").style.display = "";
@@ -143,11 +150,14 @@
       thistick = Date.now();
       rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3)*infgen[0]*infgen[1]*infgen[2]*infgen[3]*infgen[4]*Math.max(0,thistick-lasttick)/50;
       if(infinitied == true) {
+        let infbasegain = Math.max(0,thistick-lasttick)/50;
         if(infupgrade[1] == true) {
-          infbase = infbase + infgen[0]*infgen[1]*infgen[2]*infgen[3]*infgen[4]*Math.max(0,thistick-lasttick)/50;
-        } else {
-          infbase = infbase + Math.max(0,thistick-lasttick)/50;
+          infbasegain = infbasegain*infgen[0]*infgen[1]*infgen[2]*infgen[3]*infgen[4];
         }
+        if(infupgrade[5] == true) {
+          infbasegain = infbasegain*IP;
+        }
+        infbase = infbase + infbasegain;
       }
       lasttick = thistick;
       points = points + rate;
