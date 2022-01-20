@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.3.16</p>
+    <p class="side font">V1.3.17</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -165,7 +165,7 @@
           infbasegain = infbasegain*IP;
         }
         if(infupgrade[9] == true) {
-          infbasegain = infbasegain * Math.pow(Math.log(infbase),3);
+          infbasegain = infbasegain * Math.max(1,Math.pow(Math.log(infbase),3));
         }
         infbase = infbase + infbasegain;
       }
