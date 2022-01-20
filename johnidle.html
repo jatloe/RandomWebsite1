@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.3.2</p>
+    <p class="side font">V1.3.3</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -359,16 +359,16 @@
     
     function buyInfGen(num) {
       if(num == 1) {
-        if(infgencount[0] < Math.sqrt(infbase)) {
-          infgencount[0] = Math.sqrt(infbase);
+        if(infgen[0] < Math.sqrt(infbase)) {
+          infgen[0] = Math.sqrt(infbase);
           infbase = 1;
           update();
         }
       } else {
-        if(infgencount[num-1] < Math.sqrt(infgencount[num-2])) {
-          infgencount[num-1] = Math.sqrt(infgencount[num-2]);
+        if(infgen[num-1] < Math.sqrt(infgen[num-2])) {
+          infgen[num-1] = Math.sqrt(infgen[num-2]);
           for(let i=0;i<num-1;i++) {
-            infgencount[i]=1;
+            infgen[i]=1;
           }
           infbase = 1;
           update();
