@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.2.21, Please don't touch anything currently in the second tab</p>
+    <p class="side font">V1.2.22, Please don't touch anything currently in the second tab</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -82,6 +82,7 @@
     let infupgrade = [false,false,false,false,false,false,false,false,false,false];
     let infbase = 1;
     let infgen = [1,1,1,1,1];
+    let infupgradecost = [1,2,3,99,99,99,99,99,99,99];
     let lasttick = Date.now();
     let thistick = 0;
     let currenttab = 1;
@@ -284,6 +285,18 @@
         document.getElementById("auto" + String(num)).innerHTML = "Generator " + String(num) + " autobuyer bought!";
         update();
       }
+    }
+    
+    function buyInfUpgrade(num) {
+      if(IP>=infupgradecost[num-1] && infupgrade[num-1] == false) {
+        IP = IP - infupgradecost[num-1];
+        infupgrade[num-1] = true;
+        
+      }
+    }
+    
+    function buyInfGen(num) {
+      
     }
     
     function reset() {
