@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.2.24, Please don't touch anything currently in the second tab</p>
+    <p class="side font">V1.2.25, Please don't touch anything currently in the second tab</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -149,6 +149,7 @@
         document.getElementById("gen" + String(k+1)).style.visibility = "hidden";
         document.getElementById("auto" + String(k+1)).style.visibility = "hidden";
       }
+      document.getElementById("infbases").innerHTML = "You have " + stringify(infbase) + " infinity bases.";
     }
     
     function openTab(tab) {
