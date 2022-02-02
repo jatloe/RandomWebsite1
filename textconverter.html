@@ -6,21 +6,33 @@
   </head>
   <body>
     <textarea id="textarea"></textarea> <br>
-    <button type="button" onclick="convert()">Convert to Discord style!</button>
+    <button type="button" onclick="convertDiscord()">Convert to Discord style!</button> <br>
+    <button type="button" onclick="copy()">Copy to clipboard</button>
   </body>
   <script>
-    function convert() {
-        let text = document.getElementById("textarea").value;
-        let textarray = text.split('');
-        let newtext = "";
-        let badlist = ["*","_","~"];
-        for (let i=0;i<textarray.length;i++) {
-            if (badlist.includes(textarray[i]) == true && textarray[i-1] != '\\') {
-                newtext += `\\`;
-            }
-            newtext += textarray[i];
-        }
-        document.getElementById("textarea").value = newtext;
+    function convertDiscord() {
+      let text = document.getElementById("textarea").value;
+      let textarray = text.split('');
+      let newtext = "";
+      let badlist = ["*","_","~"];
+      for (let i=0;i<textarray.length;i++) {
+          if (badlist.includes(textarray[i]) == true && textarray[i-1] != '\\') {
+              newtext += `\\`;
+          }
+          newtext += textarray[i];
+      }
+      document.getElementById("textarea").value = newtext;
+    }
+    function copy() {
+      /* Get the text field */
+      let copyText = document.getElementById("textarea");
+
+      /* Select the text field */
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+       /* Copy the text inside the text field */
+      navigator.clipboard.writeText(copyText.value);
     }
   </script>
 </html>
