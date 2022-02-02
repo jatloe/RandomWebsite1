@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" href="jatloesmile-hd.png">
+    <title>Text Converter</title>
+  </head>
+  <body>
+    <textarea id="textarea"></textarea> <br>
+    <button type="button" onclick="convert()">Convert to Discord style!</button>
+  </body>
+  <script>
+    function convert() {
+        let text = document.getElementById("textarea").value;
+        let textarray = text.split('');
+        let newtext = "";
+        let badlist = ["*","_","~"];
+        for (let i=0;i<textarray.length;i++) {
+            if (badlist.includes(textarray[i]) == true && textarray[i-1] != '\\') {
+                newtext += `\\`;
+            }
+            newtext += textarray[i];
+        }
+        document.getElementById("textarea").value = newtext;
+    }
+  </script>
+</html>
