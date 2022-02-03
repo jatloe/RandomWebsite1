@@ -7,6 +7,7 @@
   <body>
     <textarea id="textarea"></textarea> <br>
     <button type="button" onclick="convertDiscord()">Convert to Discord style!</button> <br>
+    <button type="button" onclick="convertGeoLatex()">Convert geometric statement to LaTeX! (WIP)</button> <br>
     <button type="button" onclick="copy()">Copy to clipboard(doesn't work eee)</button>
   </body>
   <script>
@@ -33,6 +34,67 @@
 
        /* Copy the text inside the text field */
       navigator.clipboard.writeText(copyText.value);
+    }
+    function convertGeoLatex() {
+      let text = document.getElementById("textarea").value;
+      let textarray = text.split('');
+      let newtext = "";
+      let started = false;
+      let latexed = false;
+      let upper = false;
+      let currentstart = 0;
+      for (let i=0;i<textarray.length;i++) {
+          if (geolatextype(textarray[i]) != 0) {
+              if(started == false && textarray[i-1] == ' ') {
+                  currentstart = i;
+              }
+              started = true;
+              if(geolatextype(textarray[i]) == 1) {
+                  upper = true;
+              } else if(geolatextype(textarray[i]) == 2) {
+                  latexed = true;
+              }
+          } else {
+              if(started == true) {
+                  started = false;
+                  if(latexed == false && upper == true && textarray[i] == ' ') {
+                      textarray[currentstart] = "$" + textarray[currentstart];
+                      textarray[i-1] = textarray[i-1] + "$";
+                  }
+                  started = false;
+                  latexed = false;
+                  upper = false;
+              }
+          }
+      }
+      if(started == true) {
+          started = false;
+          if(latexed == false && upper == true) {
+              textarray[currentstart] = "$" + textarray[currentstart];
+              textarray[textarray.length-1] = textarray[textarray.length-1] + "$";
+          }
+          started = false;
+          latexed = false;
+          upper = false;
+      }
+      for (let i=0;i<textarray.length;i++) {
+          if (textarray[i] == '*') {
+              newtext += `\\`;
+          }
+          newtext += textarray[i];
+      }
+      document.getElementById("textarea").value = newtext;
+    }
+    function geolatextype(char) {
+        if((97 <= char.charCodeAt(0) && char.charCodeAt(0) <= 122) || char.charCodeAt(0) == 32) {
+            return 0;
+        } else if(65 <= char.charCodeAt(0) && char.charCodeAt(0) <= 90) {
+            return 1;
+        } else if(char == '$') {
+            return 2;
+        } else {
+            return 3;
+        }
     }
   </script>
 </html>
