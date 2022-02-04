@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.2.18</p>
+    <p class="side font">V1.3.17</p>
     <button onclick="save()" class="side font">Save</button>
     <button onclick="reset()" class="font">RESET THE GAME</button>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
@@ -52,6 +52,32 @@
     </div>
     <div id="tab2" style="display:none;">
       <p class="font" id="IPdisplay">You have 1 Infinity Point(IP), boosting your game by 8x.</p>
+      <button type="button" onclick="buyInfUpgrade(1)" id="infupgrade1" class="font">Unlock infinity generator 1<br>Cost: 1 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(2)" id="infupgrade2" class="font">Infinity base increases based on generators<br>Cost: 2 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(3)" id="infupgrade3" class="font">Unlock infinity generator 2<br>Cost: 3 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(4)" id="infupgrade4" class="font">Start each infinity with 1e51 points<br>Cost: 5 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(5)" id="infupgrade5" class="font">Unlock infinity generator 3, current IP boosts IP gain<br>Cost: 10 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(6)" id="infupgrade6" class="font">Keep autobuyers 1-4 through infinities, current IP boosts infinity base gain<br>Cost: 25 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(7)" id="infupgrade7" class="font">Unlock infinity generator 4<br>Cost: 1000 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(8)" id="infupgrade8" class="font">Infinity base boosts IP gain<br>Cost: 420690 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(9)" id="infupgrade9" class="font">Unlock infinity generator 5<br>Cost: 6650000 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(10)" id="infupgrade10" class="font">Current infinity base boosts infinity base gain<br>Cost: 123456789 IP</button>
+      <br>
+      <p class="font" id="infbases">You have 1 infinity bases.</p>
+      <p class="side font" id="infgen1Display" style="display:none;">Infinity generator 1: 1</p>
+      <button type="button" onclick="buyInfGen(1)" id="infgen1" class="font" style="display:none;">1 -> 1</button>
+      <br>
+      <p class="side font" id="infgen2Display" style="display:none;">Infinity generator 2: 1</p>
+      <button type="button" onclick="buyInfGen(2)" id="infgen2" class="font" style="display:none;">1 -> 1</button>
+      <br>
+      <p class="side font" id="infgen3Display" style="display:none;">Infinity generator 3: 1</p>
+      <button type="button" onclick="buyInfGen(3)" id="infgen3" class="font" style="display:none;">1 -> 1</button>
+      <br>
+      <p class="side font" id="infgen4Display" style="display:none;">Infinity generator 4: 1</p>
+      <button type="button" onclick="buyInfGen(4)" id="infgen4" class="font" style="display:none;">1 -> 1</button>
+      <br>
+      <p class="side font" id="infgen5Display" style="display:none;">Infinity generator 5: 1</p>
+      <button type="button" onclick="buyInfGen(5)" id="infgen5" class="font" style="display:none;">1 -> 1</button>
     </div>
     <div id="tab3" style="display:none;">
       <p class="font">In this game, when you buy a generator, all previous generators and points will reset. Each generator's new value when bought is equal to the square root of the previous generator's value(or points in the case of generator 1). Points gets increased based on the product of the generator values. Autobuyers constantly buy the generator without resetting the previous.</p>
@@ -74,9 +100,15 @@
     let largestindex=0;
     let autobuyer = [false,false,false,false,false,false];
     let autocosts = [Math.pow(10,50),Math.pow(10,100),Math.pow(10,150),Math.pow(10,200),Math.pow(10,250),Math.pow(10,300)];
+    let infupgrade = [false,false,false,false,false,false,false,false,false,false];
+    let infbase = 1;
+    let infgen = [1,1,1,1,1];
+    let infupgradecost = [1,2,3,5,10,25,1000,420690,6650000,123456789];
+    let infupgradetext = ["Unlock infinity generator 1","Infinity base increases more quickly","Unlock infinity generator 2","Start each infinity with 1e51 points","Unlock infinity generator 3, current IP boosts IP gain","Keep autobuyers 1-4 through infinities, current IP boosts infinity base gain","Unlock infinity generator 4","Infinity base boosts IP gain","Unlock infinity generator 5","Current infinity base boosts infinity base gain"];
     let lasttick = Date.now();
     let thistick = 0;
     let currenttab = 1;
+    let infinitied = false;
     load();
     setInterval(update,50);
     setInterval(save,10000);
@@ -90,22 +122,53 @@
         }
       }
       if(isFinite(points) == false) {
+        infinitied = true;
         document.getElementById("tabbutton2").style.display = "";
-        let newinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":IP+1,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now()};
+        let newpoints = 1;
+        let ipgain = 1;
+        if(infupgrade[3] == true) {
+          newpoints = Math.pow(10,51);
+        }
+        if(infupgrade[4] == true) {
+          ipgain = Math.floor(Math.sqrt(IP)) + 1;
+        }
+        if(infupgrade[7] == true) {
+          ipgain = ipgain * Math.max(1,Math.pow(infbase,0.01));
+        }
+        let newinfo = {"points":newpoints,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":IP+ipgain,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now(),"infupgrade":infupgrade,"infbase":infbase,"infgen":infgen,"infinitied":true};
         let player = JSON.stringify(newinfo);
-        localStorage.setItem('johnidlesave2', player);
+        localStorage.setItem('johnidlesave4', player);
         load();
         for(i=1;i<=6;i++) {
           document.getElementById("auto" + String(i)).innerHTML = "Generator " + String(i) + " autobuyer: 1e" + String(i*50) + " points";
         }
       }
-      if(IP != 0) {
+      if(infinitied == true) {
         document.getElementById("tabbutton2").style.display = "";
+      }
+      if(infupgrade[5] == true) {
+        for(num = 1; num <= 4; num++) {
+          autobuyer[num-1]=true;
+          document.getElementById("auto" + String(num)).innerHTML = "Generator " + String(num) + " autobuyer bought!";
+        }
       }
       document.getElementById("IPdisplay").innerHTML = "You have " + String(IP) + " Infinity Point(IP), boosting your game by " + String(Math.pow(1+IP,3)) + "x.";
       //Increase points, update displays
       thistick = Date.now();
-      rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3)*Math.max(0,thistick-lasttick)/50;
+      rate = gencount[0]*gencount[1]*gencount[2]*gencount[3]*gencount[4]*gencount[5]*boost*Math.pow(1+IP,3)*infgen[0]*infgen[1]*infgen[2]*infgen[3]*infgen[4]*Math.max(0,thistick-lasttick)/50;
+      if(infinitied == true) {
+        let infbasegain = Math.max(0,thistick-lasttick)/50;
+        if(infupgrade[1] == true) {
+          infbasegain = infbasegain*infgen[0]*infgen[1]*infgen[2]*infgen[3]*infgen[4];
+        }
+        if(infupgrade[5] == true) {
+          infbasegain = infbasegain*IP;
+        }
+        if(infupgrade[9] == true) {
+          infbasegain = infbasegain * Math.max(1,Math.pow(Math.log(infbase),3));
+        }
+        infbase = infbase + infbasegain;
+      }
       lasttick = thistick;
       points = points + rate;
       document.getElementById("points").innerHTML = "You have " + stringify(points) + " points.";
@@ -121,16 +184,47 @@
       }
       //Hide and show generators based on if they are used
       for(j=0;j<=Math.min(largestindex+1,5);j++) {
-        document.getElementById("gen" + String(j+1) + "Display").style.visibility = "visible";
-        document.getElementById("gen" + String(j+1)).style.visibility = "visible";
-        document.getElementById("auto" + String(j+1)).style.visibility = "visible";
+        document.getElementById("gen" + String(j+1) + "Display").style.display = "";
+        document.getElementById("gen" + String(j+1)).style.display = "";
+        document.getElementById("auto" + String(j+1)).style.display = "";
       }
       for(k=largestindex+2;k<6;k++) {
-        document.getElementById("gen" + String(k+1) + "Display").style.visibility = "hidden";
-        document.getElementById("gen" + String(k+1)).style.visibility = "hidden";
-        document.getElementById("auto" + String(k+1)).style.visibility = "hidden";
+        document.getElementById("gen" + String(k+1) + "Display").style.display = "none";
+        document.getElementById("gen" + String(k+1)).style.display = "none";
+        document.getElementById("auto" + String(k+1)).style.display = "none";
+      }
+      document.getElementById("infbases").innerHTML = "You have " + stringify(infbase) + " infinity bases.";
+      if(infupgrade[0] == true) {
+        document.getElementById("infgen1Display").style.display = "";
+        document.getElementById("infgen1").style.display = "";
+      }
+      if(infupgrade[2] == true) {
+        document.getElementById("infgen2Display").style.display = "";
+        document.getElementById("infgen2").style.display = "";
+      }
+      if(infupgrade[4] == true) {
+        document.getElementById("infgen3Display").style.display = "";
+        document.getElementById("infgen3").style.display = "";
+      }
+      if(infupgrade[6] == true) {
+        document.getElementById("infgen4Display").style.display = "";
+        document.getElementById("infgen4").style.display = "";
+      }
+      if(infupgrade[8] == true) {
+        document.getElementById("infgen5Display").style.display = "";
+        document.getElementById("infgen5").style.display = "";
+      }
+      for(i=0;i<5;i++) {
+        document.getElementById("infgen" + String(i+1) + "Display").innerHTML = "Infinity Generator " + String(i+1) + ": " + stringify(infgen[i]);
+        if(i == 0){
+          document.getElementById("infgen" + String(i+1)).innerHTML = stringify(infgen[i]) + " -> " + stringify(Math.sqrt(infbase));
+        } else {
+          document.getElementById("infgen" + String(i+1)).innerHTML = stringify(infgen[i]) + " -> " + stringify(Math.sqrt(infgen[i-1]));
+        }
       }
     }
+    
+    //End of update function    
     
     function openTab(tab) {
       document.getElementById("tab" + String(currenttab)).style.display = "none";
@@ -139,13 +233,42 @@
     }
     
     function save() {
-      let info = {"points":points,"gencount":gencount,"boost":boost,"IP":IP,"autobuyer":autobuyer,"lasttick":lasttick};
+      let info = {"points":points,"gencount":gencount,"boost":boost,"IP":IP,"autobuyer":autobuyer,"lasttick":lasttick,"infupgrade":infupgrade,"infbase":infbase,"infgen":infgen,"infinitied":infinitied};
       let player = JSON.stringify(info);
-      localStorage.setItem('johnidlesave2', player);
+      localStorage.setItem('johnidlesave4', player);
     }
     
     function load() {
-      if(localStorage.getItem('johnidlesave2') != null) {
+      if(localStorage.getItem('johnidlesave4') != null) {
+        info = JSON.parse(localStorage.getItem('johnidlesave4'));
+        points = info.points;
+        if(points === null) {
+          points = Math.pow(10,310);
+        }
+        gencount = info.gencount;
+        boost = info.boost;
+        IP = info.IP;
+        autobuyer = info.autobuyer;
+        lasttick = info.lasttick;
+        infupgrade = info.infupgrade;
+        infbase = info.infbase;
+        infgen = info.infgen;        
+        infinitied = info.infinitied;
+      } else if(localStorage.getItem('johnidlesave3') != null) {
+        info = JSON.parse(localStorage.getItem('johnidlesave3'));
+        points = info.points;
+        if(points === null) {
+          points = Math.pow(10,310);
+        }
+        gencount = info.gencount;
+        boost = info.boost;
+        IP = info.IP;
+        autobuyer = info.autobuyer;
+        lasttick = info.lasttick;
+        infupgrade = info.infupgrade;
+        infbase = info.infbase;
+        infgen = info.infgen;
+      } else if(localStorage.getItem('johnidlesave2') != null) {
         info = JSON.parse(localStorage.getItem('johnidlesave2'));
         points = info.points;
         if(points === null) {
@@ -170,28 +293,50 @@
         points = Number(localStorage.getItem('johnidlepoints'));
       }
       for(i=1;i<=6;i++) {
-        if(autobuyer[i-1]==true) {
+        if(autobuyer[i-1] == true) {
           document.getElementById("auto" + String(i)).innerHTML = "Generator " + String(i) + " autobuyer bought!";
         }
+      }
+      for(j=1;j<=10;j++) {
+        if(infupgrade[j-1] == true) {
+          document.getElementById("infupgrade" + String(j)).innerHTML = infupgradetext[j-1] + "<br>Bought!";
+        }
+      }
+      if(IP > 0) {
+        infinitied = true;
       }
     }
     
     //Hotkeys
     document.onkeyup = function(e) {
-      if (e.which == 49 || e.which == 97) {
-        buyGen(1);
-      } else if (e.which == 50 || e.which == 98) {
-        buyGen(2);
-      } else if (e.which == 51 || e.which == 99) {
-        buyGen(3);
-      } else if (e.which == 52 || e.which == 100) {
-        buyGen(4);
-      } else if (e.which == 53 || e.which == 101) {
-        buyGen(5);
-      } else if (e.which == 54 || e.which == 102) {
-        buyGen(6);
-      } else if (e.which == 66) {
-        buyBoost();
+      if(currenttab == 1) {
+        if (e.which == 49 || e.which == 97) {
+          buyGen(1);
+        } else if (e.which == 50 || e.which == 98) {
+          buyGen(2);
+        } else if (e.which == 51 || e.which == 99) {
+          buyGen(3);
+        } else if (e.which == 52 || e.which == 100) {
+          buyGen(4);
+        } else if (e.which == 53 || e.which == 101) {
+          buyGen(5);
+        } else if (e.which == 54 || e.which == 102) {
+          buyGen(6);
+        } else if (e.which == 66) {
+          buyBoost();
+        }
+      } else if(currenttab == 2) {
+        if (e.which == 49 || e.which == 97) {
+          buyInfGen(1);
+        } else if (e.which == 50 || e.which == 98) {
+          buyInfGen(2);
+        } else if (e.which == 51 || e.which == 99) {
+          buyInfGen(3);
+        } else if (e.which == 52 || e.which == 100) {
+          buyInfGen(4);
+        } else if (e.which == 53 || e.which == 101) {
+          buyInfGen(5);
+        }
       }
     };
     
@@ -256,7 +401,7 @@
     }
     
     function buyAuto(num) {
-      if(points>=autocosts[num-1]) {
+      if(points>=autocosts[num-1] && autobuyer[num-1] == false) {
         points = points - autocosts[num-1];
         autobuyer[num-1]=true;
         document.getElementById("auto" + String(num)).innerHTML = "Generator " + String(num) + " autobuyer bought!";
@@ -264,11 +409,38 @@
       }
     }
     
+    function buyInfUpgrade(num) {
+      if(IP>=infupgradecost[num-1] && infupgrade[num-1] == false) {
+        IP = IP - infupgradecost[num-1];
+        infupgrade[num-1] = true;
+        document.getElementById("infupgrade" + String(num)).innerHTML = infupgradetext[num-1] + "<br>Bought!";
+      }
+    }
+    
+    function buyInfGen(num) {
+      if(num == 1) {
+        if(infgen[0] < Math.sqrt(infbase)) {
+          infgen[0] = Math.sqrt(infbase);
+          infbase = 1;
+          update();
+        }
+      } else {
+        if(infgen[num-1] < Math.sqrt(infgen[num-2])) {
+          infgen[num-1] = Math.sqrt(infgen[num-2]);
+          for(let i=0;i<num-1;i++) {
+            infgen[i]=1;
+          }
+          infbase = 1;
+          update();
+        }
+      }
+    }
+    
     function reset() {
       if (confirm("Are you sure you want to reset the game?")) {
-        let resetinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":0,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now()};
+        let resetinfo = {"points":1,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":0,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now(),"infupgrade":[false,false,false,false,false,false,false,false,false,false],"infbase":1,"infgen":[1,1,1,1,1],"infinitied":false};
         let player = JSON.stringify(resetinfo);
-        localStorage.setItem('johnidlesave2', player);
+        localStorage.setItem('johnidlesave4', player);
         load();
       }
     }
