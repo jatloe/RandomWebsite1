@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.3.23</p>
+    <p class="side font">V1.3.24</p>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
     <button type="button" onclick="openTab(1)" class="side font">Points</button>
     <button type="button" onclick="openTab(2)" class="side font" style="display:none;" id="tabbutton2">Infinity</button>
@@ -116,6 +116,7 @@
     let thistick = 0;
     let currenttab = 1;
     let infinitied = false;
+    let beaten = false;
     load();
     setInterval(update,50);
     setInterval(save,10000);
@@ -241,6 +242,10 @@
         } else {
           document.getElementById("infgen" + String(i+1)).innerHTML = stringify(infgen[i]) + " -> " + stringify(Math.sqrt(infgen[i-1]));
         }
+      }
+      if(isFinite(infbase) == false && beaten == false) {
+        alert("GG! You have beaten the current game.");
+        beaten = true;
       }
     }
     
