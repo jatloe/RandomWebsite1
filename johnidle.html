@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.3.20</p>
+    <p class="side font">V1.3.21</p>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
     <button type="button" onclick="openTab(1)" class="side font">Points</button>
     <button type="button" onclick="openTab(2)" class="side font" style="display:none;" id="tabbutton2">Infinity</button>
@@ -142,7 +142,7 @@
         if(infupgrade[7] == true) {
           ipgain = ipgain * Math.max(1,Math.pow(infbase,0.01));
         }
-        let newinfo = {"points":newpoints,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":Math.floor(IP+ipgain),"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now(),"infupgrade":infupgrade,"infbase":infbase,"infgen":infgen,"infinitied":true};
+        let newinfo = {"points":newpoints,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":Math.max(1,Math.floor(IP+ipgain)),"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now(),"infupgrade":infupgrade,"infbase":infbase,"infgen":infgen,"infinitied":true};
         let player = JSON.stringify(newinfo);
         localStorage.setItem('johnidlesave4', player);
         load();
