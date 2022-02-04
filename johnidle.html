@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.3.19</p>
+    <p class="side font">V1.3.20</p>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
     <button type="button" onclick="openTab(1)" class="side font">Points</button>
     <button type="button" onclick="openTab(2)" class="side font" style="display:none;" id="tabbutton2">Infinity</button>
@@ -52,15 +52,15 @@
     <div id="tab2" style="display:none;">
       <p class="font" id="IPdisplay">You have 1 Infinity Point(IP), boosting your game by 8x.</p>
       <button type="button" onclick="buyInfUpgrade(1)" id="infupgrade1" class="font">Unlock infinity generator 1<br>Cost: 1 IP</button> <br>
-      <button type="button" onclick="buyInfUpgrade(2)" id="infupgrade2" class="font">Infinity base increases based on generators<br>Cost: 2 IP</button> <br>
-      <button type="button" onclick="buyInfUpgrade(3)" id="infupgrade3" class="font">Unlock infinity generator 2<br>Cost: 3 IP</button> <br>
-      <button type="button" onclick="buyInfUpgrade(4)" id="infupgrade4" class="font">Start each infinity with 1e51 points<br>Cost: 5 IP</button> <br>
-      <button type="button" onclick="buyInfUpgrade(5)" id="infupgrade5" class="font">Unlock infinity generator 3, current IP boosts IP gain<br>Cost: 10 IP</button> <br>
-      <button type="button" onclick="buyInfUpgrade(6)" id="infupgrade6" class="font">Keep autobuyers 1-4 through infinities, current IP boosts infinity base gain<br>Cost: 25 IP</button> <br>
-      <button type="button" onclick="buyInfUpgrade(7)" id="infupgrade7" class="font">Unlock infinity generator 4<br>Cost: 1000 IP</button> <br>
-      <button type="button" onclick="buyInfUpgrade(8)" id="infupgrade8" class="font">Infinity base boosts IP gain<br>Cost: 420690 IP</button> <br>
-      <button type="button" onclick="buyInfUpgrade(9)" id="infupgrade9" class="font">Unlock infinity generator 5<br>Cost: 6650000 IP</button> <br>
-      <button type="button" onclick="buyInfUpgrade(10)" id="infupgrade10" class="font">Current infinity base boosts infinity base gain<br>Cost: 123456789 IP</button>
+      <button type="button" onclick="buyInfUpgrade(2)" id="infupgrade2" class="font" style="display:none;">Infinity base increases based on generators<br>Cost: 2 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(3)" id="infupgrade3" class="font" style="display:none;">Unlock infinity generator 2<br>Cost: 3 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(4)" id="infupgrade4" class="font" style="display:none;">Start each infinity with 1e51 points<br>Cost: 5 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(5)" id="infupgrade5" class="font" style="display:none;">Unlock infinity generator 3, current IP boosts IP gain<br>Cost: 10 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(6)" id="infupgrade6" class="font" style="display:none;">Keep autobuyers 1-4 through infinities, current IP boosts infinity base gain<br>Cost: 25 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(7)" id="infupgrade7" class="font" style="display:none;">Unlock infinity generator 4<br>Cost: 1000 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(8)" id="infupgrade8" class="font" style="display:none;">Infinity base boosts IP gain<br>Cost: 420690 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(9)" id="infupgrade9" class="font" style="display:none;">Unlock infinity generator 5<br>Cost: 6650000 IP</button> <br>
+      <button type="button" onclick="buyInfUpgrade(10)" id="infupgrade10" class="font" style="display:none;">Current infinity base boosts infinity base gain<br>Cost: 123456789 IP</button>
       <br>
       <p class="font" id="infbases">You have 1 infinity bases.</p>
       <p class="side font" id="infgen1Display" style="display:none;">Infinity generator 1: 1</p>
@@ -104,6 +104,7 @@
     let IP = 0;
     let rate = 1;
     let largestindex=0;
+    let inflargestindex=0;
     let autobuyer = [false,false,false,false,false,false];
     let autocosts = [Math.pow(10,50),Math.pow(10,100),Math.pow(10,150),Math.pow(10,200),Math.pow(10,250),Math.pow(10,300)];
     let infupgrade = [false,false,false,false,false,false,false,false,false,false];
@@ -141,7 +142,7 @@
         if(infupgrade[7] == true) {
           ipgain = ipgain * Math.max(1,Math.pow(infbase,0.01));
         }
-        let newinfo = {"points":newpoints,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":IP+ipgain,"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now(),"infupgrade":infupgrade,"infbase":infbase,"infgen":infgen,"infinitied":true};
+        let newinfo = {"points":newpoints,"gencount":[1,1,1,1,1,1,1],"boost":1,"IP":Math.floor(IP+ipgain),"autobuyer":[false,false,false,false,false,false],"lasttick":Date.now(),"infupgrade":infupgrade,"infbase":infbase,"infgen":infgen,"infinitied":true};
         let player = JSON.stringify(newinfo);
         localStorage.setItem('johnidlesave4', player);
         load();
@@ -198,6 +199,19 @@
         document.getElementById("gen" + String(k+1) + "Display").style.display = "none";
         document.getElementById("gen" + String(k+1)).style.display = "none";
         document.getElementById("auto" + String(k+1)).style.display = "none";
+      }
+      //Same but for IU
+      inflargestindex=0;
+      for(i=0;i<10;i++) {
+        if(infupgrade[i] == true) {
+          largestindex=i;
+        }
+      }
+      for(j=0;j<=Math.min(inflargestindex+1,9);j++) {
+        document.getElementById("infupgrade" + String(j+1)).style.display = "";
+      }
+      for(k=inflargestindex+2;k<10;k++) {
+        document.getElementById("infupgrade" + String(k+1)).style.display = "none";
       }
       document.getElementById("infbases").innerHTML = "You have " + stringify(infbase) + " infinity bases.";
       if(infupgrade[0] == true) {
