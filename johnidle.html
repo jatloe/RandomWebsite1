@@ -14,13 +14,12 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.3.17</p>
-    <button onclick="save()" class="side font">Save</button>
-    <button onclick="reset()" class="font">RESET THE GAME</button>
+    <p class="side font">V1.3.18</p>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
     <button type="button" onclick="openTab(1)" class="side font">Points</button>
     <button type="button" onclick="openTab(2)" class="side font" style="display:none;" id="tabbutton2">Infinity</button>
     <button type="button" onclick="openTab(3)" class="side font">How to Play</button>
+    <button type="button" onclick="openTab(4)" class="side font">Options</button>
     <br><br>
     <div id="tab1">
       <p class="side font" id="boostDisplay">Boost: 1</p>
@@ -81,6 +80,13 @@
     </div>
     <div id="tab3" style="display:none;">
       <p class="font">In this game, when you buy a generator, all previous generators and points will reset. Each generator's new value when bought is equal to the square root of the previous generator's value(or points in the case of generator 1). Points gets increased based on the product of the generator values. Autobuyers constantly buy the generator without resetting the previous.</p>
+    </div>
+    <div id="tab4" style="display:none;">
+      <button onclick="save()" class="side font">Save</button>
+      <button onclick="importsave()" class="side font">Import</button>
+      <button onclick="exportsave()" class="side font">Export to Clipboard</button>
+      <button onclick="reset()" class="font">RESET THE GAME</button>
+      <textarea id="tocopy" style="display:none;"></textarea>
     </div>
   </body>
   <script>
@@ -443,6 +449,21 @@
         localStorage.setItem('johnidlesave4', player);
         load();
       }
+    }
+    
+    function importsave() {
+      let gameString = prompt('Enter your save:');
+      let savever = prompt('Save version(current is 4, ask jatloe if you want to make sure):');
+      localStorage.setItem('johnidlesave' + String(savever), atob(gameString));
+      load();
+    }
+    
+    function exportsave() {
+      let info = {"points":points,"gencount":gencount,"boost":boost,"IP":IP,"autobuyer":autobuyer,"lasttick":lasttick,"infupgrade":infupgrade,"infbase":infbase,"infgen":infgen,"infinitied":infinitied};
+      let player = btoa(JSON.stringify(info));
+      document.getElementById("tocopy").style.display = "";
+      document.getElementById("tocopy").select();
+      document.execCommand('copy');
     }
   </script>
 </html>
