@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p class="side font">V1.3.18</p>
+    <p class="side font">V1.3.19</p>
     <h3 id="points" class="font" style="font-size:18px;">You have 1 points.</h3>
     <button type="button" onclick="openTab(1)" class="side font">Points</button>
     <button type="button" onclick="openTab(2)" class="side font" style="display:none;" id="tabbutton2">Infinity</button>
@@ -462,8 +462,10 @@
       let info = {"points":points,"gencount":gencount,"boost":boost,"IP":IP,"autobuyer":autobuyer,"lasttick":lasttick,"infupgrade":infupgrade,"infbase":infbase,"infgen":infgen,"infinitied":infinitied};
       let player = btoa(JSON.stringify(info));
       document.getElementById("tocopy").style.display = "";
+      document.getElementById("tocopy").value = player;
       document.getElementById("tocopy").select();
       document.execCommand('copy');
+      document.getElementById("tocopy").style.display = "none";
     }
   </script>
 </html>
