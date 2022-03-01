@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<link rel="icon" href="jatloesmile-hd.png">
+		<title>Random Game</title>
+	</head>
+<body>
+	<h1>Random Game Version 1.1</h1>
+	<center style="font-size: 20;"><a id="text1" style="color: orange;">You have </a><a id="money">0</a><a id="text2" style="color: orange;"> points.</a></center><br>
+	<button onclick="rand()">Click here to earn points</button><br>
+	<button onclick="u1()">Upgrade 1: Double the base of the gain (Requires 10000 points and square roots score)</button>
+</body>
+<script>
+let i=0;
+let base=1/2;
+let time=0;
+function rand(){
+	if(time==0){
+		time=Date.now();
+	}
+	let x=Math.random();
+	n = Math.pow(Math.max(Math.log(i),2/base)*base,Math.floor(Math.log(1/x)));
+	i += n;
+	console.log(n);
+	document.getElementById("money").innerHTML = String(Math.floor(i));
+	if(isFinite(i) == false){
+		x = (Date.now()-time)/1000;
+		alert('You win! You beat the game in '+String(x)+' seconds.');
+		document.getElementById("text1").innerHTML = "You beat the game in ";
+		document.getElementById("money").innerHTML = String(x);
+		document.getElementById("text2").innerHTML = " seconds.";
+	}
+}
+function u1(){
+	if(i > 10000){
+		base *= 2;
+		i = Math.sqrt(i);
+		document.getElementById("money").innerHTML = String(Math.floor(i));
+	}
+}
+</script>
+</html>
