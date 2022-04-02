@@ -3,9 +3,33 @@
   <head>
     <link rel="icon" href="jatloesmile-hd.png">
     <title>Catloe's page!</title>
+    <style>
+      .side{
+        display: inline;
+      }
+      #message{
+        font-size: 24px;
+        font-style: italic;
+      }
+    </style>
   </head>
   <body>
-    <p>meow!</p>
-    <img src="catloe.png" alt="Catloe">
+    <p>V0.1</p> <br>
+    <p id="message">meow!</p>
+    <img src="catloe.png" alt="Catloe"> <br>
+    <button type="button" onclick="pet()" id="pet" class="side">Pet</button>
+    <button type="button" onclick="feed()" id="feed" class="side">Feed</button>
+    <button type="button" onclick="hug()" id="hug">Hug</button>
   </body>
+  <script>
+    function pet() {
+      document.getElementById("message").innerHTML = "purr"
+    }
+    function feed() {
+      document.getElementById("message").innerHTML = "nomnomnom"
+    }
+    function hug() {
+      document.getElementById("message").innerHTML = "mew :)"
+    }
+  </script>
 </html>
