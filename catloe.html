@@ -11,25 +11,37 @@
         font-size: 24px;
         font-style: italic;
       }
+      #catloeContainer {
+        height: 97px;
+        width: 97px;
+      }
     </style>
   </head>
   <body>
     <p>V0.1</p> <br>
     <p id="message">meow!</p>
-    <img src="catloe.png" alt="Catloe"> <br>
+    <div id="catloeContainer"><img src="catloe.png" alt="Catloe" id="catloe" onclick="catloemovemain()"></div><br>
     <button type="button" onclick="pet()" id="pet" class="side">Pet</button>
     <button type="button" onclick="feed()" id="feed" class="side">Feed</button>
     <button type="button" onclick="hug()" id="hug">Hug</button>
   </body>
   <script>
     function pet() {
-      document.getElementById("message").innerHTML = "purr"
+      document.getElementById("message").innerHTML = "purr";
     }
     function feed() {
-      document.getElementById("message").innerHTML = "nomnomnom"
+      document.getElementById("message").innerHTML = "nomnomnom";
     }
     function hug() {
-      document.getElementById("message").innerHTML = "mew :)"
+      document.getElementById("message").innerHTML = "mew :)";
+    }
+    function catloemovemain() {
+      catloemove(0.8)
+      setTimeout(() => {catloemove(1)}, 500);
+    }
+    function catloemove(num) {
+      document.getElementById("catloe").style.transform = "scale(" + num.toString() + ")";
+      setTimeout()
     }
   </script>
 </html>
