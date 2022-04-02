@@ -18,7 +18,7 @@
     </style>
   </head>
   <body>
-    <p>V0.6</p> <br>
+    <p>V0.7</p> <br>
     <p id="message">meow!</p>
     <div id="catloeContainer"><img src="catloe.png" alt="Catloe" id="catloe" onclick="catloemovemain()"></div><br>
     <button type="button" onclick="pet()" id="pet" class="side">Pet</button>
@@ -37,7 +37,7 @@
       document.getElementById("message").innerHTML = "mew :)";
     }
     function catloemovemain() {
-      if(document.getElementById("catloe").style.transform == "scale(1)") {
+      if(document.getElementById("catloe").style.transform == "scale(1)" || document.getElementById("catloe").style.transform == "") {
         scales = [0.975,0.95,0.925,0.9,0.88,0.86,0.84,0.83,0.82,0.81,0.8,0.81,0.82,0.83,0.84,0.86,0.88,0.9,0.925,0.95,0.975,1];
         for (let i = 0; i <= 21; i++) {
             setTimeout(() => {catloemove(scales[i])}, i*20);
