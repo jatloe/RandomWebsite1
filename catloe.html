@@ -18,12 +18,13 @@
     </style>
   </head>
   <body>
-    <p>V0.8</p> <br>
+    <p>V0.9</p> <br>
     <p id="message">meow!</p>
     <div id="catloeContainer"><img src="catloe.png" alt="Catloe" id="catloe" onclick="catloemovemain()"></div><br>
     <button type="button" onclick="pet()" id="pet" class="side">Pet</button>
     <button type="button" onclick="feed()" id="feed" class="side">Feed</button>
     <button type="button" onclick="hug()" id="hug">Hug</button>
+    <input type="text" id="useranswer" size="10" maxlength="10" placeholder="Answer" style="display:none;" oninput="answerChange()"> <br>
     <p id="stats">You pet catloe 0 times, fed catloe 0 times, and hugged catloe 0 times.</p>
   </body>
   <script>
@@ -31,6 +32,7 @@
     let pets = 0;
     let feeds = 0;
     let hugs = 0;
+    let answer = 665;
     function updateStats() {
       document.getElementById("stats").innerHTML = "You pet catloe " + pets.toString() + " times, fed catloe " + feeds.toString() + " times, and hugged catloe " + hugs.toString() + " times.";
     }
@@ -38,6 +40,8 @@
       document.getElementById("message").innerHTML = "purr";
       pets += 1;
       updateStats();
+      document.getElementById("pet").disabled = true;
+      setTimeout(() => {document.getElementById("pet").disabled = false}, 500);
     }
     function feed() {
       if(feeds>=10) {
@@ -47,11 +51,15 @@
         feeds += 1;
       }
       updateStats();
+      document.getElementById("feed").disabled = true;
+      setTimeout(() => {document.getElementById("feed").disabled = false}, 500);
     }
     function hug() {
       document.getElementById("message").innerHTML = "mew :)";
       hugs += 1;
       updateStats();
+      document.getElementById("hug").disabled = true;
+      setTimeout(() => {document.getElementById("hug").disabled = false}, 500);
     }
     function catloemovemain() {
       if(document.getElementById("catloe").style.transform == "scale(1)" || document.getElementById("catloe").style.transform == "") {
@@ -63,6 +71,20 @@
     }
     function catloemove(num) {
       document.getElementById("catloe").style.transform = "scale(" + num.toString() + ")";
+    }
+    function mathtime() {
+      let num1 = Math.floor(Math.random() * 90)+10;
+      let num2 = Math.floor(Math.random() * 9)+1;
+      answer = num1*num2;
+      document.getElementById("message").innerHTML = "Math time! What is " + num1.toString() + " times " + num2.toString() + "?";
+      document.getElementById("useranswer").style.display = "";
+    }
+    function answerChange() {
+      if(document.getElementById("useranswer").value == answer.toString()) {
+        document.getElementById("message").innerHTML = "Correct!";
+        document.getElementById("useranswer").value = "";
+        document.getElementById("useranswer").style.display = "none";
+      }
     }
   </script>
 </html>
