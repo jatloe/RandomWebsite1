@@ -18,7 +18,7 @@
     </style>
   </head>
   <body>
-    <p>V0.9</p> <br>
+    <p>V0.10</p> <br>
     <p id="message">meow!</p>
     <div id="catloeContainer"><img src="catloe.png" alt="Catloe" id="catloe" onclick="catloemovemain()"></div><br>
     <button type="button" onclick="pet()" id="pet" class="side">Pet</button>
@@ -33,9 +33,11 @@
     let feeds = 0;
     let hugs = 0;
     let answer = 665;
+    let mathing = false;
     function updateStats() {
       document.getElementById("stats").innerHTML = "You pet catloe " + pets.toString() + " times, fed catloe " + feeds.toString() + " times, and hugged catloe " + hugs.toString() + " times.";
       if(Math.random() < 0.2) {
+        mathing = true;
         mathtime();
         document.getElementById("pet").disabled = true;
         document.getElementById("feed").disabled = true;
@@ -47,7 +49,11 @@
       pets += 1;
       updateStats();
       document.getElementById("pet").disabled = true;
-      setTimeout(() => {document.getElementById("pet").disabled = false}, 500);
+      setTimeout(() => {
+        if(mathing == false) {
+          document.getElementById("pet").disabled = false;
+        }
+      }, 500);
     }
     function feed() {
       if(feeds>=10) {
@@ -58,14 +64,22 @@
       }
       updateStats();
       document.getElementById("feed").disabled = true;
-      setTimeout(() => {document.getElementById("feed").disabled = false}, 500);
+      setTimeout(() => {
+        if(mathing == false) {
+          document.getElementById("feed").disabled = false;
+        }
+      }, 500);
     }
     function hug() {
       document.getElementById("message").innerHTML = "mew :)";
       hugs += 1;
       updateStats();
       document.getElementById("hug").disabled = true;
-      setTimeout(() => {document.getElementById("hug").disabled = false}, 500);
+      setTimeout(() => {
+        if(mathing == false) {
+          document.getElementById("hug").disabled = false;
+        }
+      }, 500);
     }
     function catloemovemain() {
       if(document.getElementById("catloe").style.transform == "scale(1)" || document.getElementById("catloe").style.transform == "") {
@@ -93,6 +107,7 @@
         document.getElementById("pet").disabled = false;
         document.getElementById("feed").disabled = false;
         document.getElementById("hug").disabled = false;
+        mathing = false;
       }
     }
   </script>
