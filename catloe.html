@@ -18,23 +18,40 @@
     </style>
   </head>
   <body>
-    <p>V0.7</p> <br>
+    <p>V0.8</p> <br>
     <p id="message">meow!</p>
     <div id="catloeContainer"><img src="catloe.png" alt="Catloe" id="catloe" onclick="catloemovemain()"></div><br>
     <button type="button" onclick="pet()" id="pet" class="side">Pet</button>
     <button type="button" onclick="feed()" id="feed" class="side">Feed</button>
     <button type="button" onclick="hug()" id="hug">Hug</button>
+    <p id="stats">You pet catloe 0 times, fed catloe 0 times, and hugged catloe 0 times.</p>
   </body>
   <script>
     let moving = false;
+    let pets = 0;
+    let feeds = 0;
+    let hugs = 0;
+    function updateStats() {
+      document.getElementById("stats").innerHTML = "You pet catloe " + pets.toString() + " times, fed catloe " + feeds.toString() + " times, and hugged catloe " + hugs.toString() + " times.";
+    }
     function pet() {
       document.getElementById("message").innerHTML = "purr";
+      pets += 1;
+      updateStats();
     }
     function feed() {
-      document.getElementById("message").innerHTML = "nomnomnom";
+      if(feeds>=10) {
+        document.getElementById("message").innerHTML = "I'm full already! mewmewmew";
+      } else {
+        document.getElementById("message").innerHTML = "nomnomnom";
+        feeds += 1;
+      }
+      updateStats();
     }
     function hug() {
       document.getElementById("message").innerHTML = "mew :)";
+      hugs += 1;
+      updateStats();
     }
     function catloemovemain() {
       if(document.getElementById("catloe").style.transform == "scale(1)" || document.getElementById("catloe").style.transform == "") {
