@@ -35,6 +35,12 @@
     let answer = 665;
     function updateStats() {
       document.getElementById("stats").innerHTML = "You pet catloe " + pets.toString() + " times, fed catloe " + feeds.toString() + " times, and hugged catloe " + hugs.toString() + " times.";
+      if(Math.random() < 0.2) {
+        mathtime();
+        document.getElementById("pet").disabled = true;
+        document.getElementById("feed").disabled = true;
+        document.getElementById("hug").disabled = true;
+      }
     }
     function pet() {
       document.getElementById("message").innerHTML = "purr";
@@ -84,6 +90,9 @@
         document.getElementById("message").innerHTML = "Correct!";
         document.getElementById("useranswer").value = "";
         document.getElementById("useranswer").style.display = "none";
+        document.getElementById("pet").disabled = false;
+        document.getElementById("feed").disabled = false;
+        document.getElementById("hug").disabled = false;
       }
     }
   </script>
