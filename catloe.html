@@ -18,7 +18,7 @@
     </style>
   </head>
   <body>
-    <p>V0.12</p> <br>
+    <p>V0.13</p> <br>
     <p id="message">meow!</p>
     <div id="catloeContainer"><img src="catloe.png" alt="Catloe" id="catloe" onclick="catloemovemain()"></div><br>
     <button type="button" onclick="pet()" id="pet" class="side">Pet</button>
@@ -45,7 +45,7 @@
       if( (pets == 6 && feeds == 6 && hugs == 5) ) {
         document.getElementById("stats").innerHTML += " SIX SIX FIVE"
       }
-      if(Math.random() < 0.1) {
+      if(Math.random() < 0.2) {
         mathing = true;
         mathtime();
         document.getElementById("pet").disabled = true;
@@ -102,14 +102,15 @@
       document.getElementById("catloe").style.transform = "scale(" + num.toString() + ")";
     }
     function mathtime() {
-      if(Math.random() < 0.5) {
+      let thing = Math.random()*3;
+      if(thing < 1) {
         let num1 = Math.floor(Math.random() * 90)+10;
         let num2 = Math.floor(Math.random() * 9)+1;
         answer = num1*num2;
         document.getElementById("message").innerHTML = "Math time! What is " + num1.toString() + " times " + num2.toString() + "?";
         document.getElementById("useranswer").style.display = "";
-      } else {
-        let words = ["math","catloe","meow","think","good","job","word","words","snipe","cool"];
+      } else if(thing < 2) {
+        let words = ["math","catloe","meow","think","good","job","word","words","cool"];
         let word = words[Math.floor(Math.random()*words.length)];
         let wordbutlist = word.split("");
         let scrambled = "";
@@ -123,6 +124,30 @@
         }
         answer = word;
         document.getElementById("message").innerHTML = "Unscramble " + scrambled + "!";
+        document.getElementById("useranswer").style.display = "";
+      } else if(thing < 2.5) {
+        let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+        let num = Math.floor(Math.random()*letters.length);
+        let letter = letters[num];
+        answer = num + 1;
+        document.getElementById("message").innerHTML = "What is the position of " + letter + " in the alphabet?";
+        document.getElementById("useranswer").style.display = "";
+      } else {
+        let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+        let num = Math.floor(Math.random()*letters.length);
+        let letter = letters[num];
+        answer = letter;
+        let thingy = "th";
+        if(num == 1 || num == 21) {
+          thingy = "st";
+        }
+        if(num == 2 || num == 22) {
+          thingy = "nd";
+        }
+        if(num == 3 || num == 23) {
+          thingy = "rd";
+        }
+        document.getElementById("message").innerHTML = "What is the " + letter + thingy + " letter in the alphabet?";
         document.getElementById("useranswer").style.display = "";
       }
     }
