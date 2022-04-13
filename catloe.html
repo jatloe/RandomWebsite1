@@ -18,7 +18,7 @@
     </style>
   </head>
   <body>
-    <p>V0.13</p> <br>
+    <p>V0.14</p> <br>
     <p id="message">meow!</p>
     <div id="catloeContainer"><img src="catloe.png" alt="Catloe" id="catloe" onclick="catloemovemain()"></div><br>
     <button type="button" onclick="pet()" id="pet" class="side">Pet</button>
@@ -147,12 +147,12 @@
         if(num == 3 || num == 23) {
           thingy = "rd";
         }
-        document.getElementById("message").innerHTML = "What is the " + letter + thingy + " letter in the alphabet?";
+        document.getElementById("message").innerHTML = "What is the " + num.toString() + thingy + " letter in the alphabet?";
         document.getElementById("useranswer").style.display = "";
       }
     }
     function answerChange() {
-      if(document.getElementById("useranswer").value == answer.toString()) {
+      if(document.getElementById("useranswer").value.toLowerCase() == answer.toString().toLowerCase()) {
         document.getElementById("message").innerHTML = "Correct!";
         document.getElementById("useranswer").value = "";
         document.getElementById("useranswer").style.display = "none";
