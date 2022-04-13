@@ -18,7 +18,7 @@
     </style>
   </head>
   <body>
-    <p>V0.11</p> <br>
+    <p>V0.12</p> <br>
     <p id="message">meow!</p>
     <div id="catloeContainer"><img src="catloe.png" alt="Catloe" id="catloe" onclick="catloemovemain()"></div><br>
     <button type="button" onclick="pet()" id="pet" class="side">Pet</button>
@@ -102,11 +102,29 @@
       document.getElementById("catloe").style.transform = "scale(" + num.toString() + ")";
     }
     function mathtime() {
-      let num1 = Math.floor(Math.random() * 90)+10;
-      let num2 = Math.floor(Math.random() * 9)+1;
-      answer = num1*num2;
-      document.getElementById("message").innerHTML = "Math time! What is " + num1.toString() + " times " + num2.toString() + "?";
-      document.getElementById("useranswer").style.display = "";
+      if(Math.random() < 0.5) {
+        let num1 = Math.floor(Math.random() * 90)+10;
+        let num2 = Math.floor(Math.random() * 9)+1;
+        answer = num1*num2;
+        document.getElementById("message").innerHTML = "Math time! What is " + num1.toString() + " times " + num2.toString() + "?";
+        document.getElementById("useranswer").style.display = "";
+      } else {
+        let words = ["math","catloe","meow","think","good","job","word","words","snipe","cool"];
+        let word = words[Math.floor(Math.random()*words.length)];
+        let wordbutlist = word.split("");
+        let scrambled = "";
+        while(wordbutlist.length != 0) {
+          let newletter = wordbutlist[Math.floor(Math.random()*wordbutlist.length)]
+          scrambled += newletter;
+          const index = wordbutlist.indexOf(newletter);
+          if (index > -1) {
+            wordbutlist.splice(index, 1); // 2nd parameter means remove one item only
+          }
+        }
+        answer = word;
+        document.getElementById("message").innerHTML = "Unscramble " + scrambled + "!";
+        document.getElementById("useranswer").style.display = "";
+      }
     }
     function answerChange() {
       if(document.getElementById("useranswer").value == answer.toString()) {
