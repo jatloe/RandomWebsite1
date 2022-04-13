@@ -18,7 +18,7 @@
     </style>
   </head>
   <body>
-    <p>V0.14</p> <br>
+    <p>V0.15</p> <br>
     <p id="message">meow!</p>
     <div id="catloeContainer"><img src="catloe.png" alt="Catloe" id="catloe" onclick="catloemovemain()"></div><br>
     <button type="button" onclick="pet()" id="pet" class="side">Pet</button>
@@ -113,13 +113,17 @@
         let words = ["math","catloe","meow","think","good","job","word","words","cool"];
         let word = words[Math.floor(Math.random()*words.length)];
         let wordbutlist = word.split("");
-        let scrambled = "";
-        while(wordbutlist.length != 0) {
-          let newletter = wordbutlist[Math.floor(Math.random()*wordbutlist.length)]
-          scrambled += newletter;
-          const index = wordbutlist.indexOf(newletter);
-          if (index > -1) {
-            wordbutlist.splice(index, 1); // 2nd parameter means remove one item only
+        let scrambled = word;
+        while(scrambled == word) {
+          wordbutlist = word.split("");
+          scrambled = "";
+          while(wordbutlist.length != 0) {
+            let newletter = wordbutlist[Math.floor(Math.random()*wordbutlist.length)]
+            scrambled += newletter;
+            const index = wordbutlist.indexOf(newletter);
+            if (index > -1) {
+              wordbutlist.splice(index, 1); // 2nd parameter means remove one item only
+            }
           }
         }
         answer = word;
