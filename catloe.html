@@ -18,7 +18,7 @@
     </style>
   </head>
   <body>
-    <p>V0.17</p> <br>
+    <p>V0.18</p> <br>
     <p id="message">meow!</p>
     <div id="catloeContainer"><img src="catloe.png" alt="Catloe" id="catloe" onclick="catloemovemain()"></div><br>
     <button type="button" onclick="pet()" id="pet" class="side">Pet</button>
@@ -110,7 +110,7 @@
         document.getElementById("message").innerHTML = "Math time! What is " + num1.toString() + " times " + num2.toString() + "?";
         document.getElementById("useranswer").style.display = "";
       } else if(thing < 2) {
-        let words = ["math","meow","think","good","job","word","cool","happy","pencil","pen","paper"];
+        let words = ["math","meow","think","good","job","word","cool","happy","pencil","pen","paper","wood"];
         let word = words[Math.floor(Math.random()*words.length)];
         let wordbutlist = word.split("");
         let scrambled = word;
