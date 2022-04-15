@@ -18,7 +18,7 @@
     </style>
   </head>
   <body>
-    <p>V0.16</p> <br>
+    <p>V0.17</p> <br>
     <p id="message">meow!</p>
     <div id="catloeContainer"><img src="catloe.png" alt="Catloe" id="catloe" onclick="catloemovemain()"></div><br>
     <button type="button" onclick="pet()" id="pet" class="side">Pet</button>
@@ -110,7 +110,7 @@
         document.getElementById("message").innerHTML = "Math time! What is " + num1.toString() + " times " + num2.toString() + "?";
         document.getElementById("useranswer").style.display = "";
       } else if(thing < 2) {
-        let words = ["math","catloe","meow","think","good","job","word","words","cool"];
+        let words = ["math","meow","think","good","job","word","cool","happy","pencil","pen","paper"];
         let word = words[Math.floor(Math.random()*words.length)];
         let wordbutlist = word.split("");
         let scrambled = word;
@@ -142,13 +142,13 @@
         let letter = letters[num];
         answer = letter;
         let thingy = "th";
-        if(num == 1 || num == 21) {
+        if(num == 0 || num == 20) {
           thingy = "st";
         }
-        if(num == 2 || num == 22) {
+        if(num == 1 || num == 21) {
           thingy = "nd";
         }
-        if(num == 3 || num == 23) {
+        if(num == 2 || num == 22) {
           thingy = "rd";
         }
         document.getElementById("message").innerHTML = "What is the " + (num+1).toString() + thingy + " letter in the alphabet?";
