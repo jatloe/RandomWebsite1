@@ -18,7 +18,7 @@
     </style>
   </head>
   <body>
-    <p>V0.18</p> <br>
+    <p>V0.19</p> <br>
     <p id="message">meow!</p>
     <div id="catloeContainer"><img src="catloe.png" alt="Catloe" id="catloe" onclick="catloemovemain()"></div><br>
     <button type="button" onclick="pet()" id="pet" class="side">Pet</button>
@@ -102,7 +102,7 @@
       document.getElementById("catloe").style.transform = "scale(" + num.toString() + ")";
     }
     function mathtime() {
-      let thing = Math.random()*3;
+      let thing = Math.random()*4;
       if(thing < 1) {
         let num1 = Math.floor(Math.random() * 90)+10;
         let num2 = Math.floor(Math.random() * 9)+1;
@@ -136,7 +136,7 @@
         answer = num + 1;
         document.getElementById("message").innerHTML = "What is the position of " + letter + " in the alphabet?";
         document.getElementById("useranswer").style.display = "";
-      } else {
+      } else if(thing < 3) {
         let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
         let num = Math.floor(Math.random()*letters.length);
         let letter = letters[num];
@@ -152,6 +152,18 @@
           thingy = "rd";
         }
         document.getElementById("message").innerHTML = "What is the " + (num+1).toString() + thingy + " letter in the alphabet?";
+        document.getElementById("useranswer").style.display = "";
+      } else if(thing < 3.5) {
+        let startingnum = Math.floor(Math.random()*50)+1;
+        let diff = Math.floor(Math.random()*20)+1;
+        answer = startingnum+4*diff;
+        document.getElementById("message").innerHTML = "mathemolympiad's challenge: What's next? " + startingnum.toString() + "," + (startingnum+diff).toString() + "," + (startingnum+2*diff).toString() + "," + (startingnum+3*diff).toString();
+        document.getElementById("useranswer").style.display = "";
+      } else if(thing < 4) {
+        let startingnum = Math.floor(Math.random()*10)+1;
+        let diff = Math.floor(Math.random()*5)+1;
+        answer = startingnum*diff*diff*diff*diff;
+        document.getElementById("message").innerHTML = "mathemolympiad's challenge: What's next? " + startingnum.toString() + "," + (startingnum*diff).toString() + "," + (startingnum*diff*diff).toString() + "," + (startingnum*diff*diff*diff).toString();
         document.getElementById("useranswer").style.display = "";
       }
     }
