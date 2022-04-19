@@ -18,7 +18,7 @@
     </style>
   </head>
   <body>
-    <p>V0.20</p> <br>
+    <p>V0.21</p> <br>
     <p id="message">meow!</p>
     <div id="catloeContainer"><img src="catloe.png" alt="Catloe" id="catloe" onclick="catloemovemain()"></div><br>
     <button type="button" onclick="pet()" id="pet" class="side">Pet</button>
@@ -161,7 +161,7 @@
         document.getElementById("useranswer").style.display = "";
       } else if(thing < 4) {
         let startingnum = Math.floor(Math.random()*10)+1;
-        let diff = Math.floor(Math.random()*5)+1;
+        let diff = Math.floor(Math.random()*4)+2;
         answer = startingnum*diff*diff*diff*diff;
         document.getElementById("message").innerHTML = "mathemolympiad's challenge: What's next? " + startingnum.toString() + "," + (startingnum*diff).toString() + "," + (startingnum*diff*diff).toString() + "," + (startingnum*diff*diff*diff).toString();
         document.getElementById("useranswer").style.display = "";
