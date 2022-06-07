@@ -18,13 +18,23 @@
   <script>
     let buzzed = false;
     let answer = "69";
+    let buzzleft = 5;
     function buzz() {
       if (document.getElementById("buzzbutton").disabled == false && !buzzed) {
         document.getElementById("buzzbutton").disabled = true;
         document.getElementById("answer").disabled = false;
         document.getElementById("answer").focus();
         buzzed = true;
-        setTimeout(closeBuzz, 5000);
+        buzzTimeUpdate();
+      }
+    }
+    function buzzTimeUpdate() {
+      if (buzzleft == 0) {
+        closeBuzz();
+      } else {
+        setTimeout(buzzTimeUpdate,1000);
+        buzzleft -= 1;
+        document.getElementById("result").innerHTML = String(buzzleft);
       }
     }
     function closeBuzz() {
