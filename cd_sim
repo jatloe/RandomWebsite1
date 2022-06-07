@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" href="jatloesmile-hd.png">
+    <title>CDR Simulator</title>
+    <style>
+      .side{
+        display: inline;
+      }
+    </style>
+  </head>
+  <body>
+    <button type="button" onclick="buzz()" id="buzzbutton" class="side">Buzz</button>
+    <input type="text" id="answer">
+  </body>
+  <script>
+    function buzz() {
+      if (document.getElementById("buzzbutton").disabled == false) {
+        document.getElementById("buzzbutton").disabled = true;
+        document.getElementById("answer").disabled = false;
+      }
+    }
+    document.onkeyup = function(e) {
+      if (e.which == 66) {
+          buzz();
+      }
+    };
+  </script>
+</html>
