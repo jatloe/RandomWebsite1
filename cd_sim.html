@@ -10,9 +10,9 @@
     </style>
   </head>
   <body>
-    <p>V1.3</p>
+    <p>V1.4</p>
     <p>Credits to mathemolympiad for putting problems!</p>
-    <img src="" alt="Problem" id="problem">
+    <img src="" alt="Problem" id="problem"> <br>
     <button type="button" onclick="start()" id="startbutton" class="side">Start</button>
     <button type="button" onclick="buzz()" id="buzzbutton" class="side">Buzz</button>
     <input type="text" id="answer" class="side" disabled>
@@ -37,6 +37,7 @@
       document.getElementById("problem").src = problem[0];
       let d = new Date();
       startTime = d.getTime();
+      document.getElementById("startbutton").disabled = true;
     }
     function buzz() {
       if (document.getElementById("buzzbutton").disabled == false && !buzzed) {
