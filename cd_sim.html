@@ -44,6 +44,7 @@
       document.getElementById("startbutton").disabled = true;
       document.getElementById("buzzbutton").disabled = false;
       document.getElementById("answer").disabled = true;
+      document.getElementById("answer").value = "";
     }
     function buzz() {
       if (document.getElementById("buzzbutton").disabled == false && !buzzed) {
