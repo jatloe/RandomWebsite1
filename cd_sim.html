@@ -11,13 +11,28 @@
   </head>
   <body>
     <button type="button" onclick="buzz()" id="buzzbutton" class="side">Buzz</button>
-    <input type="text" id="answer">
+    <input type="text" id="answer" class="side" disabled>
+    <p id="result"></p>
   </body>
   <script>
+    let buzzed = false;
+    let answer = "69";
     function buzz() {
-      if (document.getElementById("buzzbutton").disabled == false) {
+      if (document.getElementById("buzzbutton").disabled == false && !buzzed) {
         document.getElementById("buzzbutton").disabled = true;
         document.getElementById("answer").disabled = false;
+        document.getElementById("answer").focus();
+        buzzed = true;
+        setTimeout(closeBuzz, 5000);
+      }
+    }
+    function closeBuzz() {
+      document.getElementById("buzzbutton").disabled = true;
+      document.getElementById("answer").disabled = true;
+      if (document.getElementById("answer").value == answer) {
+        document.getElementById("result").innerHTML = "Correct!";
+      } else {
+        document.getElementById("result").innerHTML = "Incorrect.";
       }
     }
     document.onkeyup = function(e) {
