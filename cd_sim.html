@@ -36,11 +36,14 @@
     let problem = problems[0];
     let startTime = 0;
     let totalTime = 0;
+    let current = 0;
     function start() {
       document.getElementById("problem").src = problem[0];
       let d = new Date();
       startTime = d.getTime();
       document.getElementById("startbutton").disabled = true;
+      document.getElementById("buzzbutton").disabled = false;
+      document.getElementById("answer").disabled = true;
     }
     function buzz() {
       if (document.getElementById("buzzbutton").disabled == false && !buzzed) {
@@ -70,6 +73,11 @@
       } else {
         document.getElementById("result").innerHTML = "Incorrect.";
       }
+      document.getElementById("startbutton").disabled = false;
+      current += 1;
+      problem = problems[current];
+      buzzleft = 5;
+      buzzed = false;
     }
     document.onkeyup = function(e) {
       if (e.which == 66) {
