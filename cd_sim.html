@@ -10,16 +10,34 @@
     </style>
   </head>
   <body>
-    <p>V1.2</p>
+    <p>V1.3</p>
+    <p>Credits to mathemolympiad for putting problems!</p>
+    <img src="" alt="Problem" id="problem">
+    <button type="button" onclick="start()" id="startbutton" class="side">Start</button>
     <button type="button" onclick="buzz()" id="buzzbutton" class="side">Buzz</button>
     <input type="text" id="answer" class="side" disabled>
     <p id="result" class="side"></p>
   </body>
   <script>
+    var sha256=function a(b){function c(a,b){return a>>>b|a<<32-b}for(var d,e,f=Math.pow,g=f(2,32),h="length",i="",j=[],k=8*b[h],l=a.h=a.h||[],m=a.k=a.k||[],n=m[h],o={},p=2;64>n;p++)if(!o[p]){for(d=0;313>d;d+=p)o[d]=p;l[n]=f(p,.5)*g|0,m[n++]=f(p,1/3)*g|0}for(b+="\x80";b[h]%64-56;)b+="\x00";for(d=0;d<b[h];d++){if(e=b.charCodeAt(d),e>>8)return;j[d>>2]|=e<<(3-d)%4*8}for(j[j[h]]=k/g|0,j[j[h]]=k,e=0;e<j[h];){var q=j.slice(e,e+=16),r=l;for(l=l.slice(0,8),d=0;64>d;d++){var s=q[d-15],t=q[d-2],u=l[0],v=l[4],w=l[7]+(c(v,6)^c(v,11)^c(v,25))+(v&l[5]^~v&l[6])+m[d]+(q[d]=16>d?q[d]:q[d-16]+(c(s,7)^c(s,18)^s>>>3)+q[d-7]+(c(t,17)^c(t,19)^t>>>10)|0),x=(c(u,2)^c(u,13)^c(u,22))+(u&l[1]^u&l[2]^l[1]&l[2]);l=[w+x|0].concat(l),l[4]=l[4]+w|0}for(d=0;8>d;d++)l[d]=l[d]+r[d]|0}for(d=0;8>d;d++)for(e=3;e+1;e--){var y=l[d]>>8*e&255;i+=(16>y?0:"")+y.toString(16)}return i};
+    const problems = [
+      ['https://cdn.discordapp.com/attachments/928190196443394128/983858397780783164/unknown.png', 'a73b320dc0d3a57c03f897eb28ca91e623c5ee635db59476ba3178c90b94019f'],
+      ['https://cdn.discordapp.com/attachments/928190196443394128/983858433507868712/unknown.png', '5ec1a0c99d428601ce42b407ae9c675e0836a8ba591c8ca6e2a2cf5563d97ff0'],
+      ['https://cdn.discordapp.com/attachments/928190196443394128/983858515309396028/unknown.png', 'c63efd61a70d0f6b7e5de2b9e0c36adfae6d760613271650c71c90df16c71344'],
+      ['https://cdn.discordapp.com/attachments/928190196443394128/983858953865822228/unknown.png', '52e90ae24326591c8161e2e05a8f3b9b57287ca13aba3be7e84043691e160ba6'],
+      ['https://cdn.discordapp.com/attachments/928190196443394128/983859056487837766/unknown.png', 'd4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35'],
+      ['https://cdn.discordapp.com/attachments/928190196443394128/983859239460151406/unknown.png', '5f0fbfc126a9876e177921aeb69a9705447e5b4f29fc96631ab4ac6d31c62717']
+    ];
     let buzzed = false;
-    let answer = "69";
     let buzzleft = 5;
-    const problems = [['https://cdn.discordapp.com/attachments/928190196443394128/983858397780783164/unknown.png', 'a73b320dc0d3a57c03f897eb28ca91e623c5ee635db59476ba3178c90b94019f'], ['https://cdn.discordapp.com/attachments/928190196443394128/983858433507868712/unknown.png', '5ec1a0c99d428601ce42b407ae9c675e0836a8ba591c8ca6e2a2cf5563d97ff0'], ['https://cdn.discordapp.com/attachments/928190196443394128/983858515309396028/unknown.png', 'c63efd61a70d0f6b7e5de2b9e0c36adfae6d760613271650c71c90df16c71344'], ['https://cdn.discordapp.com/attachments/928190196443394128/983858953865822228/unknown.png', '52e90ae24326591c8161e2e05a8f3b9b57287ca13aba3be7e84043691e160ba6'], ['https://cdn.discordapp.com/attachments/928190196443394128/983859056487837766/unknown.png', 'd4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35'], ['https://cdn.discordapp.com/attachments/928190196443394128/983859239460151406/unknown.png', '5f0fbfc126a9876e177921aeb69a9705447e5b4f29fc96631ab4ac6d31c62717']]
+    let problem = problems[0];
+    let startTime = 0;
+    let totalTime = 0;
+    function start() {
+      document.getElementById("problem").src = problem[0];
+      let d = new Date();
+      startTime = d.getTime();
+    }
     function buzz() {
       if (document.getElementById("buzzbutton").disabled == false && !buzzed) {
         document.getElementById("buzzbutton").disabled = true;
@@ -27,6 +45,8 @@
         document.getElementById("answer").focus();
         buzzed = true;
         buzzTimeUpdate();
+        let d = new Date();
+        totalTime = d.getTime()-startTime;
       }
     }
     function buzzTimeUpdate() {
@@ -41,8 +61,8 @@
     function closeBuzz() {
       document.getElementById("buzzbutton").disabled = true;
       document.getElementById("answer").disabled = true;
-      if (document.getElementById("answer").value == answer) {
-        document.getElementById("result").innerHTML = "Correct!";
+      if (sha256(document.getElementById("answer").value) == problem[1]) {
+        document.getElementById("result").innerHTML = "Correct! " + String(totalTime/1000);
       } else {
         document.getElementById("result").innerHTML = "Incorrect.";
       }
