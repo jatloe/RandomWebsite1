@@ -13,7 +13,7 @@
     </style>
   </head>
   <body>
-    <p>V1.8</p>
+    <p>V1.9</p>
     <p>Credits to mathemolympiad for putting problems!</p>
     <img src="" alt="Problem" id="problem"> <br>
     <button type="button" onclick="start()" id="startbutton" class="side font">Start</button>
@@ -37,6 +37,8 @@
     let startTime = 0;
     let totalTime = 0;
     let current = 0;
+    let data = {};
+    let probNum = 1;
     function start() {
       document.getElementById("problem").src = problem[0];
       let d = new Date();
@@ -71,14 +73,20 @@
       document.getElementById("answer").disabled = true;
       if (sha256(document.getElementById("answer").value) == problem[1]) {
         document.getElementById("result").innerHTML = "Correct! " + String(totalTime/1000);
+        data[probNum] = [current,totalTime,true]
       } else {
         document.getElementById("result").innerHTML = "Incorrect.";
+        data[probNum] = [current,totalTime,false]
       }
       document.getElementById("startbutton").disabled = false;
       current += 1;
       problem = problems[current];
       buzzleft = 5;
       buzzed = false;
+      probNum += 1;
+      if (probNum == 6) {
+        alert("Copy this and send it to jatloe: " + btoa(JSON.stringify(data)));
+      }
     }
     document.onkeyup = function(e) {
       if (e.which == 66) {
