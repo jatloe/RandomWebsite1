@@ -13,8 +13,9 @@
     </style>
   </head>
   <body>
-    <p>V1.9</p>
+    <p>V1.10</p>
     <p>Credits to mathemolympiad for putting problems!</p>
+    <p id="tocopy"></p>
     <img src="" alt="Problem" id="problem"> <br>
     <button type="button" onclick="start()" id="startbutton" class="side font">Start</button>
     <button type="button" onclick="buzz()" id="buzzbutton" class="side font" disabled>Buzz</button>
@@ -85,7 +86,8 @@
       buzzed = false;
       probNum += 1;
       if (probNum == 6) {
-        alert("Copy this and send it to jatloe: " + btoa(JSON.stringify(data)));
+        document.getElementById("tocopy").style.display = "";
+        document.getElementById("tocopy").value = "Copy this and send it to jatloe: " + btoa(JSON.stringify(data));
       }
     }
     document.onkeyup = function(e) {
