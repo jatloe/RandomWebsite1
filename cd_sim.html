@@ -15,7 +15,7 @@
     </style>
   </head>
   <body>
-    <p>V1.30</p>
+    <p>V1.31</p>
     <p>Credits to mathemolympiad for putting problems and CSS!</p>
     <p id="tocopy"></p>
     <button type="button" onclick="importOpponent()" id="importbutton" class="font">Import Opponent</button> <br>
@@ -60,8 +60,8 @@
     for (let i=0; i<problems.length; i++) {
       probNums.push(i);
     }
-    let thingy = getRandom(probNums,5);
-    let oppData = {"1":[thing[0],45000,true],"2":[thing[1],45000,true],"3":[thing[2],45000,true],"4":[thing[3],45000,true],"5":[thing[4],45000,true]};
+    let chosenProbs = getRandom(probNums,5);
+    let oppData = {"1":[chosenProbs[0],45000,true],"2":[chosenProbs[1],45000,true],"3":[chosenProbs[2],45000,true],"4":[chosenProbs[3],45000,true],"5":[chosenProbs[4],45000,true]};
     let score = 0;
     let oppScore = 0;
     
