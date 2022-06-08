@@ -15,8 +15,9 @@
     </style>
   </head>
   <body>
-    <p>V1.27</p>
+    <p>V1.35</p>
     <p>Credits to mathemolympiad for putting problems and CSS!</p>
+    <a href="cd_sim_explain.html">How does this work?</a>
     <p id="tocopy"></p>
     <button type="button" onclick="importOpponent()" id="importbutton" class="font">Import Opponent</button> <br>
     <img src="catloe.png" alt="Problem" id="problem"> <br><br>
@@ -38,7 +39,26 @@
       ['https://cdn.discordapp.com/attachments/983923226193301524/983923245277380608/unknown.png', 'dd8e8c8c9dae8978f122d7bcf3d0d49f6a0e86b9fc35528f55e78f7408927bb1'],
       ['https://cdn.discordapp.com/attachments/983923226193301524/983923424508403762/unknown.png', '9775a97df5faff567f02c64c4762263379b3e0471c26186e8938e47ffe074045'],
       ['https://cdn.discordapp.com/attachments/983923226193301524/983923688724369420/unknown.png', 'e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683'],
-      ['https://cdn.discordapp.com/attachments/983923226193301524/983923834430300250/unknown.png', 'd8c70c790b932498919043bf8e58348c481d9b874598c9557fc105c0f1eae803']
+      ['https://cdn.discordapp.com/attachments/983923226193301524/983923834430300250/unknown.png', 'd8c70c790b932498919043bf8e58348c481d9b874598c9557fc105c0f1eae803'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984196821037514843/unknown.png', 'a512db2741cd20693e4b16f19891e72b9ff12cead72761fc5e92d2aaf34740c1'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984196860593983578/unknown.png', '3fdba35f04dc8c462986c992bcf875546257113072a909c162f7e470e581e278'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984196888267984986/unknown.png', 'e629fa6598d732768f7c726b4b621285f9c3b85303900aa912017db7617d8bdb'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984197008250245130/unknown.png', '8241649609f88ccd2a0a5b233a07a538ec313ff6adf695aa44a969dbca39f67d'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984197055742353418/unknown.png', 'ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984197085966499850/unknown.png', '4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984197168770457641/unknown.png', '6b51d431df5d7f141cbececcf79edf3dd861c3b4069f0b11661a3eefacbba918'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984197191570714654/unknown.png', '4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984202452301660160/unknown.png', 'b5759d9d328794e68225a6720de74b8cc4377cd31e4f7f7311f269a95ae5c86b'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984202495112917052/unknown.png', '4ec9599fc203d176a301536c2e091a19bc852759b255bd6818810a42c5fed14a'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984202533251731456/unknown.png', '170b6fbc9474e95f607d477059c3c48ff15439a74041d912f83b384ab1e15820'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984202588595580928/unknown.png', '4ec9599fc203d176a301536c2e091a19bc852759b255bd6818810a42c5fed14a'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984202619864100995/unknown.png', '84b504f830bf8b6d2c233eead51d27a08d46a33ddf8225d90197e3f565f5d621'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984202689388896356/unknown.png', '6523f09afbc5ba27530a3abe3ff0f5db40b2b859346f4425d64edd6d596c6eb5'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984202716882567168/unknown.png', '4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984202748671193088/unknown.png', 'e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984203542833266728/unknown.png', '30182b97b6f6a92441bfc0afc8189e0316d207a30a6edcade5fcfa7d9b3ca2c7'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984203573640450148/unknown.png', '3fdba35f04dc8c462986c992bcf875546257113072a909c162f7e470e581e278'],
+      ['https://cdn.discordapp.com/attachments/928996066894962718/984203603751370752/unknown.png', '7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451'],
     ];
     let buzzed = false;
     let buzzleft = 5;
@@ -48,9 +68,28 @@
     let current = 0;
     let data = {};
     let probNum = 1;
-    let oppData = {"1":[0,45000,true],"2":[1,45000,true],"3":[2,45000,true],"4":[3,45000,true],"5":[4,45000,true]};
+    let probNums = [];
+    for (let i=0; i<problems.length; i++) {
+      probNums.push(i);
+    }
+    let chosenProbs = getRandom(probNums,5);
+    let oppData = {"1":[chosenProbs[0],45000,true],"2":[chosenProbs[1],45000,true],"3":[chosenProbs[2],45000,true],"4":[chosenProbs[3],45000,true],"5":[chosenProbs[4],45000,true]};
     let score = 0;
     let oppScore = 0;
+    
+    function getRandom(arr, n) {
+        var result = new Array(n),
+            len = arr.length,
+            taken = new Array(len);
+        if (n > len)
+            throw new RangeError("getRandom: more elements taken than available");
+        while (n--) {
+            var x = Math.floor(Math.random() * len);
+            result[n] = arr[x in taken ? taken[x] : x];
+            taken[x] = --len in taken ? taken[len] : len;
+        }
+        return result;
+    }    
     function start() {
       current = oppData[String(probNum)][0];
       problem = problems[current];
