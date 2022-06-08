@@ -13,7 +13,7 @@
     </style>
   </head>
   <body>
-    <p>V1.15</p>
+    <p>V1.16</p>
     <p>Credits to mathemolympiad for putting problems!</p>
     <p id="tocopy"></p>
     <button type="button" onclick="importOpponent()" id="importbutton" class="font">Import Opponent</button> <br>
@@ -54,7 +54,7 @@
       document.getElementById("buzzbutton").disabled = false;
       document.getElementById("answer").disabled = true;
       document.getElementById("answer").value = "";
-      setTimeout(oppBuzz,(oppData[String(probNum)][1],probNum);
+      setTimeout(oppBuzz,oppData[String(probNum)][1],probNum);
     }
     function oppBuzz(oldProb) {
       if (buzzed == false && oldProb == probNum) {
