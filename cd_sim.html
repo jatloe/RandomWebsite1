@@ -4,16 +4,13 @@
     <link rel="icon" href="jatloesmile-hd.png">
     <title>CDR Simulator</title>
     <style>
-      .side{
-        display: inline;
-      }
       .font{
         font-size: 18px;
         font-family: Georgia;
       }
       body {
-        margin: auto;
-        width: 50%;
+        font-family: Georgia;
+        text-align: center;
       }
     </style>
   </head>
@@ -22,11 +19,12 @@
     <p>Credits to mathemolympiad for putting problems and CSS!</p>
     <p id="tocopy"></p>
     <button type="button" onclick="importOpponent()" id="importbutton" class="font">Import Opponent</button> <br>
-    <img src="catloe.png" alt="Problem" id="problem"> <br>
-    <button type="button" onclick="start()" id="startbutton" class="side font">Start</button>
-    <button type="button" onclick="buzz()" id="buzzbutton" class="side font" disabled>Buzz</button><br>
-    <input type="text" id="answer" class="side font" disabled><br>
-    <p>Status: <span id="result" class="side font"></span></p>
+    <img src="catloe.png" alt="Problem" id="problem"> <br><br>
+    <button type="button" onclick="start()" id="startbutton" class="font">Start</button>
+    <button type="button" onclick="buzz()" id="buzzbutton" class="font" disabled>Buzz</button><br>
+    <input type="text" id="answer" class="font" disabled><br>
+    <p>Status: <b><span id="result" class="font"></span></b></p>
+    <p>Score: <b><span id="score" class="font">0 you - 0 opponent</span></b></p>
   </body>
   <script>
     var sha256=function a(b){function c(a,b){return a>>>b|a<<32-b}for(var d,e,f=Math.pow,g=f(2,32),h="length",i="",j=[],k=8*b[h],l=a.h=a.h||[],m=a.k=a.k||[],n=m[h],o={},p=2;64>n;p++)if(!o[p]){for(d=0;313>d;d+=p)o[d]=p;l[n]=f(p,.5)*g|0,m[n++]=f(p,1/3)*g|0}for(b+="\x80";b[h]%64-56;)b+="\x00";for(d=0;d<b[h];d++){if(e=b.charCodeAt(d),e>>8)return;j[d>>2]|=e<<(3-d)%4*8}for(j[j[h]]=k/g|0,j[j[h]]=k,e=0;e<j[h];){var q=j.slice(e,e+=16),r=l;for(l=l.slice(0,8),d=0;64>d;d++){var s=q[d-15],t=q[d-2],u=l[0],v=l[4],w=l[7]+(c(v,6)^c(v,11)^c(v,25))+(v&l[5]^~v&l[6])+m[d]+(q[d]=16>d?q[d]:q[d-16]+(c(s,7)^c(s,18)^s>>>3)+q[d-7]+(c(t,17)^c(t,19)^t>>>10)|0),x=(c(u,2)^c(u,13)^c(u,22))+(u&l[1]^u&l[2]^l[1]&l[2]);l=[w+x|0].concat(l),l[4]=l[4]+w|0}for(d=0;8>d;d++)l[d]=l[d]+r[d]|0}for(d=0;8>d;d++)for(e=3;e+1;e--){var y=l[d]>>8*e&255;i+=(16>y?0:"")+y.toString(16)}return i};
@@ -36,7 +34,11 @@
       ['https://cdn.discordapp.com/attachments/928190196443394128/983858515309396028/unknown.png', 'c63efd61a70d0f6b7e5de2b9e0c36adfae6d760613271650c71c90df16c71344'],
       ['https://cdn.discordapp.com/attachments/928190196443394128/983858953865822228/unknown.png', '52e90ae24326591c8161e2e05a8f3b9b57287ca13aba3be7e84043691e160ba6'],
       ['https://cdn.discordapp.com/attachments/928190196443394128/983859056487837766/unknown.png', 'd4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35'],
-      ['https://cdn.discordapp.com/attachments/928190196443394128/983859239460151406/unknown.png', '5f0fbfc126a9876e177921aeb69a9705447e5b4f29fc96631ab4ac6d31c62717']
+      ['https://cdn.discordapp.com/attachments/928190196443394128/983859239460151406/unknown.png', '5f0fbfc126a9876e177921aeb69a9705447e5b4f29fc96631ab4ac6d31c62717'],
+      ['https://cdn.discordapp.com/attachments/983923226193301524/983923245277380608/unknown.png', 'dd8e8c8c9dae8978f122d7bcf3d0d49f6a0e86b9fc35528f55e78f7408927bb1'],
+      ['https://cdn.discordapp.com/attachments/983923226193301524/983923424508403762/unknown.png', '9775a97df5faff567f02c64c4762263379b3e0471c26186e8938e47ffe074045'],
+      ['https://cdn.discordapp.com/attachments/983923226193301524/983923688724369420/unknown.png', 'e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683'],
+      ['https://cdn.discordapp.com/attachments/983923226193301524/983923834430300250/unknown.png', 'd8c70c790b932498919043bf8e58348c481d9b874598c9557fc105c0f1eae803']
     ];
     let buzzed = false;
     let buzzleft = 5;
@@ -67,10 +69,12 @@
       if (buzzed == false && oldProb == probNum) {
         if (oppData[String(probNum)][2] == true) {
           oppScore += 1;
-          alert("The opponent got it right. " + String(score) + " you - " + String(oppScore) + " opponent");
+          document.getElementById("result").innerHTML = "The opponent got it right.";
+          document.getElementById("score").innerHTML = String(score) + " you - " + String(oppScore) + " opponent";
         } else {
           score += 1;
-          alert("The opponent got it wrong. " + String(score) + " you - " + String(oppScore) + " opponent");
+          document.getElementById("result").innerHTML = "The opponent got it wrong.";
+          document.getElementById("score").innerHTML = String(score) + " you - " + String(oppScore) + " opponent";
         }
         data[probNum] = [current,totalTime,false]
         document.getElementById("startbutton").disabled = false;
@@ -105,22 +109,22 @@
       } else {
         setTimeout(buzzTimeUpdate,1000);
         buzzleft -= 1;
-        document.getElementById("result").innerHTML = String(buzzleft);
+        document.getElementById("result").innerHTML = String(buzzleft) + " seconds left";
       }
     }
     function closeBuzz() {
       document.getElementById("buzzbutton").disabled = true;
       document.getElementById("answer").disabled = true;
       if (sha256(document.getElementById("answer").value) == problem[1]) {
-        document.getElementById("result").innerHTML = "Correct! " + String(totalTime/1000);
+        document.getElementById("result").innerHTML = "Correct! " + String(totalTime/1000) + " seconds";
         data[probNum] = [current,totalTime,true]
         score += 1;
-        alert("You got it right. " + String(score) + " you - " + String(oppScore) + " opponent");
+        document.getElementById("score").innerHTML = String(score) + " you - " + String(oppScore) + " opponent";
       } else {
         document.getElementById("result").innerHTML = "Incorrect.";
         data[probNum] = [current,totalTime,false]
         oppScore += 1;
-        alert("You got it wrong. " + String(score) + " you - " + String(oppScore) + " opponent");
+        document.getElementById("score").innerHTML = String(score) + " you - " + String(oppScore) + " opponent";
       }
       document.getElementById("startbutton").disabled = false;
       buzzleft = 5;
