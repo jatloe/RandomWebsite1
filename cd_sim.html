@@ -13,7 +13,7 @@
     </style>
   </head>
   <body>
-    <p>V1.19</p>
+    <p>V1.20</p>
     <p>Credits to mathemolympiad for putting problems!</p>
     <p id="tocopy"></p>
     <button type="button" onclick="importOpponent()" id="importbutton" class="font">Import Opponent</button> <br>
@@ -105,10 +105,13 @@
       if (sha256(document.getElementById("answer").value) == problem[1]) {
         document.getElementById("result").innerHTML = "Correct! " + String(totalTime/1000);
         data[probNum] = [current,totalTime,true]
+        score += 1;
       } else {
         document.getElementById("result").innerHTML = "Incorrect.";
         data[probNum] = [current,totalTime,false]
+        oppScore += 1;
       }
+      alert(String(score) + " you - " + String(oppScore) + " opponent");
       document.getElementById("startbutton").disabled = false;
       buzzleft = 5;
       buzzed = false;
