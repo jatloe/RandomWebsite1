@@ -13,7 +13,7 @@
     </style>
   </head>
   <body>
-    <p>V1.10</p>
+    <p>V1.11</p>
     <p>Credits to mathemolympiad for putting problems!</p>
     <p id="tocopy"></p>
     <img src="" alt="Problem" id="problem"> <br>
@@ -87,7 +87,7 @@
       probNum += 1;
       if (probNum == 6) {
         document.getElementById("tocopy").style.display = "";
-        document.getElementById("tocopy").value = "Copy this and send it to jatloe: " + btoa(JSON.stringify(data));
+        document.getElementById("tocopy").innerHTML = "Copy this and send it to jatloe: " + btoa(JSON.stringify(data));
       }
     }
     document.onkeyup = function(e) {
