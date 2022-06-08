@@ -13,7 +13,7 @@
     </style>
   </head>
   <body>
-    <p>V1.23</p>
+    <p>V1.24</p>
     <p>Credits to mathemolympiad for putting problems!</p>
     <p id="tocopy"></p>
     <button type="button" onclick="importOpponent()" id="importbutton" class="font">Import Opponent</button> <br>
@@ -66,6 +66,7 @@
           score += 1;
           alert("The opponent got it wrong. " + String(score) + " you - " + String(oppScore) + " opponent");
         }
+        data[probNum] = [current,totalTime,false]
         document.getElementById("startbutton").disabled = false;
         document.getElementById("buzzbutton").disabled = true;
         document.getElementById("answer").disabled = true;
