@@ -13,7 +13,7 @@
     </style>
   </head>
   <body>
-    <p>V1.16</p>
+    <p>V1.17</p>
     <p>Credits to mathemolympiad for putting problems!</p>
     <p id="tocopy"></p>
     <button type="button" onclick="importOpponent()" id="importbutton" class="font">Import Opponent</button> <br>
@@ -58,7 +58,7 @@
     }
     function oppBuzz(oldProb) {
       if (buzzed == false && oldProb == probNum) {
-        if ((oppData[String(probNum)][2] == true) {
+        if (oppData[String(probNum)][2] == true) {
           oppScore += 1;
         } else {
           score += 1;
