@@ -61,8 +61,10 @@
       if (buzzed == false && oldProb == probNum) {
         if (oppData[String(probNum)][2] == true) {
           oppScore += 1;
+          alert("The opponent got it right. " + String(score) + " you - " + String(oppScore) + " opponent");
         } else {
           score += 1;
+          alert("The opponent got it wrong. " + String(score) + " you - " + String(oppScore) + " opponent");
         }
         alert(String(score) + " you - " + String(oppScore) + " opponent");
         document.getElementById("startbutton").disabled = false;
@@ -107,12 +109,13 @@
         document.getElementById("result").innerHTML = "Correct! " + String(totalTime/1000);
         data[probNum] = [current,totalTime,true]
         score += 1;
+        alert("You got it right. " + String(score) + " you - " + String(oppScore) + " opponent");
       } else {
         document.getElementById("result").innerHTML = "Incorrect.";
         data[probNum] = [current,totalTime,false]
         oppScore += 1;
+        alert("You got it wrong. " + String(score) + " you - " + String(oppScore) + " opponent");
       }
-      alert(String(score) + " you - " + String(oppScore) + " opponent");
       document.getElementById("startbutton").disabled = false;
       buzzleft = 5;
       buzzed = false;
