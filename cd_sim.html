@@ -65,10 +65,12 @@
       if (buzzed == false && oldProb == probNum) {
         if (oppData[String(probNum)][2] == true) {
           oppScore += 1;
-          alert("The opponent got it right. " + String(score) + " you - " + String(oppScore) + " opponent");
+          document.getElementById("result").innerHTML = "The opponent got it right.";
+          document.getElementById("score").innerHTML = String(score) + " you - " + String(oppScore) + " opponent";
         } else {
           score += 1;
-          alert("The opponent got it wrong. " + String(score) + " you - " + String(oppScore) + " opponent");
+          document.getElementById("result").innerHTML = "The opponent got it wrong.";
+          document.getElementById("score").innerHTML = String(score) + " you - " + String(oppScore) + " opponent";
         }
         data[probNum] = [current,totalTime,false]
         document.getElementById("startbutton").disabled = false;
