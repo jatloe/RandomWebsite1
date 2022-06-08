@@ -16,6 +16,7 @@
     <p>V1.11</p>
     <p>Credits to mathemolympiad for putting problems!</p>
     <p id="tocopy"></p>
+    <button type="button" onclick="importOpponent()" id="importbutton" class="font">Import Opponent</button>
     <img src="" alt="Problem" id="problem"> <br>
     <button type="button" onclick="start()" id="startbutton" class="side font">Start</button>
     <button type="button" onclick="buzz()" id="buzzbutton" class="side font" disabled>Buzz</button>
@@ -40,14 +41,38 @@
     let current = 0;
     let data = {};
     let probNum = 1;
+    let oppData = {"1":[0,45000,true],"2":[1,45000,true],"3":[2,45000,true],"4":[3,45000,true],"5":[4,45000,true]};
+    let score = 0;
+    let oppScore = 0;
     function start() {
+      problem = problems[(oppData.String(probNum))[0]];
       document.getElementById("problem").src = problem[0];
       let d = new Date();
       startTime = d.getTime();
       document.getElementById("startbutton").disabled = true;
+      document.getElementById("importbutton").disabled = true;
       document.getElementById("buzzbutton").disabled = false;
       document.getElementById("answer").disabled = true;
       document.getElementById("answer").value = "";
+      setTimeout(oppBuzz,(oppData.String(probNum))[1],probNum);
+    }
+    function oppBuzz(oldProb) {
+      if (buzzed == false && oldProb == probNum) {
+        if ((oppData.String(probNum))[2] == true) {
+          oppScore += 1;
+        } else {
+          score += 1;
+        }
+      }
+      alert(String(score) + " you - " + String(oppScore) + " opponent");
+      document.getElementById("startbutton").disabled = false;
+      buzzleft = 5;
+      buzzed = false;
+      probNum += 1;
+      if (probNum == 6) {
+        document.getElementById("tocopy").style.display = "";
+        document.getElementById("tocopy").innerHTML = "Copy this and send it to jatloe: " + btoa(JSON.stringify(data));
+      }
     }
     function buzz() {
       if (document.getElementById("buzzbutton").disabled == false && !buzzed) {
@@ -59,6 +84,9 @@
         let d = new Date();
         totalTime = d.getTime()-startTime;
       }
+    }
+    function importOpponent() {
+      oppData = JSON.parse(atob(prompt("Please enter opponent data here:")));
     }
     function buzzTimeUpdate() {
       if (buzzleft == 0) {
@@ -80,8 +108,6 @@
         data[probNum] = [current,totalTime,false]
       }
       document.getElementById("startbutton").disabled = false;
-      current += 1;
-      problem = problems[current];
       buzzleft = 5;
       buzzed = false;
       probNum += 1;
