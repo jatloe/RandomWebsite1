@@ -13,7 +13,7 @@
     </style>
   </head>
   <body>
-    <p>V1.13</p>
+    <p>V1.14</p>
     <p>Credits to mathemolympiad for putting problems!</p>
     <p id="tocopy"></p>
     <button type="button" onclick="importOpponent()" id="importbutton" class="font">Import Opponent</button> <br>
@@ -45,7 +45,7 @@
     let score = 0;
     let oppScore = 0;
     function start() {
-      problem = problems[(oppData.String(probNum))[0]];
+      problem = problems[(oppData.(String(probNum)))[0]];
       document.getElementById("problem").src = problem[0];
       let d = new Date();
       startTime = d.getTime();
