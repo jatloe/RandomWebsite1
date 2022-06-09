@@ -171,7 +171,7 @@
       probNum += 1;
       if (probNum == 6) {
         document.getElementById("tocopy").style.display = "";
-        document.getElementById("tocopy").innerHTML = "Copy this and send it to jatloe: " + btoa(JSON.stringify(data));
+        document.getElementById("tocopy").innerHTML = "<b>Congratulations, you finished the game!</b> Copy this and send it to jatloe (this is your encrypted countdown data):<br> " + btoa(JSON.stringify(data));
       }
     }
     document.onkeyup = function(e) {
