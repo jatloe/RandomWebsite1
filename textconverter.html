@@ -6,29 +6,16 @@
   </head>
   <body>
     <textarea id="textarea"></textarea> <br>
-    <button type="button" onclick="convertDiscord()">Convert to Discord style!</button> <br>
+    <button type="button" onclick="convertDiscord()">Convert to Discord style(credits to slither)!</button> <br>
+    <button type="button" onclick="aggressiveConvertDiscord()">Convert to Discord style(aggressive, credits to slither)!</button> <br>
     <button type="button" onclick="convertGeoLatex()">Convert geometric statement to LaTeX! (WIP)</button> <br>
     <button type="button" onclick="copy()">Copy to clipboard</button>
   </body>
   <script>
-    function convertDiscord() {
-      let text = document.getElementById("textarea").value;
-      let textarray = text.split('');
-      let newtext = "";
-      let badlist = ["*","_","~"];
-      for (let i=0;i<textarray.length;i++) {
-          if (badlist.includes(textarray[i]) == true && textarray[i-1] != '\\') {
-              newtext += `\\`;
-          }
-          newtext += textarray[i];
-      }
-      document.getElementById("textarea").value = newtext;
-    }
+    const convertDiscord = () => document.getElementById("textarea").value = document.getElementById("textarea").value.replace(/[*_~`<]/g, "\\$&");
+    const aggressiveConvertDiscord = () => document.getElementById("textarea").value = document.getElementById("textarea").value.replace(/[*_~`<\\]/g, "\\$&");
     function copy() {
-      /* Get the text field */
-      let copyText = document.getElementById("textarea");
-      copyText.select();
-      document.execCommand('copy');
+      navigator.clipboard.writeText(document.getElementById("textarea").value);
     }
     function convertGeoLatex() {
       let text = document.getElementById("textarea").value;
