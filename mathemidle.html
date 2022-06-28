@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" href="jatloesmile-hd.png">
+    <title>MathemIdle</title>
+    <style>
+      .side{
+        display: inline;
+      }
+      body {
+        font-family: 'Roboto';
+        font-size: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <p><b>MathemIdle V1.1</b>: A variation of JohnIdle made by mathemolympiad on jatloesite.cf.</p>
+    <h3 id="points" style="font-size:18px;">You have 1 points.</h3>
+    <button type="button" onclick="openTab(1)" class="side">Points</button>
+    <br><br>
+    <p class="side" id="boostDisplay">Boost 1 value: 1</p>
+    <button type="button" onclick="buyBoost()" id="boost">Buy boost 1: 100 points</button>
+    <br>
+    
+    <p class="side" id="gen1Display">Generator 1: 1</p>
+    <button type="button" onclick="buyGen(1)" id="gen1" class="side">1 -> 1</button>
+    <button type="button" onclick="buyAuto(1)" id="auto1">Generator 1 autobuyer: 1e50 points</button>
+    <br>
+    <!--<p class="side" id="gen2Display">Generator 2: 1</p>
+    <button type="button" onclick="buyGen(2)" id="gen2" class="side">1 -> 1</button>
+    <button type="button" onclick="buyAuto(2)" id="auto2">Generator 2 autobuyer: 1e100 points</button>-->
+    
+  </body>
+  <script>
+    /*
+        For the above, note that the class "side" should be in all buttons/text in the same row,
+        then put a <br> afterwards. Also, the id="thing" is how you would be able to reference things.
+        You use document.getElementById("ID_HERE").innerHTML = "NEW_TEXT" to change the text.
+        <p> is text, <button> is button. Remember to close them with </p> and </button>.
+        When it has style="display: none;" it means it's hidden, use
+        document.getElementById("ID_HERE").style.display = ""; for showing and
+        document.getElementById("ID_HERE").style.display = "none"; for hiding
+    */
+    
+    
+    //Basic setup
+    let points = 1;
+    let rate = 1;
+    let b1cost = 100;
+    let b1value = 1;
+    let g1value = 1;
+    let g1temp = 1;
+    setInterval(update,50);
+    //Power is Math.pow(base,exponent) so Math.pow(2,3)=8
+    
+    function update() {
+      points += rate;
+      document.getElementById("points").innerHTML = "You have " + make_string(points) + " points.";
+      g1value = Math.pow(points, 1/2);
+      document.getElementById("gen1").innerHTML = make_string(g1temp) + " -> " + make_string(g1value);
+    }
+        
+    //Hotkeys, keycodes are here https://www.toptal.com/developers/keycode
+    document.onkeyup = function(e) {
+        if (e.which == 49) {
+            //That's the 1 key
+        }
+    };
+    
+    //This function turns numbers into nice numbers(make_string(1234567)=1.234e6)
+    function make_string(number) {
+      if(number<1000000) {
+        return number.toFixed(3);
+      } else if(isFinite(number)) {
+        let power = Math.floor(Math.log10(number));
+        number = number/Math.pow(10,power);
+        return number.toFixed(3) + "e" + String(power);
+      } else if(isNaN(number)) {
+        return "NaN";
+      } else {
+        return "Infinity";
+      }
+    }
+    
+    //Log function because I can't find it anywhere
+    function log(a,b) {
+      return Math.round(Math.log(b) / Math.log(a));
+    }
+    
+    function buyBoost(bnum) {
+      /*
+      This is what a button pressed function would look like,
+      note the button in the HTML that has onclick being buyBoost().
+      You can pass an argument in the onclick like buyBoost(42069)
+      */
+      if (bnum==1) {
+        if (points>=b1cost) {
+          points -= b1cost;
+          b1cost *= 100;
+          rate *= 3;
+          b1value *= 3;
+          document.getElementById("boostDisplay").innerHTML = "Boost 1 value: " + b1value;
+          document.getElementById("boost").innerHTML = "Buy boost 1: " + b1cost + " points";
+        }
+      }
+    }
+    
+    function buyGen(gnum) {
+      if (gnum==1) {
+        if (g1value > g1temp) {
+          g1temp = g1value;
+          g1value = Math.pow(points,1/2);
+          points -= g1temp;
+          rate += g1value;
+          document.getElementById("gen1Display").innerHTML = "Generator 1: " + make_string(g1value);
+          document.getElementById("gen1").innerHTML = make_string(g1temp) + " -> " + make_string(g1value);
+        }
+      }
+    }
+    
+    function buyGen(gnum) {
+      if (gnum==1) {
+        if (points >= 1e+50) {
+          while (true) {
+            points -= 1e+50;
+            buyGen(1);
+          }
+        }
+      }
+    }
+    
+    while (true) {
+      if (points=="Infinity") {
+        alert("Congratulations, you finished the game!")
+      }
+    }
+  </script>
+</html>
