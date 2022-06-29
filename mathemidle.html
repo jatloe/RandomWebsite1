@@ -19,7 +19,7 @@
     <button type="button" onclick="openTab(1)" class="side">Points</button>
     <br><br>
     <p class="side" id="boostDisplay">Boost 1 value: 1</p>
-    <button type="button" onclick="buyBoost()" id="boost">Buy boost 1: 100 points</button>
+    <button type="button" onclick="buyBoost(1)" id="boost">Buy boost 1: 100 points</button>
     <br>
     
     <p class="side" id="gen1Display">Generator 1: 1</p>
@@ -118,7 +118,7 @@
       }
     }
     
-    function buyGen(gnum) {
+    function buyAuto(gnum) {
       if (gnum==1) {
         if (points >= 1e+50) {
           while (true) {
