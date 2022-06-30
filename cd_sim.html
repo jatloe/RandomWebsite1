@@ -12,6 +12,43 @@
         font-family: Georgia;
         text-align: center;
       }
+      /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
     </style>
   </head>
   <body>
@@ -26,6 +63,18 @@
     <input type="text" id="answer" class="font" disabled><br>
     <p>Status: <b><span id="result" class="font"></span></b></p>
     <p>Score: <b><span id="score" class="font">0 you - 0 opponent</span></b></p>
+    <button type="button" class="font" id="myBtn">Formatting Tips</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close"><button>X</button></span>
+    <h3>Formatting Tips:</h3>
+    <p>No commas between digits. If your answer is a fraction or mixed number, enter it as something like 3/2 or 1 1/2 with no spaces, if it is a square root, enter it as something like 6 sqrt(3). If it is a decimal, just write the number, like 1.5. If it is a percent, do not include the percent symbol, just write it as something like 50. Two decimal places are required for money.</p>
+  </div>
+</div>
+    <p style="font-size:11px;">Modal code credits to W3Schools!</p>
   </body>
   <script>
     var sha256=function a(b){function c(a,b){return a>>>b|a<<32-b}for(var d,e,f=Math.pow,g=f(2,32),h="length",i="",j=[],k=8*b[h],l=a.h=a.h||[],m=a.k=a.k||[],n=m[h],o={},p=2;64>n;p++)if(!o[p]){for(d=0;313>d;d+=p)o[d]=p;l[n]=f(p,.5)*g|0,m[n++]=f(p,1/3)*g|0}for(b+="\x80";b[h]%64-56;)b+="\x00";for(d=0;d<b[h];d++){if(e=b.charCodeAt(d),e>>8)return;j[d>>2]|=e<<(3-d)%4*8}for(j[j[h]]=k/g|0,j[j[h]]=k,e=0;e<j[h];){var q=j.slice(e,e+=16),r=l;for(l=l.slice(0,8),d=0;64>d;d++){var s=q[d-15],t=q[d-2],u=l[0],v=l[4],w=l[7]+(c(v,6)^c(v,11)^c(v,25))+(v&l[5]^~v&l[6])+m[d]+(q[d]=16>d?q[d]:q[d-16]+(c(s,7)^c(s,18)^s>>>3)+q[d-7]+(c(t,17)^c(t,19)^t>>>10)|0),x=(c(u,2)^c(u,13)^c(u,22))+(u&l[1]^u&l[2]^l[1]&l[2]);l=[w+x|0].concat(l),l[4]=l[4]+w|0}for(d=0;8>d;d++)l[d]=l[d]+r[d]|0}for(d=0;8>d;d++)for(e=3;e+1;e--){var y=l[d]>>8*e&255;i+=(16>y?0:"")+y.toString(16)}return i};
@@ -68,7 +117,12 @@
       ['https://cdn.discordapp.com/attachments/983923226193301524/985722407341940826/unknown.png', '76a50887d8f1c2e9301755428990ad81479ee21c25b43215cf524541e0503269'],
       ['https://cdn.discordapp.com/attachments/983923226193301524/985722608425246795/unknown.png', '72d73db944cf6d9a5f11d6c073c1dce0bde28a4d2341caf4ae976e858c62cabc'],
       ['https://cdn.discordapp.com/attachments/983923226193301524/985722824503226388/unknown.png', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b'],
-      ['https://cdn.discordapp.com/attachments/983923226193301524/985722990639599696/unknown.png', 'e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683']
+      ['https://cdn.discordapp.com/attachments/983923226193301524/985722990639599696/unknown.png', 'e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683'],
+      ['https://cdn.discordapp.com/attachments/983923226193301524/992031135976661002/unknown.png', '85d6385b945c0d602103db39b0b654b2af93b5127938e26a959c123f0789b948'],
+      ['https://cdn.discordapp.com/attachments/983923226193301524/992031490131111986/unknown.png', 'ec43abf78948fa60728914675846d1faf7f743e9741bf38e7d062f2ac6530d4d'],
+      ['https://cdn.discordapp.com/attachments/983923226193301524/992031667524993075/unknown.png', '81b8a03f97e8787c53fe1a86bda042b6f0de9b0ec9c09357e107c99ba4d6948a'],
+      ['https://cdn.discordapp.com/attachments/983923226193301524/992031890573901934/unknown.png', '7b69759630f869f2723875f873935fed29d2d12b10ef763c1c33b8e0004cb405'],
+      ['https://cdn.discordapp.com/attachments/983923226193301524/992032059763740682/unknown.png', 'd9a5223b761c375d1263e6e57ebec42d3e0fe3f6f283488d2eb204fb6ff17ee5']
     ];
     let buzzed = false;
     let buzzleft = 5;
@@ -189,5 +243,31 @@
           buzz();
       }
     };
+
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // When the user clicks on the button, open the modal
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+}
   </script>
 </html>
