@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" href="jatloesmile-hd.png">
+    <title>Discord Time Formatter</title>
+  </head>
+  <body>
+    <a href="https://www.unixtimestamp.com/index.php">Unix Time Stamper</a>
+    <br>
+    <input type="text" id="num" size="15" style="display:inline;" placeholder="Unix Timestamp">
+    <button type="button" onclick="copyText()">Copy to clipboard</button>
+  </body>
+  <script>
+    function copyText() {
+      let num = document.getElementById("num").value;
+      navigator.clipboard.writeText("<t:" + num + ">, which is <t:" + num + ":R>.");      
+    }
+  </script>
+</html>
