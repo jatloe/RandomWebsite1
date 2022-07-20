@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" href="jatloesmile-hd.png">
+    <title>Log Idle</title>
+    <style>
+      .side{
+        display: inline;
+      }
+      body {
+        font-family: 'Monospace Typewriter', monospace;
+        font-size: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <p>V1.1</p>
+    <h3 id="points" style="font-size:18px;">You have 1 logs.</h3>
+    <br><br>
+    <p class="side" id="gen1Display">Maple Trees: 1</p>
+    <button type="button" onclick="buyTree(1)" id="tree1" class="side">1 -> 1</button>
+  </body>
+  <script src="break_infinity.min.js">
+    /*
+        For the above, note that the class "side" should be in all buttons/text in the same row,
+        then put a <br> afterwards. Also, the id="thing" is how you would be able to reference things.
+        You use document.getElementById("ID_HERE").innerHTML = "NEW_TEXT" to change the text.
+        <p> is text, <button> is button. Remember to close them with </p> and </button>.
+        When it has style="display: none;" it means it's hidden, use
+        document.getElementById("ID_HERE").style.display = ""; for showing and
+        document.getElementById("ID_HERE").style.display = "none"; for hiding
+    */
+    
+    
+    //Basic setup
+    let INSERT_VARIABLES_HERE = 229;
+    setInterval(update,50);
+    //Power is Math.pow(base,exponent) so Math.pow(2,3)=8
+    
+    function update() {
+      //This is where you put stuff that happen every tick
+    }
+        
+    //Hotkeys, keycodes are here https://www.toptal.com/developers/keycode
+    document.onkeyup = function(e) {
+        if (e.which == 49) {
+            //That's the 1 key
+        }
+    };
+    
+    //This function turns numbers into nice numbers(make_string(1234567)=1.234e6)
+    function make_string(number) {
+      if(number<1000000) {
+        return number.toFixed(3);
+      } else if(isFinite(number)) {
+        let power = Math.floor(Math.log10(number));
+        number = number/Math.pow(10,power);
+        return number.toFixed(3) + "e" + String(power);
+      } else if(isNaN(number)) {
+        return "NaN";
+      } else {
+        return "Infinity";
+      }
+    }
+    
+    //Log function because I can't find it anywhere
+    function log(a,b) {
+      return Math.round(Math.log(b) / Math.log(a));
+    }
+    
+    function buyBoost() {
+      /*
+      This is what a button pressed function would look like,
+      note the button in the HTML that has onclick being buyBoost().
+      You can pass an argument in the onclick like buyBoost(42069)
+      */
+    }
+  </script>
+</html>
