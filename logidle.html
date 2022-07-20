@@ -14,11 +14,26 @@
     </style>
   </head>
   <body>
-    <p>V1.1</p>
-    <h3 id="points" style="font-size:18px;">You have 1 logs.</h3>
+    <p>V1.2</p>
+    <h3 id="logs" style="font-size:18px;">You have 0 logs.</h3>
     <br><br>
-    <p class="side" id="gen1Display">Maple Trees: 1</p>
-    <button type="button" onclick="buyTree(1)" id="tree1" class="side">1 -> 1</button>
+    <p class="side" id="tree1Display">Maple Trees: 1</p>
+    <button type="button" onclick="buyTree(1)" id="tree1" class="side">Buy Maple Tree</button>
+    <br>
+    <p class="side" id="tree2Display">Oak Trees: 0</p>
+    <button type="button" onclick="buyTree(2)" id="tree2" class="side">Buy Oak Tree</button>
+    <br>
+    <p class="side" id="tree3Display">Palm Trees: 0</p>
+    <button type="button" onclick="buyTree(3)" id="tree3" class="side">Buy Palm Tree</button>
+    <br>
+    <p class="side" id="tree4Display">Willow Trees: 0</p>
+    <button type="button" onclick="buyTree(4)" id="tree4" class="side">Buy Willow Tree</button>
+    <br>
+    <p class="side" id="tree5Display">Poplar Trees: 0</p>
+    <button type="button" onclick="buyTree(5)" id="tree5" class="side">Buy Poplar Tree</button>
+    <br>
+    <p class="side" id="tree6Display">Elm Trees: 0</p>
+    <button type="button" onclick="buyTree(6)" id="tree6" class="side">Buy Elm Tree</button>
   </body>
   <script src="break_infinity.min.js">
     /*
@@ -33,20 +48,29 @@
     
     
     //Basic setup
-    let INSERT_VARIABLES_HERE = 229;
+    let logs = 0;
+    let baseTrees = [1,0,0,0,0,0];
+    let treeNames = ["Maple","Oak","Palm","Willow","Poplar","Elm"];
     setInterval(update,50);
     //Power is Math.pow(base,exponent) so Math.pow(2,3)=8
     
     function update() {
-      //This is where you put stuff that happen every tick
+      for(let i=0;i<6;i++) {
+        logs = logs.add(baseTrees[i].times(i+1));
+      }
+      document.getElementById(logs).innerHTML = `You have ${make_string(logs)} logs.`;
+      for(let j=0;j<6;j++) {
+        document.getElementById(`tree${(j+1).toString()}Display`).innerHTML = `${treeNames[j]} Trees: ${make_string(logs)}`;
+      }
     }
         
-    //Hotkeys, keycodes are here https://www.toptal.com/developers/keycode
-    document.onkeyup = function(e) {
-        if (e.which == 49) {
-            //That's the 1 key
-        }
-    };
+    
+    function buyTree(treeNum) {
+      if(logs >= exp(treeNum-1)) {
+        baseTrees[treeNum-1] = baseTrees[treeNum-1].add(1);
+        logs.minus(exp(treeNum-1));
+      }
+    }
     
     //This function turns numbers into nice numbers(make_string(1234567)=1.234e6)
     function make_string(number) {
@@ -66,14 +90,13 @@
     //Log function because I can't find it anywhere
     function log(a,b) {
       return Math.round(Math.log(b) / Math.log(a));
-    }
+    }    
     
-    function buyBoost() {
-      /*
-      This is what a button pressed function would look like,
-      note the button in the HTML that has onclick being buyBoost().
-      You can pass an argument in the onclick like buyBoost(42069)
-      */
-    }
+    //Hotkeys, keycodes are here https://www.toptal.com/developers/keycode
+    document.onkeyup = function(e) {
+        if (e.which == 49) {
+            buyTree(1)
+        }
+    };
   </script>
 </html>
