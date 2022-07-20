@@ -14,8 +14,8 @@
     </style>
   </head>
   <body>
-    <p>V1.2</p>
-    <h3 id="logs" style="font-size:18px;">You have 0 logs.</h3>
+    <p>V1.3</p>
+    <h3 id="logsCounter" style="font-size:18px;">You have 0 logs.</h3>
     <br><br>
     <p class="side" id="tree1Display">Maple Trees: 1</p>
     <button type="button" onclick="buyTree(1)" id="tree1" class="side">Buy Maple Tree</button>
@@ -94,8 +94,18 @@
     
     //Hotkeys, keycodes are here https://www.toptal.com/developers/keycode
     document.onkeyup = function(e) {
-        if (e.which == 49) {
-            buyTree(1)
+        if (e.which == 49 || e.which == 97) {
+          buyTree(1);
+        } else if (e.which == 50 || e.which == 98) {
+          buyTree(2);
+        } else if (e.which == 51 || e.which == 99) {
+          buyTree(3);
+        } else if (e.which == 52 || e.which == 100) {
+          buyTree(4);
+        } else if (e.which == 53 || e.which == 101) {
+          buyTree(5);
+        } else if (e.which == 54 || e.which == 102) {
+          buyTree(6);
         }
     };
   </script>
