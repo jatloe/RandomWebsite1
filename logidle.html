@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <p>V1.18</p>
+    <p>V1.19</p>
     <h3 id="logs" style="font-size:18px;">You have 10 logs.</h3>
     <br><br>
     <p class="side" id="tree1Display">Maple Trees: 0</p>
@@ -93,11 +93,15 @@
 
     function auto(treeNum) {
     	if (prestigeBuff.greaterThan(10)) {
+	    document.getElementById(`tree${currentAuto.toString()}`).disabled = false;
 	    currentAuto = treeNum;
 	    for (let i = 1; i <= 6; i++) {
 	        document.getElementById(`auto${i.toString()}`).innerHTML = "Auto: Off";
 	    }
 	    document.getElementById(`auto${treeNum.toString()}`).innerHTML = "Auto: On";
+	    document.getElementById(`tree${currentAuto.toString()}`).disabled = true;
+	} else {
+	    alert("You need to have prestiged at least once to use this.");
 	}
     }
 	
