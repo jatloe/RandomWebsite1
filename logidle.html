@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p>V1.13</p>
+    <p>V1.14</p>
     <h3 id="logs" style="font-size:18px;">You have 10 logs.</h3>
     <br><br>
     <p class="side" id="tree1Display">Maple Trees: 0</p>
@@ -117,14 +117,12 @@
     function make_string(number) {
       if(number<1000000) {
         return number.toFixed(3);
-      } else if(isFinite(number)) {
-        let power = Math.floor(Math.log10(number));
-        number = number/Math.pow(10,power);
-        return number.toFixed(3) + "e" + String(power);
       } else if(isNaN(number)) {
         return "NaN";
       } else {
-        return "Infinity";
+        let power = Math.floor(Math.log10(number));
+        number = number/Math.pow(10,power);
+        return number.toFixed(3) + "e" + String(power);
       }
     }
     
