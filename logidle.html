@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p>V1.7</p>
+    <p>V1.8</p>
     <h3 id="logsCounter" style="font-size:18px;">You have 0 logs.</h3>
     <br><br>
     <p class="side" id="tree1Display">Maple Trees: 1</p>
@@ -48,8 +48,8 @@
     */
     
     //Basic setup
-    let logs = 0;
-    let baseTrees = [1,0,0,0,0,0];
+    let logs = new Decimal(0);
+    let baseTrees = [new Decimal(1),new Decimal(0),new Decimal(0),new Decimal(0),new Decimal(0),new Decimal(0)];
     let treeNames = ["Maple","Oak","Palm","Willow","Poplar","Elm"];
     setInterval(update,50);
     //Power is Math.pow(base,exponent) so Math.pow(2,3)=8
