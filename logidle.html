@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <p>V1.20</p>
+    <p>V1.21</p>
     <h3 id="logs" style="font-size:18px;">You have 10 logs.</h3>
     <br><br>
     <p class="side" id="tree1Display">Maple Trees: 0</p>
@@ -120,13 +120,13 @@
     }
 	
     function prestige() {
-    	if (baseTrees[5].greaterThanOrEqualTo(prestigeBuff.minus(9))) {
+    	if (baseTrees[5].greaterThanOrEqualTo(prestigeBuff.dividedBy(5).minus(1))) {
 	    if (confirm("Are you sure you would like to reset all previous stats for a prestige?")) {
 		cutMultiplier = new Decimal(1);
 		baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
 		logs = new Decimal(10);
-		prestigeBuff = prestigeBuff.plus(1);
-		document.getElementById("prestige").innerHTML = `Prestige, needs at least ${prestigeBuff.minus(9)} elm tree(s), buffs later trees but removes all trees and enriched soil`;
+		prestigeBuff = prestigeBuff.plus(5);
+		document.getElementById("prestige").innerHTML = `Prestige, needs at least ${prestigeBuff.dividedBy(5).minus(1)} elm tree(s), buffs later trees but removes all trees and enriched soil`;
 	    }
         }
     }
