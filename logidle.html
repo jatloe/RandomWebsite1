@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <p>V1.24</p>
+    <p>V1.25</p>
     <h3 id="logs" style="font-size:18px;">You have 10 logs.</h3>
     <br><br>
     <p class="side" id="tree1Display">Maple Trees: 0</p>
@@ -79,7 +79,7 @@
     
     function updateManage() {
     	thisTick = Date.now();
-	for (let i = 0; i < Math.round(Math.max(0,thisTick-lastTick)/50)) {
+	for (let i = 0; i < Math.round(Math.max(0,thisTick-lastTick)/50) {
 	    update();
 	}
 	lastTick = thisTick;
