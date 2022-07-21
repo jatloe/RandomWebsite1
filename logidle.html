@@ -14,26 +14,34 @@
     </style>
   </head>
   <body>
-    <p>V1.12</p>
-    <h3 id="logs" style="font-size:18px;">You have 0 logs.</h3>
+    <p>V1.13</p>
+    <h3 id="logs" style="font-size:18px;">You have 10 logs.</h3>
     <br><br>
-    <p class="side" id="tree1Display">Maple Trees: 1</p>
-    <button type="button" onclick="buyTree(1)" id="tree1" class="side">Buy Maple Tree</button>
+    <p class="side" id="tree1Display">Maple Trees: 0</p>
+    <button type="button" onclick="buyTree(1)" id="tree1" class="side">Buy Maple Tree, cost: 10.000</button>
+    <button type="button" onclick="buyMax(1)" id="max1" class="side">Buy Max</button>
     <br>
     <p class="side" id="tree2Display">Oak Trees: 0</p>
-    <button type="button" onclick="buyTree(2)" id="tree2" class="side">Buy Oak Tree</button>
+    <button type="button" onclick="buyTree(2)" id="tree2" class="side">Buy Oak Tree, cost: 1000.000</button>
+    <button type="button" onclick="buyMax(2)" id="max2" class="side">Buy Max</button>
     <br>
     <p class="side" id="tree3Display">Palm Trees: 0</p>
-    <button type="button" onclick="buyTree(3)" id="tree3" class="side">Buy Palm Tree</button>
+    <button type="button" onclick="buyTree(3)" id="tree3" class="side">Buy Palm Tree, cost: 100000.000</button>
+    <button type="button" onclick="buyMax(3)" id="max3" class="side">Buy Max</button>
     <br>
     <p class="side" id="tree4Display">Willow Trees: 0</p>
-    <button type="button" onclick="buyTree(4)" id="tree4" class="side">Buy Willow Tree</button>
+    <button type="button" onclick="buyTree(4)" id="tree4" class="side">Buy Willow Tree, cost: 1.000e7</button>
+    <button type="button" onclick="buyMax(4)" id="max4" class="side">Buy Max</button>
     <br>
     <p class="side" id="tree5Display">Poplar Trees: 0</p>
-    <button type="button" onclick="buyTree(5)" id="tree5" class="side">Buy Poplar Tree</button>
+    <button type="button" onclick="buyTree(5)" id="tree5" class="side">Buy Poplar Tree, cost: 1.000e9</button>
+    <button type="button" onclick="buyMax(5)" id="max5" class="side">Buy Max</button>
     <br>
     <p class="side" id="tree6Display">Elm Trees: 0</p>
-    <button type="button" onclick="buyTree(6)" id="tree6" class="side">Buy Elm Tree</button>
+    <button type="button" onclick="buyTree(6)" id="tree6" class="side">Buy Elm Tree, cost: 1.000e11</button>
+    <button type="button" onclick="buyMax(6)" id="max6" class="side">Buy Max</button>
+    <br><br>
+    <button type="button" onclick="cutTrees()" id="cut" class="side">Cut all trees to enrich the soil by 1.000</button>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
   <script>
@@ -48,28 +56,61 @@
     */
     
     //Basic setup
-    let logs = new Decimal(0);
-    let baseTrees = [new Decimal(1),new Decimal(0),new Decimal(0),new Decimal(0),new Decimal(0),new Decimal(0)];
+    let logs = new Decimal(10);
+    let baseTrees = [new Decimal(0),new Decimal(0),new Decimal(0),new Decimal(0),new Decimal(0),new Decimal(0)];
     let treeNames = ["Maple","Oak","Palm","Willow","Poplar","Elm"];
+	let cutMultiplier = new Decimal(1);
     setInterval(update,50);
     //Power is Math.pow(base,exponent) so Math.pow(2,3)=8
     
     function update() {
       for(let i=0;i<6;i++) {
-        logs = logs.add(baseTrees[i].times(i+1));
+        logs = logs.add(
+			baseTrees[i].times(Decimal.pow(10,i)).times(cutMultiplier)
+		);
       }
       document.getElementById("logs").innerHTML = `You have ${make_string(logs)} logs.`;
+      document.getElementById("cut").innerHTML = `Cut all trees to enrich the soil by ${getCutMultiplier().toString()}`;
       for(let j=0;j<6;j++) {
         document.getElementById(`tree${(j+1).toString()}Display`).innerHTML = `${treeNames[j]} Trees: ${make_string(baseTrees[j])}`;
+		document.getElementById(`tree${(j+1).toString()}`).innerHTML = `Buy ${treeNames[j]} Tree, cost: ${make_string(getTreeCost(j+1))}`;
       }
     }
-        
-    
+	
+	function getCutMultiplier() {
+		return (new Decimal(Decimal.log10(logs)).minus(5).times(1000).floor().dividedBy(1000)).max(1);
+	}
+	
+	function cutTrees() {
+		if(confirm("Are you sure you would like to cut down the trees for a boost?")) {
+			cutMultiplier = cutMultiplier.times(getCutMultiplier());
+			baseTrees = [new Decimal(0),new Decimal(0),new Decimal(0),new Decimal(0),new Decimal(0),new Decimal(0)];
+			logs = new Decimal(10);
+		}
+	}
+	
+	function getTreeCost(treeNum) {
+		return Decimal.pow(100,treeNum-1).times(10).add(baseTrees[treeNum-1]);
+	}
+	
     function buyTree(treeNum) {
-      if(logs >= Decimal.pow(treeNum-1,10)) {
+      if(logs.greaterThanOrEqualTo(getTreeCost(treeNum))) {
         baseTrees[treeNum-1] = baseTrees[treeNum-1].add(1);
-        logs.minus(Decimal.pow(treeNum-1,10));
+        logs = logs.minus(getTreeCost(treeNum));
+		document.getElementById(`tree${treeNum.toString()}`).innerHTML = `Buy ${treeNames[treeNum-1]} Tree, cost: ${make_string(getTreeCost(treeNum))}`;
       }
+    }
+	
+    function buyMax(treeNum) {
+	  /*this function doesn't take the cost increase into account lol, fix this
+      if(logs.greaterThanOrEqualTo(getTreeCost(treeNum))) {
+		let numBought = logs.dividedBy(getTreeCost(treeNum)).floor();
+        baseTrees[treeNum-1] = baseTrees[treeNum-1].add(numBought);
+        logs = logs.minus(getTreeCost(treeNum).times(numBought));
+		document.getElementById(`tree${treeNum.toString()}`).innerHTML = `Buy ${treeNames[treeNum-1]} Tree, cost: ${make_string(getTreeCost(treeNum))}`;
+      }
+	  */
+	  alert("Buy max doesn't work yet, spam jatloe to fix it");
     }
     
     //This function turns numbers into nice numbers(make_string(1234567)=1.234e6)
@@ -106,7 +147,9 @@
           buyTree(5);
         } else if (e.which == 54 || e.which == 102) {
           buyTree(6);
-        }
+        } else if (e.which == 67) {
+		  cutTrees();
+		}
     };
   </script>
 </html>
