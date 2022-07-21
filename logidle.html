@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <link rel="icon" href="jatloesmile-hd.png">
     <title>Log Idle</title>
     <style>
-      .side{
-        display: inline;
-      }
-      body {
-        font-family: 'Monospace Typewriter', monospace;
-        font-size: 15px;
-      }
+        .side {
+            display: inline;
+        }
+
+        body {
+            font-family: 'Monospace Typewriter', monospace;
+            font-size: 15px;
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <p>V1.15</p>
     <h3 id="logs" style="font-size:18px;">You have 10 logs.</h3>
     <br><br>
@@ -42,9 +45,9 @@
     <button type="button" onclick="buyMax(6)" id="max6" class="side">Buy Max</button>
     <br><br>
     <button type="button" onclick="cutTrees()" id="cut" class="side">Cut all trees to enrich the soil by 1.000</button>
-  </body>
-  <script src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
-  <script>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
+<script>
     /*
         For the above, note that the class "side" should be in all buttons/text in the same row,
         then put a <br> afterwards. Also, the id="thing" is how you would be able to reference things.
@@ -54,55 +57,55 @@
         document.getElementById("ID_HERE").style.display = ""; for showing and
         document.getElementById("ID_HERE").style.display = "none"; for hiding
     */
-    
+
     //Basic setup
     let logs = new Decimal(10);
-    let baseTrees = [new Decimal(0),new Decimal(0),new Decimal(0),new Decimal(0),new Decimal(0),new Decimal(0)];
-    let treeNames = ["Maple","Oak","Palm","Willow","Poplar","Elm"];
-	let cutMultiplier = new Decimal(1);
-    setInterval(update,50);
+    let baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
+    let treeNames = ["Maple", "Oak", "Palm", "Willow", "Poplar", "Elm"];
+    let cutMultiplier = new Decimal(1);
+    setInterval(update, 50);
     //Power is Math.pow(base,exponent) so Math.pow(2,3)=8
-    
+
     function update() {
-      for(let i=0;i<6;i++) {
-        logs = logs.add(
-			baseTrees[i].times(Decimal.pow(10,i)).times(cutMultiplier)
-		);
-      }
-      document.getElementById("logs").innerHTML = `You have ${make_string(logs)} logs.`;
-      document.getElementById("cut").innerHTML = `Cut all trees to enrich the soil by ${getCutMultiplier().toString()}`;
-      for(let j=0;j<6;j++) {
-        document.getElementById(`tree${(j+1).toString()}Display`).innerHTML = `${treeNames[j]} Trees: ${make_string(baseTrees[j])}`;
-		document.getElementById(`tree${(j+1).toString()}`).innerHTML = `Buy ${treeNames[j]} Tree, cost: ${make_string(getTreeCost(j+1))}`;
-      }
+        for (let i = 0; i < 6; i++) {
+            logs = logs.add(
+                baseTrees[i].times(Decimal.pow(10, i)).times(cutMultiplier)
+            );
+        }
+        document.getElementById("logs").innerHTML = `You have ${make_string(logs)} logs.`;
+        document.getElementById("cut").innerHTML = `Cut all trees to enrich the soil by ${getCutMultiplier().toString()}`;
+        for (let j = 0; j < 6; j++) {
+            document.getElementById(`tree${(j+1).toString()}Display`).innerHTML = `${treeNames[j]} Trees: ${make_string(baseTrees[j])}`;
+            document.getElementById(`tree${(j+1).toString()}`).innerHTML = `Buy ${treeNames[j]} Tree, cost: ${make_string(getTreeCost(j+1))}`;
+        }
     }
-	
-	function getCutMultiplier() {
-		return (new Decimal(Decimal.log10(logs)).minus(5).dividedBy(cutMultiplier).times(1000).floor().dividedBy(1000)).max(1);
-	}
-	
-	function cutTrees() {
-		if(confirm("Are you sure you would like to cut down the trees for a boost?")) {
-			cutMultiplier = cutMultiplier.times(getCutMultiplier());
-			baseTrees = [new Decimal(0),new Decimal(0),new Decimal(0),new Decimal(0),new Decimal(0),new Decimal(0)];
-			logs = new Decimal(10);
-		}
-	}
-	
-	function getTreeCost(treeNum) {
-		return Decimal.pow(100,treeNum-1).times(10).add(baseTrees[treeNum-1]);
-	}
-	
+
+    function getCutMultiplier() {
+        return (new Decimal(Decimal.log10(logs)).minus(5).dividedBy(cutMultiplier).times(1000).floor().dividedBy(1000)).max(1);
+    }
+
+    function cutTrees() {
+        if (confirm("Are you sure you would like to cut down the trees for a boost?")) {
+            cutMultiplier = cutMultiplier.times(getCutMultiplier());
+            baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
+            logs = new Decimal(10);
+        }
+    }
+
+    function getTreeCost(treeNum) {
+        return Decimal.pow(100, treeNum - 1).times(10).add(baseTrees[treeNum - 1]);
+    }
+
     function buyTree(treeNum) {
-      if(logs.greaterThanOrEqualTo(getTreeCost(treeNum))) {
-        baseTrees[treeNum-1] = baseTrees[treeNum-1].add(1);
-        logs = logs.minus(getTreeCost(treeNum));
-		document.getElementById(`tree${treeNum.toString()}`).innerHTML = `Buy ${treeNames[treeNum-1]} Tree, cost: ${make_string(getTreeCost(treeNum))}`;
-      }
+        if (logs.greaterThanOrEqualTo(getTreeCost(treeNum))) {
+            baseTrees[treeNum - 1] = baseTrees[treeNum - 1].add(1);
+            logs = logs.minus(getTreeCost(treeNum));
+            document.getElementById(`tree${treeNum.toString()}`).innerHTML = `Buy ${treeNames[treeNum-1]} Tree, cost: ${make_string(getTreeCost(treeNum))}`;
+        }
     }
-	
+
     function buyMax(treeNum) {
-	  /*this function doesn't take the cost increase into account lol, fix this
+        /*this function doesn't take the cost increase into account lol, fix this
       if(logs.greaterThanOrEqualTo(getTreeCost(treeNum))) {
 		let numBought = logs.dividedBy(getTreeCost(treeNum)).floor();
         baseTrees[treeNum-1] = baseTrees[treeNum-1].add(numBought);
@@ -110,44 +113,45 @@
 		document.getElementById(`tree${treeNum.toString()}`).innerHTML = `Buy ${treeNames[treeNum-1]} Tree, cost: ${make_string(getTreeCost(treeNum))}`;
       }
 	  */
-	  alert("Buy max doesn't work yet, spam jatloe to fix it");
+        alert("Buy max doesn't work yet, spam jatloe to fix it");
     }
-    
+
     //This function turns numbers into nice numbers(make_string(1234567)=1.234e6)
     function make_string(number) {
-      if(number<1000000) {
-        return number.toFixed(3);
-      } else if(isNaN(number)) {
-        return "NaN";
-      } else {
-        let power = Math.floor(Math.log10(number));
-        number = number/Math.pow(10,power);
-        return number.toFixed(3) + "e" + String(power);
-      }
+        if (number < 1000000) {
+            return number.toFixed(3);
+        } else if (isNaN(number)) {
+            return "NaN";
+        } else {
+            let power = Math.floor(Math.log10(number));
+            number = number / Math.pow(10, power);
+            return number.toFixed(3) + "e" + String(power);
+        }
     }
-    
+
     //Log function because I can't find it anywhere
-    function log(a,b) {
-      return Math.round(Math.log(b) / Math.log(a));
-    }    
-    
+    function log(a, b) {
+        return Math.round(Math.log(b) / Math.log(a));
+    }
+
     //Hotkeys, keycodes are here https://www.toptal.com/developers/keycode
     document.onkeyup = function(e) {
         if (e.which == 49 || e.which == 97) {
-          buyTree(1);
+            buyTree(1);
         } else if (e.which == 50 || e.which == 98) {
-          buyTree(2);
+            buyTree(2);
         } else if (e.which == 51 || e.which == 99) {
-          buyTree(3);
+            buyTree(3);
         } else if (e.which == 52 || e.which == 100) {
-          buyTree(4);
+            buyTree(4);
         } else if (e.which == 53 || e.which == 101) {
-          buyTree(5);
+            buyTree(5);
         } else if (e.which == 54 || e.which == 102) {
-          buyTree(6);
+            buyTree(6);
         } else if (e.which == 67) {
-		  cutTrees();
-		}
+            cutTrees();
+        }
     };
-  </script>
+</script>
+
 </html>
