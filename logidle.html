@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <p>V1.16</p>
+    <p>V1.17</p>
     <h3 id="logs" style="font-size:18px;">You have 10 logs.</h3>
     <br><br>
     <p class="side" id="tree1Display">Maple Trees: 0</p>
@@ -46,7 +46,7 @@
     <br><br>
     <button type="button" onclick="cutTrees()" id="cut" class="side">Cut all trees to enrich the soil by 1.000</button>
     <br>
-    <button type="button" onclick="prestige()" id="prestige" class="side">Prestige(needs an elm tree), buffs later trees but removes all trees and enriched soil</button>
+    <button type="button" onclick="prestige()" id="prestige" class="side">Prestige, needs at least 1 elm tree(s), buffs later trees but removes all trees and enriched soil</button>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
 <script>
@@ -98,12 +98,13 @@
     }
 	
     function prestige() {
-    	if (baseTrees[5].greaterThanOrEqualTo(1)) {
+    	if (baseTrees[5].greaterThanOrEqualTo(prestigeBuff.minus(9))) {
 	    if (confirm("Are you sure you would like to reset all previous stats for a prestige?")) {
 		cutMultiplier = new Decimal(1);
 		baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
 		logs = new Decimal(10);
-		prestigeBuff = new Decimal(11);
+		prestigeBuff = prestigeBuff.plus(1);
+		document.getElementById("prestige").innerHTML = `Prestige, needs at least ${prestigeBuff.minus(9)} elm tree(s), buffs later trees but removes all trees and enriched soil`;
 	    }
         }
     }
