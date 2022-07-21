@@ -79,9 +79,9 @@
     
     function updateManage() {
     	thisTick = Date.now();
-	for (let i = 0; i < Math.round(Math.max(0,thisTick-lastTick)/50) {
-	    update();
-	}
+		for (let i = 0; i < Math.round(Math.max(0,thisTick-lastTick)/50); i++) {
+			update();
+		}
 	lastTick = thisTick;
     }
 	
