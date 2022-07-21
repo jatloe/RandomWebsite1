@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <p>V1.15</p>
+    <p>V1.16</p>
     <h3 id="logs" style="font-size:18px;">You have 10 logs.</h3>
     <br><br>
     <p class="side" id="tree1Display">Maple Trees: 0</p>
@@ -45,6 +45,8 @@
     <button type="button" onclick="buyMax(6)" id="max6" class="side">Buy Max</button>
     <br><br>
     <button type="button" onclick="cutTrees()" id="cut" class="side">Cut all trees to enrich the soil by 1.000</button>
+    <br>
+    <button type="button" onclick="prestige()" id="prestige" class="side">Prestige(needs an elm tree), buffs later trees but removes all trees and enriched soil</button>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
 <script>
@@ -63,13 +65,14 @@
     let baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
     let treeNames = ["Maple", "Oak", "Palm", "Willow", "Poplar", "Elm"];
     let cutMultiplier = new Decimal(1);
+    let prestigeBuff = new Decimal(10);
     setInterval(update, 50);
     //Power is Math.pow(base,exponent) so Math.pow(2,3)=8
 
     function update() {
         for (let i = 0; i < 6; i++) {
             logs = logs.add(
-                baseTrees[i].times(Decimal.pow(10, i)).times(cutMultiplier)
+                baseTrees[i].times(Decimal.pow(prestigeBuff, i)).times(cutMultiplier)
             );
         }
         document.getElementById("logs").innerHTML = `You have ${make_string(logs)} logs.`;
@@ -85,10 +88,23 @@
     }
 
     function cutTrees() {
-        if (confirm("Are you sure you would like to cut down the trees for a boost?")) {
-            cutMultiplier = cutMultiplier.times(getCutMultiplier());
-            baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
-            logs = new Decimal(10);
+	if (getCutMultiplier().greaterThan(1)) {
+            if (confirm("Are you sure you would like to cut down the trees for a boost?")) {
+        	cutMultiplier = new Decimal(Decimal.log10(logs)).minus(5).times(1000).floor().dividedBy(1000);
+        	baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
+        	logs = new Decimal(10);
+            }
+	}
+    }
+	
+    function prestige() {
+    	if (baseTrees[5].greaterThanOrEqualTo(1)) {
+	    if (confirm("Are you sure you would like to reset all previous stats for a prestige?")) {
+		cutMultiplier = new Decimal(1);
+		baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
+		logs = new Decimal(10);
+		prestigeBuff = new Decimal(11);
+	    }
         }
     }
 
