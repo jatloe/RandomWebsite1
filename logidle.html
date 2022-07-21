@@ -22,36 +22,36 @@
 </head>
 
 <body>
-    <p>V1.26</p>
+    <p>V1.27</p>
     <h3 id="logs" style="font-size:18px;">You have 10 logs.</h3>
     <br><br>
     <p class="side" id="tree1Display">Maple Trees: 0</p>
     <button type="button" onclick="buyTree(1)" id="tree1" class="side">Buy Maple Tree, cost: 10.000</button>
-    <button type="button" onclick="auto(1)" id="auto1" class="side">Auto: Off</button>
+    <button type="button" onclick="auto(1)" id="auto1" class="side" style="display:none">Auto: Off</button>
     <br>
     <p class="side" id="tree2Display">Oak Trees: 0</p>
     <button type="button" onclick="buyTree(2)" id="tree2" class="side">Buy Oak Tree, cost: 1000.000</button>
-    <button type="button" onclick="auto(2)" id="auto2" class="side">Auto: Off</button>
+    <button type="button" onclick="auto(2)" id="auto2" class="side" style="display:none">Auto: Off</button>
     <br>
     <p class="side" id="tree3Display">Palm Trees: 0</p>
     <button type="button" onclick="buyTree(3)" id="tree3" class="side">Buy Palm Tree, cost: 100000.000</button>
-    <button type="button" onclick="auto(3)" id="auto3" class="side">Auto: Off</button>
+    <button type="button" onclick="auto(3)" id="auto3" class="side" style="display:none">Auto: Off</button>
     <br>
     <p class="side" id="tree4Display">Willow Trees: 0</p>
     <button type="button" onclick="buyTree(4)" id="tree4" class="side">Buy Willow Tree, cost: 1.000e7</button>
-    <button type="button" onclick="auto(4)" id="auto4" class="side">Auto: Off</button>
+    <button type="button" onclick="auto(4)" id="auto4" class="side" style="display:none">Auto: Off</button>
     <br>
     <p class="side" id="tree5Display">Poplar Trees: 0</p>
     <button type="button" onclick="buyTree(5)" id="tree5" class="side">Buy Poplar Tree, cost: 1.000e9</button>
-    <button type="button" onclick="auto(5)" id="auto5" class="side">Auto: Off</button>
+    <button type="button" onclick="auto(5)" id="auto5" class="side" style="display:none">Auto: Off</button>
     <br>
     <p class="side" id="tree6Display">Elm Trees: 0</p>
     <button type="button" onclick="buyTree(6)" id="tree6" class="side">Buy Elm Tree, cost: 1.000e11</button>
-    <button type="button" onclick="auto(6)" id="auto6" class="side">Auto: Off</button>
+    <button type="button" onclick="auto(6)" id="auto6" class="side" style="display:none">Auto: Off</button>
     <br><br>
     <button type="button" onclick="cutTrees()" id="cut" class="side">Cut all trees to enrich the soil by 1.000</button>
     <br>
-    <button type="button" onclick="prestige()" id="prestige" class="side">Prestige, needs at least 1 elm tree(s), buffs later trees but removes all trees and enriched soil</button>
+    <button type="button" onclick="prestige()" id="prestige" class="side" style="display:none">Prestige, needs at least 1 elm tree(s), buffs later trees but removes all trees and enriched soil</button>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
 <script>
@@ -144,6 +144,9 @@
 		logs = new Decimal(10);
 		prestigeBuff = prestigeBuff.plus(5);
 		document.getElementById("prestige").innerHTML = `Prestige, needs at least ${prestigeBuff.dividedBy(5).minus(1)} elm tree(s), buffs later trees but removes all trees and enriched soil`;
+		for (let i = 1; i <= 6; i++) {
+		    document.getElementById(`auto${i.toString()}`).style.display = "";
+		}
 	    }
         }
     }
@@ -158,6 +161,9 @@
             logs = logs.minus(getTreeCost(treeNum));
             document.getElementById(`tree${treeNum.toString()}`).innerHTML = `Buy ${treeNames[treeNum-1]} Tree, cost: ${make_string(getTreeCost(treeNum))}`;
         }
+	if (treeNum == 6) {
+	    document.getElementById("prestige").style.display = "";
+	}
     }
 
     function buyMax(treeNum) {
