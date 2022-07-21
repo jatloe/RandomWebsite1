@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <p>V1.21</p>
+    <p>V1.22</p>
     <h3 id="logs" style="font-size:18px;">You have 10 logs.</h3>
     <br><br>
     <p class="side" id="tree1Display">Maple Trees: 0</p>
@@ -94,8 +94,10 @@
     function auto(treeNum) {
     	if (prestigeBuff.greaterThan(10)) {
 	    if (currentAuto != treeNum) {
-		document.getElementById(`tree${currentAuto.toString()}`).disabled = false;
-		document.getElementById(`auto${currentAuto.toString()}`).innerHTML = "Auto: Off";
+		if (currentAuto != 0) {
+		    document.getElementById(`tree${currentAuto.toString()}`).disabled = false;
+		    document.getElementById(`auto${currentAuto.toString()}`).innerHTML = "Auto: Off";
+		}
 		currentAuto = treeNum;
 		document.getElementById(`tree${currentAuto.toString()}`).disabled = true;
 		document.getElementById(`auto${treeNum.toString()}`).innerHTML = "Auto: On";
