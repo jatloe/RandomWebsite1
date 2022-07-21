@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <p>V1.23</p>
+    <p>V1.24</p>
     <h3 id="logs" style="font-size:18px;">You have 10 logs.</h3>
     <br><br>
     <p class="side" id="tree1Display">Maple Trees: 0</p>
@@ -72,9 +72,19 @@
     let cutMultiplier = new Decimal(1);
     let prestigeBuff = new Decimal(10);
     let currentAuto = 0;
-    setInterval(update, 50);
+    let lastTick = Date.now();
+    let thisTick = 0;
+    setInterval(updateManage, 50);
     //Power is Math.pow(base,exponent) so Math.pow(2,3)=8
-
+    
+    function updateManage() {
+    	thisTick = Date.now();
+	for (let i = 0; i < Math.round(Math.max(0,thisTick-lastTick)/50)) {
+	    update();
+	}
+	lastTick = thisTick;
+    }
+	
     function update() {
         for (let i = 0; i < 6; i++) {
             logs = logs.add(
