@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p>V1.3</p>
+    <p>V1.4</p>
     <h3 id="logsCounter" style="font-size:18px;">You have 0 logs.</h3>
     <br><br>
     <p class="side" id="tree1Display">Maple Trees: 1</p>
@@ -58,7 +58,7 @@
       for(let i=0;i<6;i++) {
         logs = logs.add(baseTrees[i].times(i+1));
       }
-      document.getElementById(logs).innerHTML = `You have ${make_string(logs)} logs.`;
+      document.getElementById(logsCounter).innerHTML = `You have ${make_string(logs)} logs.`;
       for(let j=0;j<6;j++) {
         document.getElementById(`tree${(j+1).toString()}Display`).innerHTML = `${treeNames[j]} Trees: ${make_string(logs)}`;
       }
