@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p>V1.10</p>
+    <p>V1.11</p>
     <h3 id="logs" style="font-size:18px;">You have 0 logs.</h3>
     <br><br>
     <p class="side" id="tree1Display">Maple Trees: 1</p>
@@ -66,9 +66,9 @@
         
     
     function buyTree(treeNum) {
-      if(logs >= exp(treeNum-1)) {
+      if(logs >= Decimal.exp(treeNum-1)) {
         baseTrees[treeNum-1] = baseTrees[treeNum-1].add(1);
-        logs.minus(exp(treeNum-1));
+        logs.minus(Decimal.exp(treeNum-1));
       }
     }
     
