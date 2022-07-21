@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <p>V1.14</p>
+    <p>V1.15</p>
     <h3 id="logs" style="font-size:18px;">You have 10 logs.</h3>
     <br><br>
     <p class="side" id="tree1Display">Maple Trees: 0</p>
@@ -78,7 +78,7 @@
     }
 	
 	function getCutMultiplier() {
-		return (new Decimal(Decimal.log10(logs)).minus(5).times(1000).floor().dividedBy(1000)).max(1);
+		return (new Decimal(Decimal.log10(logs)).minus(5).dividedBy(cutMultiplier).times(1000).floor().dividedBy(1000)).max(1);
 	}
 	
 	function cutTrees() {
