@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <p>V1.26</p>
+    <p>V1.27</p>
 	<br>
 	<button type="button" onclick="openTab(1)" id="tabButton1" class="side">log</button>
 	<button type="button" onclick="openTab(2)" id="tabButton2" class="side" style="display:none">wlog</button>
@@ -52,6 +52,10 @@
 		<p class="side" id="tree6Display">Elm Trees: 0</p>
 		<button type="button" onclick="buyTree(6)" id="tree6" class="side">Buy Elm Tree, cost: 1.000e11</button>
 		<button type="button" onclick="auto(6)" id="auto6" class="side" style="display:none">Auto: Off</button>
+		<br>
+		<p class="side" id="tree7Display" style="display:none">Acacia Trees: 0</p>
+		<button type="button" onclick="buyTree(7)" id="tree7" class="side" style="display:none">Buy Acacia Tree, cost: 1.000e16</button>
+		<button type="button" onclick="auto(7)" id="auto7" class="side" style="display:none">Auto: Off</button>
 		<br><br>
 		<button type="button" onclick="cutTrees()" id="cut" class="side">Cut all trees to enrich the soil by 1.000</button>
 		<br>
@@ -59,6 +63,8 @@
 	</div>
 	<div id="tab2" style="display:none">
 		<h3 id="wlogs" style="font-size:18px;">You have 10 wlogs.</h3>
+		<br><br>
+		<button type="button" onclick="buyWlog(1)" id="wlog1" class="side">Unlock acacia trees(boosts earlier trees)<br>Cost: 1000 wlogs</button>
 	</div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
@@ -75,14 +81,17 @@
 
     //Basic setup
     let logs = new Decimal(10);
-    let baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
-    let treeNames = ["Maple", "Oak", "Palm", "Willow", "Poplar", "Elm"];
+    let baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
+    let treeNames = ["Maple", "Oak", "Palm", "Willow", "Poplar", "Elm", "Acacia"];
     let cutMultiplier = new Decimal(1);
     let prestigeBuff = new Decimal(10);
     let currentAuto = 0;
     let lastTick = Date.now();
     let thisTick = 0;
 	let currentTab = 1;
+	let wlogs = new Decimal(0);
+	let wlogPrices = [new Decimal(1000)];
+	let wlogTexts = ["Unlock acacia trees(boosts earlier trees)"];
     setInterval(updateManage, 50);
     //Power is Math.pow(base,exponent) so Math.pow(2,3)=8
     
@@ -91,7 +100,7 @@
 		for (let i = 0; i < Math.round(Math.max(0,thisTick-lastTick)/50); i++) {
 			update();
 		}
-	lastTick = thisTick;
+		lastTick = thisTick;
     }
 	
     function update() {
@@ -99,17 +108,35 @@
             logs = logs.add(
                 baseTrees[i].times(Decimal.pow(prestigeBuff, i)).times(cutMultiplier)
             );
+			baseTrees[i] = baseTrees[i].add(
+				baseTrees[6].times(cutMultiplier).floor()
+			);
         }
-	if (currentAuto != 0) {
-	    buyTree(currentAuto);
-	}
+		logs = logs
+		if (currentAuto != 0) {
+			buyTree(currentAuto);
+		}
         document.getElementById("logs").innerHTML = `You have ${make_string(logs)} logs.`;
         document.getElementById("cut").innerHTML = `Cut all trees to enrich the soil by ${getCutMultiplier().toString()}`;
-        for (let j = 0; j < 6; j++) {
+        for (let j = 0; j < 7; j++) {
             document.getElementById(`tree${(j+1).toString()}Display`).innerHTML = `${treeNames[j]} Trees: ${make_string(baseTrees[j])}`;
             document.getElementById(`tree${(j+1).toString()}`).innerHTML = `Buy ${treeNames[j]} Tree, cost: ${make_string(getTreeCost(j+1))}`;
         }
+        document.getElementById("wlogs").innerHTML = `You have ${make_string(wlogs)} wlogs.`;
+		if (prestigeBuff.greaterThanOrEqualTo(60)) {
+			document.getElementById("prestige").innerHTML = `Prestige for ${baseTrees[5]} wlogs`;
+		}
     }
+
+	function buyWlog(upgradeNum) {
+		if (wlogs.greaterThanOrEqualTo(wlogPrices[upgradeNum-1])) {
+			wlogs -= wlogPrices[upgradeNum-1]
+			document.getElementById(`wlog${upgradeNum.toString()}`).innerHTML = wlogTexts[upgradeNum-1] + "<br>Bought!"
+			document.getElementById("tree7Display").style.display = "";
+			document.getElementById("tree7").style.display = "";
+			document.getElementById("auto7").style.display = "";
+		}
+	}
 
     function getCutMultiplier() {
         return (new Decimal(Decimal.log10(logs)).minus(5).dividedBy(cutMultiplier).times(1000).floor().dividedBy(1000)).max(1);
@@ -117,44 +144,59 @@
 
     function auto(treeNum) {
     	if (prestigeBuff.greaterThan(10)) {
-	    if (currentAuto != treeNum) {
-		if (currentAuto != 0) {
-		    document.getElementById(`tree${currentAuto.toString()}`).disabled = false;
-		    document.getElementById(`auto${currentAuto.toString()}`).innerHTML = "Auto: Off";
+			if (currentAuto != treeNum) {
+				if (currentAuto != 0) {
+					document.getElementById(`tree${currentAuto.toString()}`).disabled = false;
+					document.getElementById(`auto${currentAuto.toString()}`).innerHTML = "Auto: Off";
+				}
+				currentAuto = treeNum;
+				document.getElementById(`tree${currentAuto.toString()}`).disabled = true;
+				document.getElementById(`auto${treeNum.toString()}`).innerHTML = "Auto: On";
+			} else {
+				document.getElementById(`tree${currentAuto.toString()}`).disabled = false;
+				document.getElementById(`auto${currentAuto.toString()}`).innerHTML = "Auto: Off";
+				currentAuto = 0;
+			}
+		} else {
+			alert("You need to have prestiged at least once to use this.");
 		}
-		currentAuto = treeNum;
-		document.getElementById(`tree${currentAuto.toString()}`).disabled = true;
-		document.getElementById(`auto${treeNum.toString()}`).innerHTML = "Auto: On";
-	    } else {
-		document.getElementById(`tree${currentAuto.toString()}`).disabled = false;
-		document.getElementById(`auto${currentAuto.toString()}`).innerHTML = "Auto: Off";
-		currentAuto = 0;
-	    }
-	} else {
-	    alert("You need to have prestiged at least once to use this.");
-	}
     }
 	
     function cutTrees() {
-	if (getCutMultiplier().greaterThan(1)) {
-            if (confirm("Are you sure you would like to cut down the trees for a boost?")) {
-        	cutMultiplier = new Decimal(Decimal.log10(logs)).minus(5).times(1000).floor().dividedBy(1000);
-        	baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
-        	logs = new Decimal(10);
+		if (getCutMultiplier().greaterThan(1)) {
+			if (confirm("Are you sure you would like to cut down the trees for a boost?")) {
+				cutMultiplier = new Decimal(Decimal.log10(logs)).minus(5).times(1000).floor().dividedBy(1000);
+				baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
+				logs = new Decimal(10);
+				if (prestigeBuff.greaterThanOrEqualTo(60)) {
+					document.getElementById("prestige").innerHTML = `Prestige for 0 wlogs`;
+				}
             }
-	}
+		}
     }
 	
     function prestige() {
-    	if (baseTrees[5].greaterThanOrEqualTo(prestigeBuff.dividedBy(5).minus(1))) {
+		if (prestigeBuff.greaterThanOrEqualTo(60)) {
+			if (baseTrees[5].greaterThanOrEqualTo(1)) {
+				if (confirm("Are you sure you would like to reset all previous stats for wlogs?")) {
+					wlogs = wlogs.add(baseTrees[5]);
+					cutMultiplier = new Decimal(1);
+					baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
+					logs = new Decimal(10);
+					document.getElementById("prestige").innerHTML = `Prestige for 0 wlogs`;
+				}
+			}
+        } else if (baseTrees[5].greaterThanOrEqualTo(prestigeBuff.dividedBy(5).minus(1))) {
 			if (confirm("Are you sure you would like to reset all previous stats for a prestige?")) {
 				cutMultiplier = new Decimal(1);
-				baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
+				baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
 				logs = new Decimal(10);
 				prestigeBuff = prestigeBuff.plus(5);
 				document.getElementById("prestige").innerHTML = `Prestige, needs at least ${prestigeBuff.dividedBy(5).minus(1)} elm tree(s), buffs later trees but removes all trees and enriched soil`;
 				if (prestigeBuff.greaterThanOrEqualTo(60)) {
 					document.getElementById("tabButton2").style.display = "";
+					document.getElementById("prestige").innerHTML = `Prestige for 0 wlogs`;
+					wlogs = new Decimal(10);
 				}
 				for (let i = 1; i <= 6; i++) {
 					document.getElementById(`auto${i.toString()}`).style.display = "";
@@ -164,16 +206,22 @@
     }
 
     function getTreeCost(treeNum) {
+		if (treeNum == 7) {
+			return Decimal.pow(10, baseTrees[6].add(16));
+		}
         return Decimal.pow(100, treeNum - 1).times(10).add(baseTrees[treeNum - 1]);
     }
 
     function buyTree(treeNum) {
         if (logs.greaterThanOrEqualTo(getTreeCost(treeNum))) {
-            baseTrees[treeNum - 1] = baseTrees[treeNum - 1].add(1);
             logs = logs.minus(getTreeCost(treeNum));
+            baseTrees[treeNum - 1] = baseTrees[treeNum - 1].add(1);
             document.getElementById(`tree${treeNum.toString()}`).innerHTML = `Buy ${treeNames[treeNum-1]} Tree, cost: ${make_string(getTreeCost(treeNum))}`;
 			if (treeNum == 6) {
 				document.getElementById("prestige").style.display = "";
+				if (prestigeBuff.greaterThanOrEqualTo(60)) {
+					document.getElementById("prestige").innerHTML = `Prestige for ${baseTrees[5]} wlogs`;
+				}
 			}
         }
     }
@@ -214,6 +262,23 @@
 	  currentTab = tab;
     }
 
+	function debug_to_part(part) {
+		if (part == "wlog") {
+			if (confirm("THIS FUNCTION IS ONLY FOR DEBUGGING PURPOSES. Using this function for other purposes can ruin a part of the game, and you are strongly advised to click cancel. If you have any questions, feel free to ask jatloe12345#8718 on Discord. With all that said, would you like to skip to the wlog part of the game?")) {
+				prestigeBuff = new Decimal(60);
+				baseTrees[5] = new Decimal(1000);
+				document.getElementById("tabButton2").style.display = "";
+				document.getElementById("prestige").style.display = "";
+				document.getElementById("prestige").innerHTML = `Prestige for 0 wlogs`;
+				wlogs = new Decimal(10);
+				for (let i = 1; i <= 6; i++) {
+					document.getElementById(`auto${i.toString()}`).style.display = "";
+				}
+				prestige();
+			}
+		}
+	}
+
     //Hotkeys, keycodes are here https://www.toptal.com/developers/keycode
     document.onkeyup = function(e) {
         if (e.which == 49 || e.which == 97) {
@@ -230,6 +295,8 @@
             buyTree(6);
         } else if (e.which == 67) {
             cutTrees();
+        } else if (e.which == 80) {
+            prestige();
         }
     };
 </script>
