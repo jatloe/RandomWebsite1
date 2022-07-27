@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <p>V1.30</p>
+    <p>V1.31</p>
 	<br>
 	<button type="button" onclick="openTab(1)" id="tabButton1" class="side">log</button>
 	<button type="button" onclick="openTab(2)" id="tabButton2" class="side" style="display:none">wlog</button>
@@ -354,7 +354,7 @@
 		if (prestigeBuff.greaterThanOrEqualTo(60)) {
 			if (baseTrees[5].greaterThanOrEqualTo(1)) {
 				if (confirm("Are you sure you would like to reset all previous stats for wlogs?")) {
-					if (baseTrees[8] == false) {
+					if (wlogGet[8] == false) {
 						wlogs = wlogs.add(baseTrees[5]);
 					} else {
 						wlogs = wlogs.add(Decimal.pow(baseTrees[5],1.5).floor());
