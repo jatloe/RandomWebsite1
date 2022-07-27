@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <p>V1.28</p>
+    <p>V1.29</p>
 	<br>
 	<button type="button" onclick="openTab(1)" id="tabButton1" class="side">log</button>
 	<button type="button" onclick="openTab(2)" id="tabButton2" class="side" style="display:none">wlog</button>
@@ -437,7 +437,7 @@
 			}
 		} else {
 			if (number.lessThan(1000000)) {
-				return number.times(1000).floor().dividedBy(1000);
+				return number.toFixed(3);
 			} else {
 				let power = (new Decimal(Decimal.log10(number))).floor();
 				number = number.dividedBy(Decimal.pow(10,power));
