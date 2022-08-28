@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="icon" href="jatloesmile-hd.png">
+    <title>Log Idle</title>
+    <style>
+        .side {
+            display: inline;
+        }
+
+        body {
+            font-family: 'Monospace Typewriter', monospace;
+            font-size: 15px;
+        }
+	    
+	button {
+    	    font-family: 'Monospace Typewriter', monospace;
+            font-size: 15px;
+	}
+    </style>
+</head>
+
+<body>
+    <p>V1.31</p>
+	<br>
+	<button type="button" onclick="openTab(1)" id="tabButton1" class="side">log</button>
+	<button type="button" onclick="openTab(2)" id="tabButton2" class="side" style="display:none">wlog</button>
+	<button type="button" onclick="openTab(3)" id="tabButton3" class="side" style="display:none">wolog</button>
+	<div id="tab1">
+		<h3 id="logs" style="font-size:18px;">You have 10 logs.</h3>
+		<br><br>
+		<p class="side" id="tree1Display">Maple Trees: 0</p>
+		<button type="button" onclick="buyTree(1)" id="tree1" class="side">Buy Maple Tree, cost: 10.000</button>
+		<button type="button" onclick="auto(1)" id="auto1" class="side" style="display:none">Auto: Off</button>
+		<br>
+		<p class="side" id="tree2Display">Oak Trees: 0</p>
+		<button type="button" onclick="buyTree(2)" id="tree2" class="side">Buy Oak Tree, cost: 1000.000</button>
+		<button type="button" onclick="auto(2)" id="auto2" class="side" style="display:none">Auto: Off</button>
+		<br>
+		<p class="side" id="tree3Display">Palm Trees: 0</p>
+		<button type="button" onclick="buyTree(3)" id="tree3" class="side">Buy Palm Tree, cost: 100000.000</button>
+		<button type="button" onclick="auto(3)" id="auto3" class="side" style="display:none">Auto: Off</button>
+		<br>
+		<p class="side" id="tree4Display">Willow Trees: 0</p>
+		<button type="button" onclick="buyTree(4)" id="tree4" class="side">Buy Willow Tree, cost: 1.000e7</button>
+		<button type="button" onclick="auto(4)" id="auto4" class="side" style="display:none">Auto: Off</button>
+		<br>
+		<p class="side" id="tree5Display">Poplar Trees: 0</p>
+		<button type="button" onclick="buyTree(5)" id="tree5" class="side">Buy Poplar Tree, cost: 1.000e9</button>
+		<button type="button" onclick="auto(5)" id="auto5" class="side" style="display:none">Auto: Off</button>
+		<br>
+		<p class="side" id="tree6Display">Elm Trees: 0</p>
+		<button type="button" onclick="buyTree(6)" id="tree6" class="side">Buy Elm Tree, cost: 1.000e11</button>
+		<button type="button" onclick="auto(6)" id="auto6" class="side" style="display:none">Auto: Off</button>
+		<br>
+		<p class="side" id="tree7Display" style="display:none">Acacia Trees: 0</p>
+		<button type="button" onclick="buyTree(7)" id="tree7" class="side" style="display:none">Buy Acacia Tree, cost: 1.000e16</button>
+		<button type="button" onclick="auto(7)" id="auto7" class="side" style="display:none">Auto: Off</button>
+		<br><br>
+		<button type="button" onclick="cutTrees()" id="cut" class="side">Cut all trees to enrich the soil by 1.000</button>
+		<br>
+		<button type="button" onclick="prestige()" id="prestige" class="side" style="display:none">Prestige, needs at least 1 elm tree(s), buffs later trees but removes all trees and enriched soil</button>
+	</div>
+	<div id="tab2" style="display:none">
+		<h3 id="wlogs" style="font-size:18px;">You have 10 wlogs.</h3>
+		<br><br>
+		<button type="button" onclick="buyWlog(1)" id="wlog1" class="side">Unlock acacia trees(boosts earlier trees)<br>Cost: 1000 wlogs</button>
+		<br>
+		<button type="button" onclick="buyWlog(2)" id="wlog2" class="side">Improve acacia tree boost<br>Cost: 100000 wlogs</button>
+		<br>
+		<button type="button" onclick="buyWlog(3)" id="wlog3" class="side">Elm trees only cost one log, and acacia tree prices are slightly lowered<br>Cost: 2e7 wlogs</button>
+		<br>
+		<button type="button" onclick="buyWlog(4)" id="wlog4" class="side">Wlogs boost what prestiges boosted before<br>Cost: 1e8 wlogs</button>
+		<br>
+		<button type="button" onclick="buyWlog(5)" id="wlog5" class="side">Unlock apple trees<br>Cost: 1e12 wlogs</button>
+		<br>
+		<button type="button" onclick="buyWlog(6)" id="wlog6" class="side" style="display:none">Unlock cherry trees, and acacia boost is improved with wologs<br>Cost: 1e14 wlogs</button>
+		<br>
+		<button type="button" onclick="buyWlog(7)" id="wlog7" class="side" style="display:none">Unlock orange trees, and wlogs boost wologs<br>Cost: 1e16 wlogs</button>
+		<br>
+		<button type="button" onclick="buyWlog(8)" id="wlog8" class="side" style="display:none">Unlock peach trees, unlock wolog automation, and boost wolog production<br>Cost: 1e20 wlogs</button>
+		<br>
+		<button type="button" onclick="buyWlog(9)" id="wlog9" class="side" style="display:none">Unlock mango trees, and prestiging gives more wlogs<br>Cost: 1e21 wlogs</button>
+		<br>
+		<button type="button" onclick="buyWlog(10)" id="wlog10" class="side" style="display:none">Unlock coconut trees, and cutting the trees give a better boost<br>Cost: 1e31 wlogs</button>
+	</div>
+	<div id="tab3" style="display:none">
+		<h3 id="wologs" style="font-size:18px;">You have 10 wologs.</h3>
+		<br><br>
+		<p class="side" id="wotree1Display">Apple Trees: 0</p>
+		<button type="button" onclick="buyWotree(1)" id="wotree1" class="side">Buy Apple Tree, cost: 10.000</button>
+		<button type="button" onclick="woauto(1)" id="woauto1" class="side" style="display:none">Auto: Off</button>
+		<br>
+		<p class="side" id="wotree2Display" style="display:none">Cherry Trees: 0</p>
+		<button type="button" onclick="buyWotree(2)" id="wotree2" class="side" style="display:none">Buy Cherry Tree, cost: 10000.000</button>
+		<button type="button" onclick="woauto(2)" id="woauto2" class="side" style="display:none">Auto: Off</button>
+		<br>
+		<p class="side" id="wotree3Display" style="display:none">Orange Trees: 0</p>
+		<button type="button" onclick="buyWotree(3)" id="wotree3" class="side" style="display:none">Buy Orange Tree, cost: 1.000e7</button>
+		<button type="button" onclick="woauto(3)" id="woauto3" class="side" style="display:none">Auto: Off</button>
+		<br>
+		<p class="side" id="wotree4Display" style="display:none">Peach Trees: 0</p>
+		<button type="button" onclick="buyWotree(4)" id="wotree4" class="side" style="display:none">Buy Peach Tree, cost: 1.000e10</button>
+		<button type="button" onclick="woauto(4)" id="woauto4" class="side" style="display:none">Auto: Off</button>
+		<br>
+		<p class="side" id="wotree5Display" style="display:none">Mango Trees: 0</p>
+		<button type="button" onclick="buyWotree(5)" id="wotree5" class="side" style="display:none">Buy Mango Tree, cost: 1.000e13</button>
+		<button type="button" onclick="woauto(5)" id="woauto5" class="side" style="display:none">Auto: Off</button>
+		<br>
+		<p class="side" id="wotree6Display" style="display:none">Coconut Trees: 0</p>
+		<button type="button" onclick="buyWotree(6)" id="wotree6" class="side" style="display:none">Buy Coconut Tree, cost: 1.000e16</button>
+		<button type="button" onclick="woauto(6)" id="woauto6" class="side" style="display:none">Auto: Off</button>
+	</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
+<script>
+    /*
+        For the above, note that the class "side" should be in all buttons/text in the same row,
+        then put a <br> afterwards. Also, the id="thing" is how you would be able to reference things.
+        You use document.getElementById("ID_HERE").innerHTML = "NEW_TEXT" to change the text.
+        <p> is text, <button> is button. Remember to close them with </p> and </button>.
+        When it has style="display: none;" it means it's hidden, use
+        document.getElementById("ID_HERE").style.display = ""; for showing and
+        document.getElementById("ID_HERE").style.display = "none"; for hiding
+    */
+
+    //Basic setup
+    let logs = new Decimal(10);
+    let baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
+    let treeNames = ["Maple", "Oak", "Palm", "Willow", "Poplar", "Elm", "Acacia"];
+    let cutMultiplier = new Decimal(1);
+    let prestigeBuff = new Decimal(10);
+    let currentAuto = 0;
+    let lastTick = Date.now();
+    let thisTick = 0;
+	let currentTab = 1;
+	let wlogs = new Decimal(0);
+	let wlogPrices = [new Decimal(1000),new Decimal(100000),new Decimal(20000000),new Decimal(100000000),Decimal.pow(10,12),Decimal.pow(10,14),Decimal.pow(10,16),Decimal.pow(10,20),Decimal.pow(10,21),Decimal.pow(10,31)];
+	let wlogTexts = ["Unlock acacia trees(boosts earlier trees)","Improve acacia tree boost","Elm trees only cost one log, and acacia tree prices are slightly lowered","Wlogs boost what prestiges boosted before","Unlock apple trees","Unlock cherry trees, and acacia boost is improved with wologs","Unlock orange trees, and wlogs boost wologs","Unlock peach trees, unlock wolog automation, and boost wolog production","Unlock mango trees, and prestiging gives more wlogs","Unlock coconut trees, and cutting the trees give a better boost"];
+	let wlogGet = [false,false,false,false,false,false,false,false,false,false];
+	let wologs = new Decimal(10);
+	let wotreeNames = ["Apple", "Cherry", "Orange", "Peach", "Mango", "Coconut"];
+    let wotrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
+	let currentWoauto = 0;
+	let knownWon = false;
+	
+    setInterval(updateManage, 50);
+    //Power is Math.pow(base,exponent) so Math.pow(2,3)=8
+    
+    function updateManage() {
+    	thisTick = Date.now();
+		for (let i = 0; i < Math.round(Math.max(0,thisTick-lastTick)/50); i++) {
+			update();
+		}
+		lastTick = thisTick;
+    }
+	
+    function update() {
+        for (let i = 0; i < 6; i++) {
+			let actualPresBuff = prestigeBuff;
+			if (wlogGet[3] == true) {
+				actualPresBuff = actualPresBuff.add(wlogs);
+			}
+			if (wlogGet[4] == true) {
+				actualPresBuff = actualPresBuff.times(wologs);
+			}
+			logs = logs.add(
+				baseTrees[i].times(Decimal.pow(actualPresBuff, i)).times(cutMultiplier)
+			);
+			let acaciaBoost = baseTrees[6];
+			if (wlogGet[5] == true) {
+				acaciaBoost = acaciaBoost.times(
+					(new Decimal(wologs.logarithm(2))).floor().max(1)
+				);
+			}
+			if (wlogGet[1] == true) {
+				acaciaBoost = Decimal.pow(acaciaBoost,4);
+			}
+			baseTrees[i] = baseTrees[i].add(
+				acaciaBoost.times(cutMultiplier).floor()
+			);
+        }
+		
+		for (let i = 0; i < 6; i++) {
+			addedWologs = wotrees[i].times(Decimal.pow(10, i));
+			if (wlogGet[7] == true) {
+				addedWologs = addedWologs.times(Decimal.pow(10, i));
+			}
+			if (wlogGet[6] == true) {
+				addedWologs = addedWologs.times(
+					(new Decimal(Decimal.log10(wlogs))).floor().max(1)
+				)
+			}
+			wologs = wologs.add(addedWologs);
+        }
+		
+		if (currentAuto != 0) {
+			buyTree(currentAuto);
+		}
+		if (currentWoauto != 0) {
+			buyWotree(currentWoauto);
+		}
+        document.getElementById("logs").innerHTML = `You have ${make_string(logs)} logs.`;
+        document.getElementById("wologs").innerHTML = `You have ${make_string(wologs)} wologs.`;
+        document.getElementById("cut").innerHTML = `Cut all trees to enrich the soil by ${make_string(getCutMultiplier())}`;
+        for (let j = 0; j < 7; j++) {
+            document.getElementById(`tree${(j+1).toString()}Display`).innerHTML = `${treeNames[j]} Trees: ${make_string(baseTrees[j])}`;
+            document.getElementById(`tree${(j+1).toString()}`).innerHTML = `Buy ${treeNames[j]} Tree, cost: ${make_string(getTreeCost(j+1))}`;
+        }
+		
+		for (let j = 0; j < 6; j++) {
+            document.getElementById(`wotree${(j+1).toString()}Display`).innerHTML = `${wotreeNames[j]} Trees: ${make_string(wotrees[j])}`;
+            document.getElementById(`wotree${(j+1).toString()}`).innerHTML = `Buy ${wotreeNames[j]} Tree, cost: ${make_string(getWotreeCost(j+1))}`;
+		}
+		
+        document.getElementById("wlogs").innerHTML = `You have ${make_string(wlogs)} wlogs.`;
+		if (prestigeBuff.greaterThanOrEqualTo(60)) {
+			if (wlogGet[8] == false) {
+				document.getElementById("prestige").innerHTML = `Prestige for ${make_string(baseTrees[5])} wlogs`;
+			} else {
+				document.getElementById("prestige").innerHTML = `Prestige for ${make_string(Decimal.pow(baseTrees[5],1.5).floor())} wlogs`;
+			}
+		}
+		
+		if (knownWon == false && logs.greaterThanOrEqualTo(new Decimal("1.798e308"))) {
+			alert("Congratulations! You have beaten the current game, but there are more planned updates for the game, so stay tuned! :)");
+			knownWon = true;
+		}
+    }
+
+	function getWotreeCost(wotreeNum) {
+        return Decimal.pow(1000, wotreeNum - 1).times(10).add(wotrees[wotreeNum - 1]);
+	}
+
+	function buyWotree(wotreeNum) {
+		if (wologs.greaterThanOrEqualTo(getWotreeCost(wotreeNum))) {
+            wologs = wologs.minus(getWotreeCost(wotreeNum));
+            wotrees[wotreeNum - 1] = wotrees[wotreeNum - 1].add(1);
+            document.getElementById(`wotree${wotreeNum.toString()}`).innerHTML = `Buy ${wotreeNames[wotreeNum-1]} Tree, cost: ${make_string(getWotreeCost(wotreeNum))}`;
+		}
+	}
+
+	function buyWlog(upgradeNum) {
+		if (wlogs.greaterThanOrEqualTo(wlogPrices[upgradeNum-1])) {
+			wlogs = wlogs.minus(wlogPrices[upgradeNum-1]);
+			wlogGet[upgradeNum-1] = true;
+			document.getElementById(`wlog${upgradeNum.toString()}`).innerHTML = wlogTexts[upgradeNum-1] + "<br>Bought!";
+			
+			if (upgradeNum == 1) {
+				document.getElementById("tree7Display").style.display = "";
+				document.getElementById("tree7").style.display = "";
+				document.getElementById("auto7").style.display = "";
+			} else if (upgradeNum == 2) {
+				//Yeah we don't need to do anything here lol
+			} else if (upgradeNum == 3) {
+				//Nope nothing here either
+			} else if (upgradeNum == 4) {
+				//Nothing here!
+			} else if (upgradeNum == 5) {
+				document.getElementById("tabButton3").style.display = "";
+				document.getElementById("wlog6").style.display = "";
+				document.getElementById("wlog7").style.display = "";
+				document.getElementById("wlog8").style.display = "";
+				document.getElementById("wlog9").style.display = "";
+				document.getElementById("wlog10").style.display = "";
+			} else if (upgradeNum == 6) {
+				document.getElementById("wotree2").style.display = "";
+				document.getElementById("wotree2Display").style.display = "";
+			} else if (upgradeNum == 7) {
+				document.getElementById("wotree3").style.display = "";
+				document.getElementById("wotree3Display").style.display = "";
+			} else if (upgradeNum == 8) {
+				document.getElementById("wotree4").style.display = "";
+				document.getElementById("wotree4Display").style.display = "";
+				document.getElementById("woauto1").style.display = "";
+				document.getElementById("woauto2").style.display = "";
+				document.getElementById("woauto3").style.display = "";
+				document.getElementById("woauto4").style.display = "";
+			} else if (upgradeNum == 9) {
+				document.getElementById("wotree5").style.display = "";
+				document.getElementById("wotree5Display").style.display = "";
+				document.getElementById("woauto5").style.display = "";
+			} else if (upgradeNum == 10) {
+				document.getElementById("wotree6").style.display = "";
+				document.getElementById("wotree6Display").style.display = "";
+				document.getElementById("woauto6").style.display = "";
+			}
+		}
+	}
+
+    function getCutMultiplier() {
+		if (wlogGet[9] == false) {
+			return (new Decimal(Decimal.log10(logs)).minus(5).dividedBy(cutMultiplier).times(1000).floor().dividedBy(1000)).max(1);
+		} else {
+			return Decimal.pow((new Decimal(Decimal.log10(logs))).minus(5),3).dividedBy(cutMultiplier).times(1000).floor().dividedBy(1000).max(1);
+		}
+    }
+
+	function woauto(wotreeNum) {
+		if (currentWoauto != wotreeNum) {
+			if (currentWoauto != 0) {
+				document.getElementById(`wotree${currentWoauto.toString()}`).disabled = false;
+				document.getElementById(`woauto${currentWoauto.toString()}`).innerHTML = "Auto: Off";
+			}
+			currentWoauto = wotreeNum;
+			document.getElementById(`wotree${currentWoauto.toString()}`).disabled = true;
+			document.getElementById(`woauto${currentWoauto.toString()}`).innerHTML = "Auto: On";
+		} else {
+			document.getElementById(`wotree${currentWoauto.toString()}`).disabled = false;
+			document.getElementById(`woauto${currentWoauto.toString()}`).innerHTML = "Auto: Off";
+			currentWoauto = 0;
+		}
+    }
+
+    function auto(treeNum) {
+    	if (prestigeBuff.greaterThan(10)) {
+			if (currentAuto != treeNum) {
+				if (currentAuto != 0) {
+					document.getElementById(`tree${currentAuto.toString()}`).disabled = false;
+					document.getElementById(`auto${currentAuto.toString()}`).innerHTML = "Auto: Off";
+				}
+				currentAuto = treeNum;
+				document.getElementById(`tree${currentAuto.toString()}`).disabled = true;
+				document.getElementById(`auto${treeNum.toString()}`).innerHTML = "Auto: On";
+			} else {
+				document.getElementById(`tree${currentAuto.toString()}`).disabled = false;
+				document.getElementById(`auto${currentAuto.toString()}`).innerHTML = "Auto: Off";
+				currentAuto = 0;
+			}
+		} else {
+			alert("You need to have prestiged at least once to use this.");
+		}
+    }
+	
+    function cutTrees() {
+		if (getCutMultiplier().greaterThan(1)) {
+			if (confirm("Are you sure you would like to cut down the trees for a boost?")) {
+				if (wlogGet[9] == false) {
+					cutMultiplier = new Decimal(Decimal.log10(logs)).minus(5).times(1000).floor().dividedBy(1000);
+				} else {
+					cutMultiplier = Decimal.pow(new Decimal(Decimal.log10(logs)).minus(5),3).times(1000).floor().dividedBy(1000);
+				}
+				baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
+				logs = new Decimal(10);
+				if (prestigeBuff.greaterThanOrEqualTo(60)) {
+					document.getElementById("prestige").innerHTML = `Prestige for 0 wlogs`;
+				}
+            }
+		}
+    }
+	
+    function prestige() {
+		if (prestigeBuff.greaterThanOrEqualTo(60)) {
+			if (baseTrees[5].greaterThanOrEqualTo(1)) {
+				if (confirm("Are you sure you would like to reset all previous stats for wlogs?")) {
+					if (wlogGet[8] == false) {
+						wlogs = wlogs.add(baseTrees[5]);
+					} else {
+						wlogs = wlogs.add(Decimal.pow(baseTrees[5],1.5).floor());
+					}
+					cutMultiplier = new Decimal(1);
+					baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
+					logs = new Decimal(10);
+					document.getElementById("prestige").innerHTML = `Prestige for 0 wlogs`;
+				}
+			}
+        } else if (baseTrees[5].greaterThanOrEqualTo(prestigeBuff.dividedBy(5).minus(1))) {
+			if (confirm("Are you sure you would like to reset all previous stats for a prestige?")) {
+				cutMultiplier = new Decimal(1);
+				baseTrees = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
+				logs = new Decimal(10);
+				prestigeBuff = prestigeBuff.plus(5);
+				document.getElementById("prestige").innerHTML = `Prestige, needs at least ${prestigeBuff.dividedBy(5).minus(1)} elm tree(s), buffs later trees but removes all trees and enriched soil`;
+				if (prestigeBuff.greaterThanOrEqualTo(60)) {
+					document.getElementById("tabButton2").style.display = "";
+					document.getElementById("prestige").innerHTML = `Prestige for 0 wlogs`;
+					wlogs = new Decimal(10);
+				}
+				for (let i = 1; i <= 6; i++) {
+					document.getElementById(`auto${i.toString()}`).style.display = "";
+				}
+			}
+        }
+    }
+
+    function getTreeCost(treeNum) {
+		if (treeNum == 7) {
+			if (wlogGet[2] == true) {
+				return Decimal.pow(10, baseTrees[6].add(15));
+			} else {
+				return Decimal.pow(10, baseTrees[6].add(16));
+			}
+		} else if (treeNum == 6 && wlogGet[2] == true) {
+			return (new Decimal(1));
+		}
+        return Decimal.pow(100, treeNum - 1).times(10).add(baseTrees[treeNum - 1]);
+    }
+
+    function buyTree(treeNum) {
+        if (logs.greaterThanOrEqualTo(getTreeCost(treeNum))) {
+            logs = logs.minus(getTreeCost(treeNum));
+            baseTrees[treeNum - 1] = baseTrees[treeNum - 1].add(1);
+            document.getElementById(`tree${treeNum.toString()}`).innerHTML = `Buy ${treeNames[treeNum-1]} Tree, cost: ${make_string(getTreeCost(treeNum))}`;
+			if (treeNum == 6) {
+				document.getElementById("prestige").style.display = "";
+				if (prestigeBuff.greaterThanOrEqualTo(60)) {
+					document.getElementById("prestige").innerHTML = `Prestige for ${make_string(baseTrees[5])} wlogs`;
+				}
+			}
+        }
+    }
+
+    function buyMax(treeNum) {
+        /*this function doesn't take the cost increase into account lol, fix this
+      if(logs.greaterThanOrEqualTo(getTreeCost(treeNum))) {
+		let numBought = logs.dividedBy(getTreeCost(treeNum)).floor();
+        baseTrees[treeNum-1] = baseTrees[treeNum-1].add(numBought);
+        logs = logs.minus(getTreeCost(treeNum).times(numBought));
+		document.getElementById(`tree${treeNum.toString()}`).innerHTML = `Buy ${treeNames[treeNum-1]} Tree, cost: ${make_string(getTreeCost(treeNum))}`;
+      }
+	  */
+        alert("Buy max doesn't work yet, spam jatloe to fix it");
+    }
+
+    //This function turns numbers into nice numbers(make_string(1234567)=1.234e6)
+    function make_string(number) {
+		if (typeof number == "number") {
+			if (number < 1000000) {
+				return number.toFixed(3);
+			} else if (isNaN(number)) {
+				return "NaN";
+			} else {
+				let power = Math.floor(Math.log10(number));
+				number = number / Math.pow(10, power);
+				return number.toFixed(3) + "e" + String(power);
+			}
+		} else {
+			if (number.lessThan(1000000)) {
+				return number.toFixed(3);
+			} else {
+				let power = (new Decimal(Decimal.log10(number))).floor();
+				number = number.dividedBy(Decimal.pow(10,power));
+				return number.toFixed(3) + "e" + power;
+			}
+		}
+    }
+
+    //Log function because I can't find it anywhere
+    function log(a, b) {
+        return Math.round(Math.log(b) / Math.log(a));
+    }
+
+	function openTab(tab) {
+	  document.getElementById("tab" + String(currentTab)).style.display = "none";
+	  document.getElementById("tab" + String(tab)).style.display = "";
+	  currentTab = tab;
+    }
+
+	function debug_to_part(part) {
+		if (part == "wlog") {
+			if (confirm("THIS FUNCTION IS ONLY FOR DEBUGGING PURPOSES. Using this function for other purposes can ruin a part of the game, and you are strongly advised to click cancel. If you have any questions, feel free to ask jatloe12345#8718 on Discord. With all that said, would you like to skip to the wlog part of the game?")) {
+				prestigeBuff = new Decimal(60);
+				baseTrees[5] = new Decimal(1000);
+				document.getElementById("tabButton2").style.display = "";
+				document.getElementById("prestige").style.display = "";
+				document.getElementById("prestige").innerHTML = `Prestige for 0 wlogs`;
+				wlogs = new Decimal(10);
+				for (let i = 1; i <= 6; i++) {
+					document.getElementById(`auto${i.toString()}`).style.display = "";
+				}
+				prestige();
+			}
+		} else if (part == "wolog") {
+			if (confirm("THIS FUNCTION IS ONLY FOR DEBUGGING PURPOSES. Using this function for other purposes can ruin a part of the game, and you are strongly advised to click cancel. If you have any questions, feel free to ask jatloe12345#8718 on Discord. With all that said, would you like to skip to the wolog part of the game?")) {
+				prestigeBuff = new Decimal(60);
+				baseTrees[5] = new Decimal(1000);
+				document.getElementById("tabButton2").style.display = "";
+				document.getElementById("prestige").style.display = "";
+				document.getElementById("prestige").innerHTML = `Prestige for 0 wlogs`;
+				wlogs = new Decimal(10);
+				for (let i = 1; i <= 6; i++) {
+					document.getElementById(`auto${i.toString()}`).style.display = "";
+				}
+				prestige();
+				wlogs = new Decimal(1001120101000);
+				buyWlog(1); buyWlog(2); buyWlog(3); buyWlog(4); buyWlog(5);
+			}
+		}
+	}
+
+    //Hotkeys, keycodes are here https://www.toptal.com/developers/keycode
+    document.onkeyup = function(e) {
+        if (e.which == 49 || e.which == 97) {
+            buyTree(1);
+        } else if (e.which == 50 || e.which == 98) {
+            buyTree(2);
+        } else if (e.which == 51 || e.which == 99) {
+            buyTree(3);
+        } else if (e.which == 52 || e.which == 100) {
+            buyTree(4);
+        } else if (e.which == 53 || e.which == 101) {
+            buyTree(5);
+        } else if (e.which == 54 || e.which == 102) {
+            buyTree(6);
+        } else if (e.which == 67) {
+            cutTrees();
+        } else if (e.which == 80) {
+            prestige();
+        }
+    };
+</script>
+
+</html>
