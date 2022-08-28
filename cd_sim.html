@@ -52,8 +52,9 @@
     </style>
   </head>
   <body>
-    <p>V1.39</p>
+    <p>V1.41</p>
     <p>Credits to mathemolympiad for putting problems and CSS!</p>
+    <p>Credits also to AMC 8 and mathleague.orgfor making good countdown questions available!</p>
     <a href="cd_sim_explain.html">How does this work?</a>
     <p id="tocopy"></p>
     <button type="button" onclick="importOpponent()" id="importbutton" class="font">Import Opponent</button> <br>
@@ -61,7 +62,7 @@
     <button type="button" onclick="start()" id="startbutton" class="font">Start</button>
     <button type="button" onclick="buzz()" id="buzzbutton" class="font" disabled>Buzz</button><br>
     <input type="text" id="answer" class="font" disabled><br>
-    <p>Status: <b><span id="result" class="font"></span></b></p>
+    <p>Status: <b><span id="result" class="font">The game has not started.</span></b></p>
     <p>Score: <b><span id="score" class="font">0 you - 0 opponent</span></b></p>
     <button type="button" class="font" id="myBtn">Formatting Tips</button>
 
@@ -132,7 +133,11 @@
       ['https://cdn.discordapp.com/attachments/983923226193301524/993335006275567666/unknown.png', 'e078af3026edb42cc26b32784baa142a79970078f7ac58f8c7b74115f4f7fb60'],
       ['https://cdn.discordapp.com/attachments/983923226193301524/993335443603071087/unknown.png', '59e19706d51d39f66711c2653cd7eb1291c94d9b55eb14bda74ce4dc636d015a'],
       ['https://cdn.discordapp.com/attachments/983923226193301524/993335611832414250/unknown.png', '4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce'],
-      ['https://cdn.discordapp.com/attachments/983923226193301524/993335749598515320/unknown.png', '51d089cdaf0c968c94b80671489d22b6f79b1c57de80df880b008e9b37b49788']
+      ['https://cdn.discordapp.com/attachments/983923226193301524/993335749598515320/unknown.png', '51d089cdaf0c968c94b80671489d22b6f79b1c57de80df880b008e9b37b49788'],
+      ['https://cdn.discordapp.com/attachments/983923226193301524/1013325212500107324/unknown.png', '66849e29a8eb896b7e92bd83752a609d9b7106f7755561464df37c0bd9249781'],
+      ['https://cdn.discordapp.com/attachments/983923226193301524/1013325591715512421/unknown.png', 'aea92132c4cbeb263e6ac2bf6c183b5d81737f179f21efdc5863739672f0f470'],
+      ['https://cdn.discordapp.com/attachments/983923226193301524/1013325809970315325/unknown.png', '1bea20e1df19b12013976de2b5e0e3d1fb4ba088b59fe53642c324298b21ffd9'],
+      ['https://cdn.discordapp.com/attachments/983923226193301524/1013325951523897394/unknown.png', '8a9a02d73aeefd97306a08c30969a9e8d5ef03960978a1c5db4447558d40f689']
     ];
     let buzzed = false;
     let buzzleft = 5;
