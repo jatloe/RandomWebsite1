@@ -5,7 +5,7 @@
     <title>latex test</title>
   </head>
   <body>
-    <p>V1.3</p><br>
+    <p>V1.4</p><br>
     <p id="test">\(\text{catloe}\)</p>
     <button type="button" onclick="doTheThing()">Generate a new problem</button>
   </body>
@@ -14,7 +14,15 @@
   <script>
     function doTheThing() {
 		  let symbols = ["+","-","\\cdot ","!+","!-"];
-      document.getElementById("test").innerHTML = "Find \\(" + Math.floor(Math.random()*9+1) + symbols[Math.floor(Math.random()*symbols.length)] + Math.floor(Math.random()*9+1) + ".\\)";
+      document.getElementById("test").innerHTML = "Find \\("
+		  + Math.floor(Math.random()*9+1)
+		  + symbols[Math.floor(Math.random()*symbols.length)]
+		  + Math.floor(Math.random()*9+1)
+		  + symbols[Math.floor(Math.random()*symbols.length)]
+		  + Math.floor(Math.random()*9+1)
+		  + symbols[Math.floor(Math.random()*symbols.length)]
+		  + Math.floor(Math.random()*9+1)
+	  + ".\\)";
       MathJax.typeset();
     }
   </script>
