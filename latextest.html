@@ -5,13 +5,24 @@
     <title>latex test</title>
   </head>
   <body>
-    <p>V1.5</p><br>
-    <p id="test">\(\text{catloe}\)</p>
+    <p>V1.6</p><br>
+    <p id="test">\(\text{Enter 0.000 as your answer to start!}\)</p>
+	<input type="text" placeholder="Answer" id="userAns"> <br> <br>
     <button type="button" onclick="doTheThing()">Generate a new problem</button>
+    <p>Tip: use 3 decimal places for your answer(even if the answer is an integer)! Also, click outside the text box to submit your answer!</p>
   </body>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.2.1/math.js" type="text/javascript"></script>
   <script>
+	let ans = "0.000";
+	document.getElementById("userAns").addEventListener('change', function() {
+		if (ans == document.getElementById("userAns").value) {
+			document.getElementById("userAns").value = "";
+			doTheThing();
+		}
+	});
+  
     function doTheThing() {
 		  let symbols = ["+","-","\\cdot "];
 		  let theThing = "";
@@ -26,7 +37,18 @@
 			}
 		  }
       document.getElementById("test").innerHTML = "Find \\(" + theThing + ".\\)";
-      MathJax.typeset();
+	  let newThingLol = theThing.replaceAll("\\cdot ","*").replaceAll("{","(").replaceAll("}",")");
+	  if (newThingLol.includes("\\frac")) {
+		newThingLol = newThingLol.substring(0,newThingLol.indexOf(")")+1) + "/" + newThingLol.substring(newThingLol.indexOf(")")+1);
+		newThingLol = newThingLol.replace("\\frac","");
+	  }
+	  let theAns = math.evaluate(newThingLol);
+	  if (isFinite(theAns) && (!isNaN(theAns))) {
+		MathJax.typeset();
+		ans = theAns.toFixed(3);
+	  } else {
+		doTheThing();
+	  }
     }
 	
 	function noFrac(nums) {
