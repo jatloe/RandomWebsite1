@@ -5,11 +5,11 @@
     <title>latex test</title>
   </head>
   <body>
-    <p>V1.6</p><br>
-    <p id="test">\(\text{Enter 0.000 as your answer to start!}\)</p>
+    <p>V1.7</p><br>
+    <p id="test">\(\text{Enter 0 as your answer to start!}\)</p>
 	<input type="text" placeholder="Answer" id="userAns"> <br> <br>
     <button type="button" onclick="doTheThing()">Generate a new problem</button>
-    <p>Tip: use 3 decimal places for your answer(even if the answer is an integer)! Also, click outside the text box to submit your answer!</p>
+    <p>Tip: use 3 decimal places for your answer(unless it's an integer, then the website does it for you)! Also, click outside the text box to submit your answer!</p>
   </body>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -17,7 +17,16 @@
   <script>
 	let ans = "0.000";
 	document.getElementById("userAns").addEventListener('change', function() {
-		if (ans == document.getElementById("userAns").value) {
+		let daValue = document.getElementById("userAns").value;
+		if (ans == daValue) {
+			document.getElementById("userAns").value = "";
+			doTheThing();
+		}
+		if (!daValue.includes(".")) {
+			document.getElementById("userAns").value += ".000";
+		}
+		daValue = document.getElementById("userAns").value;
+		if (ans == daValue) {
 			document.getElementById("userAns").value = "";
 			doTheThing();
 		}
