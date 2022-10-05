@@ -5,7 +5,7 @@
     <title>latex test</title>
   </head>
   <body>
-    <p>V1.7</p><br>
+    <p>V1.8</p><br>
     <p id="test">\(\text{Enter 0 as your answer to start!}\)</p>
 	<input type="text" placeholder="Answer" id="userAns"> <br> <br>
     <button type="button" onclick="doTheThing()">Generate a new problem</button>
@@ -19,20 +19,18 @@
 	document.getElementById("userAns").addEventListener('change', function() {
 		let daValue = document.getElementById("userAns").value;
 		if (ans == daValue) {
-			document.getElementById("userAns").value = "";
 			doTheThing();
 		}
-		if (!daValue.includes(".")) {
+		if (!daValue.includes(".") && daValue != "") {
 			document.getElementById("userAns").value += ".000";
-		}
-		daValue = document.getElementById("userAns").value;
-		if (ans == daValue) {
-			document.getElementById("userAns").value = "";
-			doTheThing();
+			if (ans == document.getElementById("userAns").value) {
+				doTheThing();
+			}
 		}
 	});
   
     function doTheThing() {
+		document.getElementById("userAns").value = "";
 		  let symbols = ["+","-","\\cdot "];
 		  let theThing = "";
 		  let totalNums = 10;
