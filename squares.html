@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" href="jatloesmile-hd.png" />
+    <title>Squares Game</title>
+  </head>
+
+  <body>
+    <div id="test"></div>
+  </body>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script
+    src="https://unpkg.com/react@18/umd/react.production.min.js"
+    crossorigin
+  ></script>
+  <script
+    src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+    crossorigin
+  ></script>
+
+  <script type="text/babel">
+    const e = React.createElement;
+    function MyButton(props) {
+      return <button onClick={props.onClick}>{props.value}</button>;
+    }
+
+    class Board extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          squares: Array(49).fill(0),
+          message: "Perfect squares: none",
+        };
+      }
+
+      checkSquares() {
+        let foundSquares = [];
+        let allSquares = [];
+        let mySquares = this.state.squares;
+        for (let lol = 10; lol <= 31; lol++) {
+          allSquares.push(lol * lol);
+        }
+        for (let i = 0; i <= 4; i++) {
+          for (let j = 0; j <= 6; j++) {
+            let cat_awa =
+              mySquares[7 * i + j] * 100 +
+              mySquares[7 * (i + 1) + j] * 10 +
+              mySquares[7 * (i + 2) + j];
+            if (
+              allSquares.includes(cat_awa) &&
+              !foundSquares.includes(cat_awa)
+            ) {
+              foundSquares.push(cat_awa);
+            }
+          }
+        }
+        for (let i = 0; i <= 6; i++) {
+          for (let j = 0; j <= 4; j++) {
+            let cat_awa =
+              mySquares[7 * i + j] * 100 +
+              mySquares[7 * i + j + 1] * 10 +
+              mySquares[7 * i + j + 2];
+            if (
+              allSquares.includes(cat_awa) &&
+              !foundSquares.includes(cat_awa)
+            ) {
+              foundSquares.push(cat_awa);
+            }
+          }
+        }
+        foundSquares.sort();
+        let newMessage = "Perfect squares: ";
+        for (let foundSquare of foundSquares) {
+          newMessage += foundSquare + ", ";
+        }
+        newMessage = newMessage.slice(0, -2);
+        if (newMessage == "Perfect squares")
+          newMessage = "Perfect squares: none";
+        if (
+          newMessage ==
+          "Perfect squares: 100, 121, 144, 169, 196, 225, 256, 289, 324, 361, 400, 441, 484, 529, 576, 625, 676, 729, 784, 841, 900, 961"
+        )
+          newMessage += ". You won!";
+        this.setState({ message: newMessage });
+      }
+
+      handleClick(i) {
+        let x = this.state.squares.slice();
+        x[i] = (x[i] + 1) % 10;
+        this.setState({ squares: x });
+        setTimeout(() => {
+          this.checkSquares();
+        }, 50);
+      }
+
+      renderButton(i) {
+        render(
+          <MyButton
+            value={this.state.squares[i]}
+            onClick={() => this.handleClick(i)}
+          />
+        );
+      }
+
+      renderMessage() {
+        return <p>{this.state.message}</p>;
+      }
+
+      renderButtonRow(i) {
+        let thing = [];
+        for (let j = i * 7; j < i * 7 + 7; j++) {
+          thing.push(
+            <MyButton
+              value={this.state.squares[j]}
+              onClick={() => this.handleClick(j)}
+              key={j}
+            />
+          );
+        }
+        return <div>{thing}</div>;
+      }
+
+      render() {
+        return (
+          <div>
+            <p>V1.2</p>
+            <p>Form all 3 digit squares in the grid!</p> <br />
+            {this.renderMessage()}
+            <br />
+            {this.renderButtonRow(0)}
+            {this.renderButtonRow(1)}
+            {this.renderButtonRow(2)}
+            {this.renderButtonRow(3)}
+            {this.renderButtonRow(4)}
+            {this.renderButtonRow(5)}
+            {this.renderButtonRow(6)}
+          </div>
+        );
+      }
+    }
+
+    const domContainer = document.querySelector("#test");
+    const root = ReactDOM.createRoot(domContainer);
+    root.render(e(Board));
+  </script>
+</html>
