@@ -5,8 +5,9 @@
     <title>ISL puller</title>
   </head>
   <body>
-	<p>V1.0, 1998-2021</p>
-	<p>Try searching "c1"</p> <br>
+	<p>V1.1, 1998-2021</p>
+	<p>Try searching "c1", "2019 1", and "2006/c"</p>
+	<p>There is a known bug where 2006 c8 redirects to 2006 g8 for some reason</p> <br>
 	<input type="text" id="problemType">
 	<input type="button" value="Search" onclick="getProblems()">
 	<br> <br> <br>
@@ -20,12 +21,33 @@
 		newDiv.id = "container";
 		document.getElementById("outside").appendChild(newDiv);
 		
-		for (let i = 1998; i <= 2021; i++) {
-			let img = document.createElement("img");
-			img.src = "https://ggim.me/images/imo_shortlist/" + i + "/" + document.getElementById("problemType").value;
-			img.width = "1000";
-			document.getElementById("container").appendChild(img);
-			document.getElementById("container").appendChild(document.createElement("br"));
+		let query = document.getElementById("problemType").value;
+		
+		if (query.includes("/a") || query.includes("/c") || query.includes("/g") || query.includes("/n") || query.includes(" a") || query.includes(" c") || query.includes(" g") || query.includes(" n")) {
+			for (let i = 1; i <= 10; i++) {
+				let img = document.createElement("img");
+				img.src = "https://ggim.me/images/imo_shortlist/" + query.replace(" ","/") + i;
+				img.width = "1000";
+				document.getElementById("container").appendChild(img);
+				document.getElementById("container").appendChild(document.createElement("br"));
+			}
+		} else if (!(query.includes("a") || query.includes("c") || query.includes("g") || query.includes("n"))) {
+			let subjects = ["a","c","g","n"];
+			for (let i = 0; i <= 3; i++) {
+				let img = document.createElement("img");
+				img.src = "https://ggim.me/images/imo_shortlist/" + query.replace(" ","/").replace("/","/"+subjects[i]);
+				img.width = "1000";
+				document.getElementById("container").appendChild(img);
+				document.getElementById("container").appendChild(document.createElement("br"));
+			}
+		} else {
+			for (let i = 1998; i <= 2021; i++) {
+				let img = document.createElement("img");
+				img.src = "https://ggim.me/images/imo_shortlist/" + i + "/" + query;
+				img.width = "1000";
+				document.getElementById("container").appendChild(img);
+				document.getElementById("container").appendChild(document.createElement("br"));
+			}
 		}
 	}
 	
