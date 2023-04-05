@@ -5,10 +5,12 @@
     <title>ISL puller</title>
   </head>
   <body>
-	<p>V1.2, 1998-2021</p>
-	<p>Try searching "c1", "2019 1", "2006/c", and "1998 a1"</p>
+	<p>V1.3, 1998-2021</p>
+	<p>Put one letter for the subject, you can leave boxes empty to search through all of that category</p>
 	<p>There is a known bug where 2006 c8 redirects to 2006 g8 for some reason</p> <br>
-	<input type="text" id="problemType">
+	<input type="text" id="year" placeholder="Year" size="3">
+	<input type="text" id="subject" placeholder="Subject" size="3">
+	<input type="text" id="number" placeholder="Number" size="3">
 	<input type="button" value="Search" onclick="getProblems()">
 	<br> <br> <br>
 	<div id="outside"><div id="container"></div></div>
@@ -29,36 +31,20 @@
 		newDiv.id = "container";
 		document.getElementById("outside").appendChild(newDiv);
 		
-		let query = document.getElementById("problemType").value;
+		let years = [];
+		for (let i = 1998; i <= 2021; i++) years.push(i);
+		if (document.getElementById("year").value != "") years = [document.getElementById("year").value];
 		let subjects = ["a","c","g","n"];
+		if (document.getElementById("subject").value != "") subjects = [document.getElementById("subject").value];
+		let numbers = [];
+		for (let i = 1; i <= 10; i++) numbers.push(i);
+		if (document.getElementById("number").value != "") numbers = [document.getElementById("number").value];
 		
-		let allProblemCodes = [];
-		for (let j = 0; j <= 3; j++) {
-			for (let i = 1; i <= 10; i++) {
-				allProblemCodes.push(" "+subjects[j]+i);
-				allProblemCodes.push("/"+subjects[j]+i);
-			}
-		}
-		
-		let isFullCode = false;
-		
-		for (let i = 0; i < allProblemCodes.length; i++) {
-			if (query.endsWith(allProblemCodes[i])) isFullCode = true;
-		}
-		
-		if (isFullCode) {
-			makeImage("https://ggim.me/images/imo_shortlist/" + query.replace(" ","/"));
-		} else if (query.includes("/a") || query.includes("/c") || query.includes("/g") || query.includes("/n") || query.includes(" a") || query.includes(" c") || query.includes(" g") || query.includes(" n")) {
-			for (let i = 1; i <= 10; i++) {
-				makeImage("https://ggim.me/images/imo_shortlist/" + query.replace(" ","/") + i);
-			}
-		} else if (!(query.includes("a") || query.includes("c") || query.includes("g") || query.includes("n"))) {
-			for (let i = 0; i <= 3; i++) {
-				makeImage("https://ggim.me/images/imo_shortlist/" + query.replace(" ","/").replace("/","/"+subjects[i]));
-			}
-		} else {
-			for (let i = 1998; i <= 2021; i++) {
-				makeImage("https://ggim.me/images/imo_shortlist/" + i + "/" + query);
+		for (let i = 0; i < years.length; i++) {
+			for (let j = 0; j < subjects.length; j++) {
+				for (let k = 0; k < numbers.length; k++) {
+					makeImage("https://ggim.me/images/imo_shortlist/" + years[i] + "/" + subjects[j] + numbers[k]);
+				}
 			}
 		}
 	}
