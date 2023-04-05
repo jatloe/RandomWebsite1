@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" href="jatloesmile-hd.png">
+    <title>ISL puller</title>
+  </head>
+  <body>
+	<p>1998-2021</p> <br>
+	<input type="text" id="problemType">
+	<input type="button" value="Search" onclick="getProblems()">
+	<br> <br> <br>
+	<div id="outside"><div id="container"></div></div>
+  </body>
+  
+  <script>
+	function getProblems() {
+		document.getElementById("container").remove();
+		let newDiv = document.createElement("div");
+		newDiv.id = "container";
+		document.getElementById("outside").appendChild(newDiv);
+		
+		for (let i = 1998; i <= 2021; i++) {
+			let img = document.createElement("img");
+			img.src = "https://ggim.me/images/imo_shortlist/" + i + "/" + document.getElementById("problemType").value;
+			img.width = "1000";
+			document.getElementById("container").appendChild(img);
+			document.getElementById("container").appendChild(document.createElement("br"));
+		}
+	}
+	
+	document.onkeyup = function(e) {
+        if (e.which == 13) {
+            getProblems();
+        }
+    };
+  </script>
+</html>
