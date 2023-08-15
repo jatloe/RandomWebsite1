@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <link rel="icon" href="jatloesmile-hd.png">
+      <title>Subdiamond 4</title>
+      <style>
+         #welcome{
+            text-align: center;
+         }
+         .center{
+            margin: auto;
+            width: 20%;
+            text-align: center;
+            border-style: solid;
+            border-color: #add8e6;
+            border-width: 3px;
+            padding: 10px;
+         }
+         #binPrompt{
+            font-size: 20px;
+            margin: 0;
+         }
+      </style>
+   </head>
+   <body onload="setWelcome();">
+      <h1 id="welcome">Find The Subdiamond 4</h1>
+      <div class="center" id="binaryConversion">
+         <p id="binPrompt">Convert null to binary.</p> <br>
+         <button type="button" onclick="binInput(1)">Input 1</button>
+         <button type="button" onclick="binInput(0)">Input 0</button> <br> <br>
+         <button type="button" onclick="addOne()" id="addbutton">You have 1 points.</button>
+      </div>
+   </body>
+   <script>
+      let presnum=0;
+      let buttonclicks=1;
+      let binaryanswer=[1];
+      let binarysum=2;
+      let onindex=0;
+      let digits=12;
+	  let boost=1;
+	  
+	  let numbers = [4006, 9244, 236890, 7251080, 98522045];
+	  
+      let inputbase="binary";
+      function setWelcome(){
+         var user = window.localStorage.getItem("user");
+         document.getElementById("welcome").innerHTML="Find The Subdiamond 4";
+         setBinary();
+      }
+      function setBinary(){
+		let x = numbers[digits/4-3];
+		let bin = "";
+		while (x != 0) {
+			bin = x%2 + bin;
+			x /= 2;
+			x = ~~x;
+		}
+		binaryanswer = bin.split("");
+		for (let i = 0; i < binaryanswer.length; i++) binaryanswer[i] = parseInt(binaryanswer[i]);
+        document.getElementById("binPrompt").innerHTML="Convert " + numbers[digits/4-3] + " to binary.";
+      }
+      function addOne(){
+         buttonclicks=buttonclicks+Math.floor(Math.log(buttonclicks+3));
+         document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
+      }
+      function binInput(x){
+         if (x==binaryanswer[onindex]) {
+            if (onindex<binaryanswer.length-1) {
+               onindex+=1;
+               document.getElementById("binPrompt").innerHTML = document.getElementById("binPrompt").innerHTML + x;
+            } else {
+               buttonclicks=buttonclicks*Math.pow(2,digits)*boost;
+               digits+=4;
+               setBinary();
+			   onindex = 0;
+               document.getElementById("addbutton").innerHTML="You have " + buttonclicks + " points.";
+			   if (digits == 32) gameEnd("Congratulations, you won!");
+            }
+         } else {
+            gameEnd("Rip, refresh to try again.");
+         }
+      }
+      document.onkeyup = function(e) {
+         if (e.which == 49 || e.which == 97) {
+            binInput(1);
+         } else if (e.which == 48 || e.which == 96) {
+            binInput(0);
+         }
+      };
+      function gameEnd(text){
+         var elem = document.getElementById("binaryConversion");
+         elem.parentNode.removeChild(elem);
+		 document.getElementById("welcome").innerHTML = text;
+      }
+   </script>
+</html>
