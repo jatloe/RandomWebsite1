@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" href="jatloesmile-hd.png">
+    <title>Frame Perfect Game</title>
+    <style>
+      .side{
+        display: inline;
+      }
+      body {
+        font-family: 'Monospace Typewriter', monospace;
+        font-size: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <p>V1.1</p>
+	<p>Press space when the last - after the | is removed. FPS can't be too large.</p>
+	<p class="side">FPS:</p>
+	<input type="text" id="fps" value="20" size=1>
+	<button id="start" onclick="start()">Start</button>
+    <p id="mainTimer">-----|------------------------------</p>
+	<p id="wins">0 consecutive wins</p>
+  </body>
+  <script>
+    /*
+        For the above, note that the class "side" should be in all buttons/text in the same row,
+        then put a <br> afterwards. Also, the id="thing" is how you would be able to reference things.
+        You use document.getElementById("ID_HERE").innerHTML = "NEW_TEXT" to change the text.
+        <p> is text, <button> is button. Remember to close them with </p> and </button>.
+        When it has style="display: none;" it means it's hidden, use
+        document.getElementById("ID_HERE").style.display = ""; for showing and
+        document.getElementById("ID_HERE").style.display = "none"; for hiding
+    */
+    
+    
+    //Basic setup
+    let framesLeft = 30;
+	let itsOver = false;
+	let theFrame = false;
+	let winner = false;
+	let playing = false;
+	let tooEarly = false;
+	let fps = 20;
+	let wins = 0;
+	let neverStarted = false;
+    
+    function update() {
+		if (playing) {
+			if (tooEarly && framesLeft > 0) {
+				theFrame = false;
+				itsOver = true;
+				document.getElementById("mainTimer").innerHTML = "-----|" + "-".repeat(framesLeft) + " Too early.";
+				document.getElementById("start").disabled = false;
+				wins = 0;
+			}
+			else if (framesLeft > 0) {
+				framesLeft -= 1;
+				document.getElementById("mainTimer").innerHTML = "-----|" + "-".repeat(framesLeft);
+				if (framesLeft == 0) theFrame = true;
+			} else if (!winner) {
+				theFrame = false;
+				itsOver = true;
+				document.getElementById("mainTimer").innerHTML = "----- Too late.";
+				document.getElementById("start").disabled = false;
+				wins = 0;
+			} else {
+				document.getElementById("mainTimer").innerHTML = "-----| You won!";
+				document.getElementById("start").disabled = false;
+				wins += 1;
+				document.getElementById("wins").innerHTML = wins + " consecutive wins";
+				start();
+			}
+		}
+    }
+	
+	function start() {
+		document.getElementById("wins").innerHTML = wins + " consecutive wins";
+		fps = parseInt(document.getElementById("fps").value);
+		document.getElementById("fps").disabled = true;
+		document.getElementById("start").disabled = true;
+		itsOver = false;
+		theFrame = false;
+		winner = false;
+		playing = false;
+		tooEarly = false;
+		framesLeft = 30;
+		if (!neverStarted) setInterval(update,1000/fps);
+		neverStarted = true;
+		playing = true;
+	}
+        
+    //Hotkeys, keycodes are here https://www.toptal.com/developers/keycode
+    document.onkeydown = function(e) {
+        if (e.which == 32) {
+            if (playing) {
+				if (theFrame) winner = true;
+				else tooEarly = true;
+			}
+        }
+    };
+    
+    //This function turns numbers into nice numbers(make_string(1234567)=1.234e6)
+    function make_string(number) {
+      if(number<1000000) {
+        return number.toFixed(3);
+      } else if(isFinite(number)) {
+        let power = Math.floor(Math.log10(number));
+        number = number/Math.pow(10,power);
+        return number.toFixed(3) + "e" + String(power);
+      } else if(isNaN(number)) {
+        return "NaN";
+      } else {
+        return "Infinity";
+      }
+    }
+    
+    //Log function because I can't find it anywhere
+    function log(a,b) {
+      return Math.round(Math.log(b) / Math.log(a));
+    }
+  </script>
+</html>
