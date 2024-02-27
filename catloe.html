@@ -36,8 +36,8 @@
     let mathing = false;
     function updateStats() {
       document.getElementById("stats").innerHTML = "You pet catloe " + pets.toString() + " times, fed catloe " + feeds.toString() + " times, and hugged catloe " + hugs.toString() + " times.";
-      if( (pets == 4 && feeds == 2 && hugs == 0) || (pets == 0 && feeds == 6 && hugs == 9) ) {
-        document.getElementById("stats").innerHTML += " Nice."
+      if( (pets == 14 && feeds == 3 && hugs == 4) ) {
+        document.getElementById("stats").innerHTML += " You lost the game!"
       }
       if( (pets == 1 && feeds == 8 && hugs == 7) ) {
         document.getElementById("stats").innerHTML += " ONE EIGHT SEVEN"
