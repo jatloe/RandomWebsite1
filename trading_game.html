@@ -30,7 +30,7 @@
     </style>
   </head>
   <body>
-    <p>V1.9</p>
+    <p>V1.10</p>
     <div>
       <div id="left">
         <p style="font-size:18px;"><b>Inventory</b></p>
@@ -172,8 +172,9 @@
         
     //Hotkeys, keycodes are here https://www.toptal.com/developers/keycode
     document.onkeyup = function(e) {
-        if (e.which == 49) {
-            //That's the 1 key
+        if (e.which == 82) {
+            // R
+            if (!document.getElementById("refreshButton").disabled) updateTrades();
         }
     };
     
