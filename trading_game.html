@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" href="jatloesmile-hd.png">
+    <title>Trading Game</title>
+    <style>
+      .side{
+        display: inline;
+      }
+      body,p,button {
+        font-family: 'Monospace Typewriter', monospace;
+        font-size: 15px;
+      }
+      button {
+        margin-bottom: 5px;
+        white-space: wrap
+      }
+    </style>
+  </head>
+  <body>
+    <p>V1.0</p>
+    <p style="font-size:18px;"><b>Inventory:</b></p>
+    <div id="inv_displays">
+    </div>
+    <p style="font-size:18px;"><b>Trades:</b></p>
+    <div id="trades">
+    </div>
+  </body>
+  <script>
+    function funnyRound(x) {
+        return Math.round(x*1000)/1000;
+    }
+
+    //Basic setup
+    let MAXNUM = 3;
+    let DEFAULT_VALUES = [1,1];
+    for (let i = 0; i < 24; i++) DEFAULT_VALUES.push(DEFAULT_VALUES[DEFAULT_VALUES.length-1] + DEFAULT_VALUES[DEFAULT_VALUES.length-2]);
+    let LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    let inventory = [10,10];
+    for (let i = 0; i < 24; i++) inventory.push(0);
+    let trade_rates = [];
+    for (let i = 0; i < 26; i++) {
+        let stuff = [];
+        for (let j = 0; j < 26; j++) stuff.push(funnyRound(DEFAULT_VALUES[i]/DEFAULT_VALUES[j]));
+        trade_rates.push(stuff);
+    }
+    
+    window.addEventListener("load", (event) => {
+        for (let i = 0; i < 26; i++) {
+            let newString = LETTERS[i] + ": " + make_string(inventory[i]);
+            let newThing = document.createTextNode(newString);
+            let newThingy = document.createElement("p");
+            newThingy.id = LETTERS[i] + "_display";
+            newThingy.appendChild(newThing);
+            if (i >= MAXNUM) newThingy.style = "display:none;";
+            document.getElementById("inv_displays").appendChild(newThingy);
+        }
+        for (let i = 0; i < 26; i++) {
+            for (let j = 0; j < 26; j++) {
+                if (i == j) continue;
+                let newString = LETTERS[i] + " -> " + LETTERS[j] + ": " + make_string(trade_rates[i][j]);
+                let newThing = document.createTextNode(newString);
+                let newThingy = document.createElement("button");
+                newThingy.id = LETTERS[i] + LETTERS[j] + "_trade";
+                newThingy.addEventListener("click", function(e) {
+                    trade(i,j);
+                }, false);
+                newThingy.appendChild(newThing);
+                let newFunny = document.createElement("div");
+                newFunny.appendChild(newThingy);
+                newFunny.id = LETTERS[i] + LETTERS[j] + "_container";
+                newFunny.style = "display:none;"
+                document.getElementById("trades").appendChild(newFunny);
+            }
+        }
+        updateTrades();
+    });
+    
+    function setButtonsDisabled(shouldBeDisabled) {
+        for (let i = 0; i < 26; i++) {
+            for (let j = 0; j < 26; j++) {
+                if (i == j) continue;
+                document.getElementById(LETTERS[i]+LETTERS[j]+"_trade").disabled = shouldBeDisabled;
+            }
+        }
+    }
+
+    function updateStuff() {
+        for (let i = 0; i < 26; i++) {
+            document.getElementById(LETTERS[i]+"_display").innerHTML = LETTERS[i] + ": " + make_string(inventory[i]);
+            if (i < MAXNUM) document.getElementById(LETTERS[i]+"_display").style.display = "";
+            else document.getElementById(LETTERS[i]+"_display").style.display = "none";
+        }
+        for (let i = 0; i < 26; i++) {
+            for (let j = 0; j < 26; j++) {
+                if (i == j) continue;
+                document.getElementById(LETTERS[i]+LETTERS[j]+"_trade").innerHTML = LETTERS[i] + " -> " + LETTERS[j] + ": " + make_string(trade_rates[i][j]);
+            }
+        }
+    }
+
+    setInterval(updateTrades,5000);
+
+    function updateTrades() {
+        for (let i = 0; i < 26; i++) {
+            for (let j = 0; j < 26; j++) {
+                trade_rates[i][j] *= Math.random()*0.4+0.8;
+            }
+        }
+        updateStuff();
+        for (let i = 0; i < 26; i++) {
+            for (let j = 0; j < 26; j++) {
+                if (i == j) continue;
+                document.getElementById(LETTERS[i]+LETTERS[j]+"_container").style.display = "none";
+            }
+        }
+        let sobad = [-1];
+        for (let aa = 0; aa < 5; aa++) {
+            let curr = -1;
+            let i = 0;
+            let j = 0;
+            while (sobad.includes(curr)) {
+                i = Math.floor(MAXNUM*Math.random());
+                j = Math.floor(MAXNUM*Math.random());
+                while (i == j) j = Math.floor(MAXNUM*Math.random());
+                curr = i*(10**12)+j;
+            }
+            document.getElementById(LETTERS[i]+LETTERS[j]+"_container").style.display = "";
+            sobad.push(i*(10**12)+j);
+        }
+        for (let i = 0; i < 26; i++) {
+            for (let j = 0; j < 26; j++) {
+                if (i == j) continue;
+                document.getElementById(LETTERS[i]+LETTERS[j]+"_trade").innerHTML = LETTERS[i] + " -> " + LETTERS[j] + ": " + make_string(trade_rates[i][j]);
+            }
+        }
+        setButtonsDisabled(true);
+        setTimeout(() => {
+            setButtonsDisabled(false);
+        }, 1000);
+    }
+        
+    //Hotkeys, keycodes are here https://www.toptal.com/developers/keycode
+    document.onkeyup = function(e) {
+        if (e.which == 49) {
+            //That's the 1 key
+        }
+    };
+    
+    function trade(a,b) {
+        if (inventory[a] < 1) return;
+        inventory[a] -= 1;
+        inventory[b] += trade_rates[a][b];
+        if ((a == MAXNUM - 1 || b == MAXNUM - 1) && MAXNUM < 26) MAXNUM++;
+        updateStuff();
+    }
+
+    //This function turns numbers into nice numbers(make_string(1234567)=1.234e6)
+    function make_string(number) {
+      if(number<1000000) {
+        return number.toFixed(3);
+      } else if(isFinite(number)) {
+        let power = Math.floor(Math.log10(number));
+        number = number/Math.pow(10,power);
+        return number.toFixed(3) + "e" + String(power);
+      } else if(isNaN(number)) {
+        return "NaN";
+      } else {
+        return "Infinity";
+      }
+    }
+    
+    //Log function because I can't find it anywhere
+    function log(a,b) {
+      return Math.round(Math.log(b) / Math.log(a));
+    }
+  </script>
+</html>
