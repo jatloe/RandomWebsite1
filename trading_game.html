@@ -30,7 +30,7 @@
     </style>
   </head>
   <body>
-    <p>V1.7</p>
+    <p>V1.8</p>
     <div>
       <div id="left">
         <p style="font-size:18px;"><b>Inventory</b></p>
@@ -139,7 +139,7 @@
             }
         }
         let sobad = [-1];
-        for (let aa = 0; aa < MAXNUM; aa++) {
+        for (let aa = 0; aa < Math.min(MAXNUM*(MAXNUM-1)/2,MAXNUM); aa++) {
             let curr = -1;
             let i = 0;
             let j = 0;
@@ -151,6 +151,7 @@
             }
             document.getElementById(LETTERS[i]+LETTERS[j]+"_container").style.display = "";
             sobad.push(i*(10**12)+j);
+            sobad.push(j*(10**12)+i);
         }
         for (let i = 0; i < 26; i++) {
             for (let j = 0; j < 26; j++) {
