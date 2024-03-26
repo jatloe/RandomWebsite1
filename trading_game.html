@@ -27,11 +27,13 @@
     </style>
   </head>
   <body>
-    <p>V1.4</p>
+    <p>V1.5</p>
     <div>
       <div id="left">
         <p style="font-size:18px;"><b>Inventory</b></p>
         <div id="inv_displays"></div>
+        <br>
+        <button id="export" onclick="exportToClipboard()">Export Save to Clipboard</button>
       </div>
       <div id="right">
         <p style="font-size:18px;" class="side"><b>Trades</b></p>
@@ -39,8 +41,6 @@
         <div id="trades"></div>
       </div>
     </div>
-    <br>
-    <button id="export" onclick="exportToClipboard()">Export Save to Clipboard</button>
   </body>
   <script>
     function funnyRound(x) {
