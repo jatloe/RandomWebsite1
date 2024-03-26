@@ -13,17 +13,29 @@
       }
       button {
         margin-bottom: 5px;
-        white-space: wrap
+      }
+      #left {
+        width: 50%;
+        float: left;
+        margin-top: -18px;
+      }
+      #right {
+        margin-left: 50%;
+        width: 50%;
       }
     </style>
   </head>
   <body>
-    <p>V1.2</p>
-    <p style="font-size:18px;"><b>Inventory:</b></p>
-    <div id="inv_displays">
-    </div>
-    <p style="font-size:18px;"><b>Trades:</b></p>
-    <div id="trades">
+    <p>V1.3</p>
+    <div>
+      <div id="left">
+        <p style="font-size:18px;"><b>Inventory:</b></p>
+        <div id="inv_displays"></div>
+      </div>
+      <div id="right">
+        <p style="font-size:18px;"><b>Trades:</b></p>
+        <div id="trades"></div>
+      </div>
     </div>
   </body>
   <script>
