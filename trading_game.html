@@ -30,7 +30,7 @@
     </style>
   </head>
   <body>
-    <p>V1.8</p>
+    <p>V1.9</p>
     <div>
       <div id="left">
         <p style="font-size:18px;"><b>Inventory</b></p>
@@ -83,6 +83,11 @@
                 newThingy.id = LETTERS[i] + LETTERS[j] + "_trade";
                 newThingy.addEventListener("click", function(e) {
                     trade(i,j);
+                }, false);
+                newThingy.addEventListener("contextmenu", function(e) {
+                    e.preventDefault();
+                    tradeAll(i,j);
+                    return false;
                 }, false);
                 newThingy.appendChild(newThing);
                 let newFunny = document.createElement("div");
@@ -181,15 +186,24 @@
         if ((a == MAXNUM - 1 || b == MAXNUM - 1) && MAXNUM < 26) MAXNUM++;
         updateStuff();
     }
+    
+    function tradeAll(a,b) {
+        if (inventory[a] <= 0) return;
+        let tradeAmt = inventory[a];
+        inventory[a] -= tradeAmt;
+        inventory[b] += tradeAmt*trade_rates[a][b];
+        if ((a == MAXNUM - 1 || b == MAXNUM - 1) && MAXNUM < 26) MAXNUM++;
+        updateStuff();
+    }
 
     //This function turns numbers into nice numbers(make_string(1234567)=1.234e6)
     function make_string(number) {
       if(number<1000000) {
-        return number.toFixed(3);
+        return number.toFixed(6);
       } else if(isFinite(number)) {
         let power = Math.floor(Math.log10(number));
         number = number/Math.pow(10,power);
-        return number.toFixed(3) + "e" + String(power);
+        return number.toFixed(6) + "e" + String(power);
       } else if(isNaN(number)) {
         return "NaN";
       } else {
