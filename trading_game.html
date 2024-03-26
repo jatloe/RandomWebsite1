@@ -18,7 +18,7 @@
     </style>
   </head>
   <body>
-    <p>V1.1</p>
+    <p>V1.2</p>
     <p style="font-size:18px;"><b>Inventory:</b></p>
     <div id="inv_displays">
     </div>
@@ -41,7 +41,7 @@
     let trade_rates = [];
     for (let i = 0; i < 26; i++) {
         let stuff = [];
-        for (let j = 0; j < 26; j++) stuff.push(funnyRound(DEFAULT_VALUES[i]/DEFAULT_VALUES[j]));
+        for (let j = 0; j < 26; j++) stuff.push(funnyRound(1.01*DEFAULT_VALUES[i]/DEFAULT_VALUES[j]));
         trade_rates.push(stuff);
     }
     
@@ -148,9 +148,11 @@
     };
     
     function trade(a,b) {
-        if (inventory[a] < 1) return;
-        inventory[a] -= 1;
-        inventory[b] += trade_rates[a][b];
+        if (inventory[a] <= 0) return;
+        let tradeAmt = 1;
+        if (inventory[a] < 1) tradeAmt = inventory[a];
+        inventory[a] -= tradeAmt;
+        inventory[b] += tradeAmt*trade_rates[a][b];
         if ((a == MAXNUM - 1 || b == MAXNUM - 1) && MAXNUM < 26) MAXNUM++;
         updateStuff();
     }
