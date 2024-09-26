@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TJ TST Grader</title>
+    </head>
+    <style>
+        body {
+            text-align: center;
+        }
+        
+        * {
+            font-size: 24px;
+            position: relative;
+            top: 30%;
+        }
+
+        input {
+            overflow: scroll;
+        }
+    </style>
+    <body>
+        <input id="username" list="ids" placeholder="ION Username">
+        <datalist id="ids">
+        </datalist>
+        <br> <br> <br> <br>
+        <p id="sofar"></p>
+    </body>
+    <script>
+        let allIon = ['2025abadia', '2025abharadw', '2025achintal', '2025achon', '2025adoshi', '2025agarg', '2025agu', '2025agupta', '2025akakkera', '2025akala', '2025akalla', '2025akang', '2025alee1', '2025ali', '2025amukund', '2025apagidi', '2025apalikal', '2025aray', '2025asumesh', '2025avijayra', '2025awisniew', '2025azhu', '2025cdraper', '2025cguo', '2025cjia', '2025clee', '2025cmin', '2025cwu', '2025dcampos', '2025dchandna', '2025dhagen', '2025dmccaski', '2025dyang', '2025ebalci', '2025gim', '2025gxiao', '2025gxu', '2025halsadig', '2025hxiao', '2025imujahid', '2025jhao', '2025jkim', '2025jlee', '2025jma', '2025jrogando', '2025jsun', '2025jwhitake', '2025jyoo', '2025kborra', '2025kguo', '2025kyen', '2025lzhang', '2025mburch', '2025mkrishna', '2025mlin', '2025mmcweene', '2025mzhang', '2025nahmad', '2025nalladi', '2025narvind', '2025ndas', '2025ntoskey', '2025pkodali', '2025ppan', '2025pshi', '2025rafkhami', '2025rkumaran', '2025rpal', '2025rturatbe', '2025ryu', '2025rzhang1', '2025sbhargav', '2025sjain', '2025skode', '2025slin', '2025ssaleh', '2025ssharma', '2025tandrone', '2025vvemuri', '2025vzhang', '2025yjee', '2025ywang', '2025yyin', '2026aagarwal', '2026aahmad', '2026aahmed', '2026abaradhi', '2026achen', '2026aenkhtai', '2026aganguly', '2026agarg', '2026agupta', '2026airuvant', '2026akatiki', '2026akhan', '2026akrishna', '2026anadakud', '2026anaidan', '2026anarayan', '2026apabolu', '2026apark', '2026aperi', '2026asharma', '2026asharma1', '2026asingh', '2026aszeto', '2026bburrows', '2026bshomuro', '2026cbui', '2026cjobe', '2026cknable', '2026clee', '2026cli', '2026cmorimot', '2026coh', '2026cqiao', '2026csheng', '2026cxu', '2026dariunbo', '2026dchoi', '2026ddoddabe', '2026dfeng', '2026dpark', '2026dsundare', '2026ecai', '2026ehe', '2026ejaldint', '2026elee', '2026exie', '2026frattani', '2026fzhang', '2026ghuang', '2026gpham', '2026hhan', '2026hhuang', '2026hkim', '2026hlee', '2026hnittala', '2026houallah', '2026iharchic', '2026ipark', '2026isengar', '2026iyim', '2026jchang1', '2026jchen', '2026jcheng', '2026jchung', '2026jgeorge', '2026jhernand', '2026jkim', '2026jkim2', '2026jma', '2026jshi', '2026jshowers', '2026jtammire', '2026jyang', '2026jyu', '2026jzhang', '2026jzhou', '2026kanyaleb', '2026khicklin', '2026kkim1', '2026klee', '2026kodo', '2026ksadiora', '2026kslate', '2026lhuang', '2026llim', '2026ludeshi', '2026lzhu', '2026mguo', '2026mhashemi', '2026mpappula', '2026mperalta', '2026mraza', '2026mverma', '2026mzhao', '2026mzuo', '2026nkerr', '2026nliu', '2026nnandaku', '2026nnikolic', '2026nramarap', '2026nrao', '2026nrehman', '2026owang', '2026owu', '2026pkissele', '2026pvaddi', '2026ralahmad', '2026rarora', '2026rashraf', '2026rcheng', '2026rdiao', '2026rdu', '2026rkashif', '2026rkukreja', '2026rnarayan', '2026rpathuri', '2026rsingh1', '2026rsingh2', '2026rwang', '2026sarun', '2026sbharatu', '2026schoudry', '2026sdua', '2026sguo1', '2026shou', '2026skesarwa', '2026skidiyoo', '2026skudapa', '2026sliao', '2026smainali', '2026sshen', '2026ssingla', '2026ssubrama', '2026svedula', '2026svemuri', '2026svijay', '2026swettimu', '2026syalaman', '2026tbhandar', '2026than', '2026tvuppala', '2026wdaghmas', '2026ykwon', '2026yramirez', '2026zbantasa', '2026zhashimi', '2027aagili', '2027aagrawal', '2027aamador', '2027aanurag', '2027abanerje', '2027achakrav', '2027achitla', '2027achoudha', '2027achu', '2027adasgupt', '2027adeodhar', '2027adeshpan', '2027agaggutu', '2027agao', '2027agarg', '2027agutheri', '2027ahao', '2027akode', '2027akoundin', '2027alam', '2027aliu', '2027aliu1', '2027alwin', '2027amallang', '2027amuppa', '2027aolmosfr', '2027apesalad', '2027arao', '2027asachdev', '2027asondhi', '2027atalreja', '2027awang1', '2027axu', '2027ayan', '2027ayee', '2027ayee1', '2027bko', '2027btur', '2027cchen', '2027cfu', '2027chong', '2027ddebrecz', '2027ddeng', '2027dganeshk', '2027dkumar', '2027dramesh', '2027dsrivast', '2027echoi', '2027ecui', '2027edulguun', '2027eguo', '2027ekim', '2027eqiu', '2027esabol', '2027eshan', '2027esombhat', '2027etoth', '2027etouch', '2027ezhang', '2027fyeboah', '2027gguzman', '2027gyuan', '2027hbanerje', '2027hle1', '2027hqin', '2027hsingh', '2027hzanbrak', '2027ijoshi', '2027ikim', '2027isaxena', '2027itennyso', '2027jdurr', '2027jfleming', '2027jgao', '2027jlee1', '2027jlin', '2027jyuan', '2027jzhang', '2027klee1', '2027kparmar', '2027ksaad', '2027kyang', '2027lham', '2027ltrachte', '2027lzhong', '2027mbu', '2027mhuang', '2027mkallurk', '2027mparthas', '2027mpeng', '2027mtaher', '2027mthathin', '2027mvaddi', '2027nfarooqu', '2027nliang', '2027nliao', '2027nmaha', '2027nmahajan', '2027nmahajan1', '2027npillai', '2027nsadinen', '2027ochu', '2027ohannan', '2027pdu', '2027pyoo', '2027rbala', '2027rganzori', '2027rgao', '2027rguo', '2027rmantri', '2027rmohamed1', '2027rqi', '2027rredrout', '2027sahmadza', '2027sbisht', '2027sbitar', '2027sdamico', '2027sjain', '2027skuncha', '2027slamarti', '2027sli', '2027smahmud', '2027smccaski', '2027sparimi', '2027spark', '2027sparvez', '2027sstolfa', '2027szaman', '2027tbilegor', '2027tdao', '2027tganesh', '2027tho', '2027tmendu', '2027traffo', '2027vcao', '2027vlee', '2027vmaniar', '2027vraj', '2027vrayavar', '2027ybaranwa', '2027yzahid', '2027zizzi', '2027zliu', '2027ztashfee', '2028aangirek', '2028abhatt', '2028achoudha', '2028adeevi', '2028adoppala', '2028agupta', '2028ahuang', '2028alee', '2028alee1', '2028aliu', '2028ana', '2028apokhrel', '2028apothira', '2028asharma', '2028asomired', '2028asu', '2028asun', '2028asuwal', '2028athota', '2028ato', '2028bhan', '2028bjonuzaj', '2028bnguyen', '2028bvijayan', '2028bxi', '2028che', '2028coh', '2028cwang', '2028dbhooma', '2028dduong', '2028dhe', '2028dhwang', '2028dkhiev', '2028dmichett', '2028dpeng', '2028dsubedi', '2028dvladimi', '2028dwu', '2028efeldman', '2028egu', '2028elin', '2028epenumat', '2028ezhang1', '2028gagilan', '2028gkeeler', '2028glee', '2028gmarshal', '2028gzhang', '2028hkatram', '2028hzhou', '2028jchan', '2028jjesudas', '2028jli1', '2028jloyolag', '2028jprasad', '2028krudinsk', '2028kzhang', '2028ldober', '2028lkang', '2028lmeng', '2028mayyalas', '2028mlin', '2028msolow', '2028olevine', '2028osazhyn', '2028palladu', '2028pmishra', '2028rdamodar', '2028relias', '2028rsamanth', '2028rtian', '2028rzhao', '2028sari', '2028scarter', '2028sgaligut', '2028sli', '2028sliu', '2028smahendr', '2028srangara', '2028srao', '2028ssandova', '2028ssurapan', '2028sthammis', '2028syan', '2028szeyne', '2028szhang', '2028tdeng', '2028vlee', '2028wmcquirt', '2028ykang', '2028yli', '2028ylin', '2028zrasti', '2028zzahid'];
+        window.onload = function() {
+            let header = prompt("Input the name of the set and score. This is only for identification purposes.")
+            document.getElementById("sofar").innerHTML = header + ": "
+
+            let node;
+            for (let x of allIon) {
+                node = document.createElement("option");
+                node.value = x;
+                document.getElementById("ids").appendChild(node);
+            }
+        }
+
+        let sofar = [];
+
+        function submitPerson() {
+            let ans = document.getElementById("username").value;
+            document.getElementById("username").value = "";
+
+            if (!sofar.includes(ans)) {
+                sofar.push(ans);
+                document.getElementById("sofar").innerHTML += ans + ", "
+            } else {
+                alert("You already inputted that person!");
+            }
+        }
+
+        document.onkeydown = (e) => {
+            if (e.keyCode == 13) submitPerson();
+        }
+    </script>
+</html>
