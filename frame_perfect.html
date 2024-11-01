@@ -11,10 +11,14 @@
         font-family: 'Monospace Typewriter', monospace;
         font-size: 48px;
       }
+      #mainTimer {
+        display: inline-block;
+        transform-origin: center;
+      }
     </style>
   </head>
   <body>
-    <p class="side">V1.3</p>
+    <p class="side">V1.3.1</p>
 	<button onclick="alert('Press space or enter when the last - after the | is removed. You can press space or enter to restart.')">Instructions</button>
 	<br> <br>
 	<button id="settingsButton" onclick="toggleSettings()">Settings</button>
@@ -26,8 +30,8 @@
 		<p class="side">Wait:</p>
 		<input type="number" id="numwait" value="30" min="1" max="99" onchange="updateDisplay()">
 	</div>
-	<button id="start" onclick="start()">Start</button>
-    <p id="mainTimer">-----|------------------------------</p>
+	<button id="start" onclick="start()">Start</button> <br>
+	<p id="mainTimer">-----|------------------------------</p> <br>
 	<p id="wins">0 consecutive wins</p>
 	<p id="settingDisplay">20 FPS, 1 Frames, 30 Wait</p>
   </body>
@@ -56,6 +60,9 @@
 	let wins = 0;
 	let addUpdate = true;
 	let playing = false;
+	let shouldRotate = false;
+
+	let rotate = 0;
     
 	function toggleSettings() {
 		let ook = document.getElementById("settings").style;
@@ -76,6 +83,11 @@
 
     function update() {
 		if (playing) {
+			if (shouldRotate) {
+				rotate += Math.floor(Math.random()*10) + 1;
+				document.getElementById("mainTimer").style.transform = "rotate(" + rotate + "deg)";
+			}
+
 			let currString = startString.substring(0, padFrames+framesLeft+1);
 			if (pressed || framesLeft < 0) {
 				if (0 <= framesLeft && framesLeft < goodFrames) {
@@ -123,8 +135,10 @@
 		playing = true;
 		framesLeft = TOTAL_FRAMES + goodFrames;
 	}
-        
-    //Hotkeys, keycodes are here https://www.toptal.com/developers/keycode
+    
+    // Hotkeys, keycodes are here https://www.toptal.com/developers/keycode
+
+	presses = []
     document.onkeydown = function(e) {
         if (e.which == 32 || e.which == 13) {
             if (!document.getElementById("start").disabled) {
@@ -133,9 +147,11 @@
 				pressed = true;
 			}
         }
+		presses.push(e.which);
+		if (JSON.stringify(presses.slice(-10)) == JSON.stringify([38,38,40,40,37,39,37,39,66,65])) shouldRotate = true;
     };
     
-    //This function turns numbers into nice numbers(make_string(1234567)=1.234e6)
+    // This function turns numbers into nice numbers(make_string(1234567)=1.234e6)
     function make_string(number) {
       if(number<1000000) {
         return number.toFixed(3);
