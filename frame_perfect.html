@@ -14,14 +14,22 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.2</p>
-	<button onclick="alert('Press space when the last - after the | is removed. FPS can\'t be too large. You can press space to restart.')">Instructions</button>
+    <p class="side">V1.3</p>
+	<button onclick="alert('Press space or enter when the last - after the | is removed. You can press space or enter to restart.')">Instructions</button>
 	<br> <br>
-	<p class="side">FPS:</p>
-	<input type="text" id="fps" value="20" size=3>
+	<button id="settingsButton" onclick="toggleSettings()">Settings</button>
+	<div id="settings" style="display: none;">
+		<p class="side">FPS:</p>
+		<input type="number" id="fps" value="20" min="1" max="240" onchange="updateDisplay()">
+		<p class="side">Frames:</p>
+		<input type="number" id="goodframes" value="1" min="1" max="9" onchange="updateDisplay()">
+		<p class="side">Wait:</p>
+		<input type="number" id="numwait" value="30" min="1" max="99" onchange="updateDisplay()">
+	</div>
 	<button id="start" onclick="start()">Start</button>
     <p id="mainTimer">-----|------------------------------</p>
 	<p id="wins">0 consecutive wins</p>
+	<p id="settingDisplay">20 FPS, 1 Frames, 30 Wait</p>
   </body>
   <script>
     /*
@@ -34,30 +42,51 @@
         document.getElementById("ID_HERE").style.display = "none"; for hiding
     */
     
-    
+	// TODO: Change the settings in the text immediately instead of after pressing start
+
     // Basic setup
-	const TOTAL_FRAMES = 30;
+	let TOTAL_FRAMES = 30;
 
     let framesLeft = TOTAL_FRAMES;
+	let goodFrames = 1;
+	let padFrames = 5;
+	let startString = "-".repeat(padFrames) + "|".repeat(goodFrames) + "-".repeat(TOTAL_FRAMES);
 	let pressed = false;
 	let fps = 20;
 	let wins = 0;
 	let addUpdate = true;
 	let playing = false;
     
+	function toggleSettings() {
+		let ook = document.getElementById("settings").style;
+		if (ook.display == "none") ook.display = "";
+		else ook.display = "none";
+	}
+
+	function updateDisplay() {
+		fps = parseInt(document.getElementById("fps").value);
+		goodFrames = parseInt(document.getElementById("goodframes").value);
+		TOTAL_FRAMES = parseInt(document.getElementById("numwait").value);
+
+		startString = "-".repeat(padFrames) + "|".repeat(goodFrames) + "-".repeat(TOTAL_FRAMES);
+
+		document.getElementById("mainTimer").innerHTML = startString;
+		document.getElementById("settingDisplay").innerHTML = fps + " FPS, " + goodFrames + " Frames, " + TOTAL_FRAMES + " Wait"
+	}
+
     function update() {
 		if (playing) {
+			let currString = startString.substring(0, padFrames+framesLeft+1);
 			if (pressed || framesLeft < 0) {
-				if (framesLeft == 0) {
-					document.getElementById("mainTimer").innerHTML = "-----| You win!";
+				if (0 <= framesLeft && framesLeft < goodFrames) {
+					document.getElementById("mainTimer").innerHTML = currString;
 					document.getElementById("start").disabled = false;
 					wins += 1;
 					document.getElementById("wins").innerHTML = wins + " consecutive wins";
 					playing = false;
 					start();
 				} else {
-					if (framesLeft > 0) document.getElementById("mainTimer").innerHTML = "-----|" + "-".repeat(framesLeft) + " Too early.";
-					else document.getElementById("mainTimer").innerHTML = "----- Too late.";
+					document.getElementById("mainTimer").innerHTML = currString + (framesLeft > 0 ? " Too early." : " Too late.");
 					setTimeout(() => {
 						document.getElementById("start").disabled = false;
 					}, 200);
@@ -66,8 +95,9 @@
 				}
 			} else if (framesLeft >= 0) {
 				framesLeft -= 1;
-				if (framesLeft >= 0) document.getElementById("mainTimer").innerHTML = "-----|" + "-".repeat(framesLeft);
-				else document.getElementById("mainTimer").innerHTML = "----- Too late.";
+				let currString = startString.substring(0, padFrames+framesLeft+1);
+				if (framesLeft >= 0) document.getElementById("mainTimer").innerHTML = currString;
+				else document.getElementById("mainTimer").innerHTML = currString + " Too late.";
 			}
 		}
 		pressed = false;
@@ -76,18 +106,27 @@
 	function start() {
 		document.getElementById("wins").innerHTML = wins + " consecutive wins";
 		fps = parseInt(document.getElementById("fps").value);
+		goodFrames = parseInt(document.getElementById("goodframes").value);
+		TOTAL_FRAMES = parseInt(document.getElementById("numwait").value);
 		document.getElementById("fps").disabled = true;
+		document.getElementById("goodframes").disabled = true;
 		document.getElementById("start").disabled = true;
+		document.getElementById("numwait").disabled = true;
+		document.getElementById("settingsButton").disabled = true;
+		document.getElementById("settings").style.display = "none";
+
+		startString = "-".repeat(padFrames) + "|".repeat(goodFrames) + "-".repeat(TOTAL_FRAMES);
+
 		if (addUpdate) setInterval(update,1000/fps);
 
 		addUpdate = false;
 		playing = true;
-		framesLeft = TOTAL_FRAMES;
+		framesLeft = TOTAL_FRAMES + goodFrames;
 	}
         
     //Hotkeys, keycodes are here https://www.toptal.com/developers/keycode
     document.onkeydown = function(e) {
-        if (e.which == 32) {
+        if (e.which == 32 || e.which == 13) {
             if (!document.getElementById("start").disabled) {
 				start();
 			} else if (playing) {
