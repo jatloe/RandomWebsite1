@@ -2,7 +2,7 @@
 <html>
   <head>
     <link rel="icon" href="jatloesmile-hd.png">
-    <title>Braille Translator</title>
+    <title>Semaphore Translator</title>
     <style>
         .circle {
             height: 10vh;
@@ -13,6 +13,9 @@
             border-color: #000;
             border-width: 2px;
             display: inline-block;
+        }
+        .fakecircle {
+            border-color: #fff;
         }
         #centerDiv {
             position: absolute;
@@ -31,24 +34,56 @@
   <body>
     <div id="centerDiv">
         <div class="noSelect">
+            <span class="circle" id="circle7" onclick="toggleCircle(7)"></span>
             <span class="circle" id="circle0" onclick="toggleCircle(0)"></span>
             <span class="circle" id="circle1" onclick="toggleCircle(1)"></span> <br>
-            <span class="circle" id="circle2" onclick="toggleCircle(2)"></span>
-            <span class="circle" id="circle3" onclick="toggleCircle(3)"></span> <br>
-            <span class="circle" id="circle4" onclick="toggleCircle(4)"></span>
+            <span class="circle" id="circle6" onclick="toggleCircle(6)"></span>
+            <span class="circle fakecircle"></span>
+            <span class="circle" id="circle2" onclick="toggleCircle(2)"></span> <br>
             <span class="circle" id="circle5" onclick="toggleCircle(5)"></span>
+            <span class="circle" id="circle4" onclick="toggleCircle(4)"></span>
+            <span class="circle" id="circle3" onclick="toggleCircle(3)"></span>
         </div>
-        
+
         <p id="result" style="font-size:100pt;text-align:center;">-</p>
     </div>
   </body>
   <script>
-    let translations = new Map();
-    translations.set(32,"A");translations.set(40,"B");translations.set(48,"C");translations.set(52,"D");translations.set(36,"E");translations.set(56,"F");translations.set(60,"G");translations.set(44,"H");translations.set(24,"I");translations.set(28,"J");translations.set(34,"K");translations.set(42,"L");translations.set(50,"M");translations.set(54,"N");translations.set(38,"O");translations.set(58,"P");translations.set(62,"Q");translations.set(46,"R");translations.set(26,"S");translations.set(30,"T");translations.set(35,"U");translations.set(43,"V");translations.set(29,"W");translations.set(51,"X");translations.set(55,"Y");translations.set(39,"Z");
-    let currentlyOn = [false,false,false,false,false,false];
+    let translations = new Map([
+        [48, "A"],
+        [80, "B"],
+        [144, "C"],
+        [17, "D"],
+        [18, "E"],
+        [20, "F"],
+        [24, "G"],
+        [96, "H"],
+        [160, "I"],
+        [5, "J"],
+        [33, "K"],
+        [34, "L"],
+        [36, "M"],
+        [40, "N"],
+        [192, "O"],
+        [65, "P"],
+        [66, "Q"],
+        [68, "R"],
+        [72, "S"],
+        [129, "T"],
+        [130, "U"],
+        [9, "V"],
+        [6, "W"],
+        [10, "X"],
+        [132, "Y"],
+        [12, "Z"],
+        [3, "!"]
+    ]);
+    
+    let currentlyOn = [false,false,false,false,false,false,false,false];
+    
     function computeBraille() {
         let num = 0;
-        for (let i = 0; i < 6; i++) {
+        for (let i = 7; i >= 0; i--) {
             num *= 2;
             num += currentlyOn[i];
         }
