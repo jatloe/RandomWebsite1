@@ -18,7 +18,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V2.0</p>
+    <p class="side">Old version, will NOT submit to leaderboard</p>
 	<button onclick="alert('Press space or enter when the last - after the | is removed. You can press space or enter to restart.')">Instructions</button>
 	<br> <br>
 	<button id="settingsButton" onclick="toggleSettings()">Settings</button>
@@ -37,10 +37,9 @@
 	<p id="mainTimer">-----|------------------------------</p> <br>
 	<p id="wins">0 consecutive wins</p>
 	<p id="settingDisplay">20 FPS, 1 Frames, 30 Wait</p>
-    <a href="frame_perfect_leaderboard.html"><button>Leaderboard</button></a>
   </body>
   <script>
-	let name = prompt("What would you like to appear on the leaderboard as? (Empty string is fine)");
+	let name = "No name";
 
     /*
         For the above, note that the class "side" should be in all buttons/text in the same row,
@@ -96,10 +95,7 @@
 	}
 
 	async function submitScore() {
-		const res = await fetch(`https://jatloe-site-2.vercel.app/api/fpgame/submit?score=${wins}&settings=${document.getElementById("settingDisplay").innerHTML}&name=${name}`, {method: "POST"});
-		let l = await res.json();
-
-		console.log(l);
+		// Score submission is not allowed on this version
 	}
 
     function update() {
@@ -139,22 +135,6 @@
 		pressed = false;
     }
 	
-	let accumulatedTime = 0;
-	let lastHandled = Date.now();
-	function handleInterval() {
-		let cutoff = 1000/fps;
-		let now = Date.now();
-		accumulatedTime += now - lastHandled;
-		lastHandled = now;
-		if (accumulatedTime >= cutoff) {
-			accumulatedTime -= cutoff;
-			console.log(accumulatedTime);
-			update();
-		}
-		
-		setTimeout(handleInterval);
-	}
-
 	function start() {
 		document.getElementById("wins").innerHTML = wins + " consecutive wins";
 		fps = parseInt(document.getElementById("fps").value);
@@ -169,10 +149,7 @@
 
 		startString = "-".repeat(padFrames) + "|".repeat(goodFrames) + "-".repeat(TOTAL_FRAMES);
 
-		if (addUpdate) {
-			lastHandled = Date.now();
-			handleInterval();
-		}
+		if (addUpdate) setInterval(update,1000/fps);
 
 		addUpdate = false;
 		playing = true;

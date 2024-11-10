@@ -18,7 +18,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V2.0</p>
+    <p class="side">V2.1</p>
 	<button onclick="alert('Press space or enter when the last - after the | is removed. You can press space or enter to restart.')">Instructions</button>
 	<br> <br>
 	<button id="settingsButton" onclick="toggleSettings()">Settings</button>
@@ -139,6 +139,22 @@
 		pressed = false;
     }
 	
+	let accumulatedTime = 0;
+	let lastHandled = Date.now();
+	function handleInterval() {
+		let cutoff = 1000/fps;
+		let now = Date.now();
+		accumulatedTime += now - lastHandled;
+		lastHandled = now;
+		while (accumulatedTime >= cutoff) {
+			accumulatedTime -= cutoff;
+			console.log(accumulatedTime);
+			update();
+		}
+		
+		setTimeout(handleInterval);
+	}
+
 	function start() {
 		document.getElementById("wins").innerHTML = wins + " consecutive wins";
 		fps = parseInt(document.getElementById("fps").value);
@@ -153,7 +169,10 @@
 
 		startString = "-".repeat(padFrames) + "|".repeat(goodFrames) + "-".repeat(TOTAL_FRAMES);
 
-		if (addUpdate) setInterval(update,1000/fps);
+		if (addUpdate) {
+			lastHandled = Date.now();
+			handleInterval();
+		}
 
 		addUpdate = false;
 		playing = true;
