@@ -18,7 +18,7 @@
     </style>
   </head>
   <body>
-    <p class="side">V1.3.1</p>
+    <p class="side">V2.0</p>
 	<button onclick="alert('Press space or enter when the last - after the | is removed. You can press space or enter to restart.')">Instructions</button>
 	<br> <br>
 	<button id="settingsButton" onclick="toggleSettings()">Settings</button>
@@ -29,13 +29,19 @@
 		<input type="number" id="goodframes" value="1" min="1" max="9" onchange="updateDisplay()">
 		<p class="side">Wait:</p>
 		<input type="number" id="numwait" value="30" min="1" max="99" onchange="updateDisplay()">
+		<button onclick="loadPreset(1)">Preset 1</button>
+		<button onclick="loadPreset(2)">Preset 2</button>
+		<button onclick="loadPreset(3)">Preset 3</button>
 	</div>
 	<button id="start" onclick="start()">Start</button> <br>
 	<p id="mainTimer">-----|------------------------------</p> <br>
 	<p id="wins">0 consecutive wins</p>
 	<p id="settingDisplay">20 FPS, 1 Frames, 30 Wait</p>
+    <a href="frame_perfect_leaderboard.html"><button>Leaderboard</button></a>
   </body>
   <script>
+	let name = prompt("What would you like to appear on the leaderboard as? (Empty string is fine)");
+
     /*
         For the above, note that the class "side" should be in all buttons/text in the same row,
         then put a <br> afterwards. Also, the id="thing" is how you would be able to reference things.
@@ -70,6 +76,14 @@
 		else ook.display = "none";
 	}
 
+	function loadPreset(num) {
+		document.getElementById("fps").value = [20,60,60][num-1];
+		document.getElementById("goodframes").value = [1,3,1][num-1];
+		document.getElementById("numwait").value = [30,30,30][num-1];
+
+		updateDisplay();
+	}
+
 	function updateDisplay() {
 		fps = parseInt(document.getElementById("fps").value);
 		goodFrames = parseInt(document.getElementById("goodframes").value);
@@ -79,6 +93,13 @@
 
 		document.getElementById("mainTimer").innerHTML = startString;
 		document.getElementById("settingDisplay").innerHTML = fps + " FPS, " + goodFrames + " Frames, " + TOTAL_FRAMES + " Wait"
+	}
+
+	async function submitScore() {
+		const res = await fetch(`https://jatloe-site-2.vercel.app/api/fpgame/submit?score=${wins}&settings=${document.getElementById("settingDisplay").innerHTML}&name=${name}`, {method: "POST"});
+		let l = await res.json();
+
+		console.log(l);
 	}
 
     function update() {
@@ -102,6 +123,9 @@
 					setTimeout(() => {
 						document.getElementById("start").disabled = false;
 					}, 200);
+
+					submitScore();
+
 					wins = 0;
 					playing = false;
 				}
