@@ -18,8 +18,9 @@
     </style>
   </head>
   <body>
-    <p class="side">V2.1</p>
-	<button onclick="alert('Press space or enter when the last - after the | is removed. You can press space or enter to restart.')">Instructions</button>
+    <p class="side">V2.2</p>
+	<button onclick="alert('Press space or enter when the rightmost character is a |. You can press space or enter to restart.')">Instructions</button>
+	<button id="name" onclick="promptName()">No name</button>
 	<br> <br>
 	<button id="settingsButton" onclick="toggleSettings()">Settings</button>
 	<div id="settings" style="display: none;">
@@ -40,7 +41,24 @@
     <a href="frame_perfect_leaderboard.html"><button>Leaderboard</button></a>
   </body>
   <script>
-	let name = prompt("What would you like to appear on the leaderboard as? (Empty string is fine)");
+	let name = "No name";
+
+	window.onload = () => {
+		if (localStorage.getItem("fpname") !== null) name = localStorage.getItem("fpname");
+		else promptName();
+
+		name = name ? name : "No name";
+		document.getElementById("name").innerHTML = name;
+	}
+
+	function promptName() {
+		name = prompt("What would you like to appear on the leaderboard as? (Empty string is fine)");
+
+		name = name ? name : "No name";
+		document.getElementById("name").innerHTML = name;
+
+		localStorage.setItem("fpname", name);
+	}
 
     /*
         For the above, note that the class "side" should be in all buttons/text in the same row,
@@ -98,8 +116,6 @@
 	async function submitScore() {
 		const res = await fetch(`https://jatloe-site-2.vercel.app/api/fpgame/submit?score=${wins}&settings=${document.getElementById("settingDisplay").innerHTML}&name=${name}`, {method: "POST"});
 		let l = await res.json();
-
-		console.log(l);
 	}
 
     function update() {
