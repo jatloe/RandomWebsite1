@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" href="jatloesmile-hd.png">
+    <title>Frame Perfect Game</title>
+    <style>
+      .side{
+        display: inline;
+      }
+      body, button, p, input {
+        font-family: 'Monospace Typewriter', monospace;
+        font-size: 36px;
+      }
+      input[type='checkbox'] {
+        width: 30px;
+        height: 30px;
+      }
+      p {
+        text-align: center;
+      }
+      .ml {
+        margin-left: 10vw;
+      }
+      .centerDiv {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <p>Frame Perfect Game Leaderboard</p>
+
+    <div class="centerDiv">
+        <p class="side">FPS:</p>
+        <input type="number" id="fps" value="20" min="1" max="240" onchange="getLB()">
+        <p class="side">Frames:</p>
+        <input type="number" id="goodframes" value="1" min="1" max="9" onchange="getLB()">
+        <p class="side">Wait:</p>
+        <input type="number" id="numwait" value="30" min="1" max="99" onchange="getLB()">
+		<button onclick="loadPreset(1)">Preset 1</button>
+		<button onclick="loadPreset(2)">Preset 2</button>
+		<button onclick="loadPreset(3)">Preset 3</button> <br>
+    <label for="repeats">Repeats?</label>
+    <input type="checkbox" id="repeats" onchange="getLB()" />
+    <label for="daily">Daily?</label>
+    <input type="checkbox" id="daily" onchange="getLB()" />
+    </div>
+    
+    <ol id="lb" class="ml"></ol>
+
+    <a href="frame_perfect.html"><button>Back to game</button></a>
+  </body>
+  <script>
+	function loadPreset(num) {
+		document.getElementById("fps").value = [20,60,60][num-1];
+		document.getElementById("goodframes").value = [1,3,1][num-1];
+		document.getElementById("numwait").value = [30,30,30][num-1];
+
+		getLB();
+	}
+
+    async function getLB() {
+        const res = await fetch(`https://jatloe-site-2.vercel.app/api/fpgame/get_lb?` +
+            `fps=${document.getElementById("fps").value}` +
+            `&goods=${document.getElementById("goodframes").value}` +
+            `&wait=${document.getElementById("numwait").value}` +
+            `&maxRepeats=${document.getElementById("repeats").checked ? 999 : 1}` +
+            `&daily=${document.getElementById("daily").checked ? 1 : 0}`);
+		    let l = await res.json();
+        let lb = document.getElementById("lb")
+        while (lb.firstChild) {
+            lb.removeChild(lb.lastChild);
+        }
+
+        for (let score of l["scores"]) {
+            let newItem = document.createElement("li");
+            newItem.innerHTML = score[0] + " - " + score[1];
+            lb.appendChild(newItem);
+        }
+    }
+
+    window.onload = getLB;
+  </script>
+</html>
