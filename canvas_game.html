@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<!-- Thanks to my web app development teacher at school for creating this assignment! -->
+<head>
+    <style>
+        .canvasContainer {
+            border: 1px solid black;
+            width: 500px;
+            margin: 80px auto;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        p,input {
+            display: inline;
+            font-size: 24pt;
+            height: 18pt;
+            width: 18pt;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Include bonuses?</p>
+    <input type="checkbox" id="bonusCheckbox" onchange="changeBonus()" tabindex="-1">
+    <p style="display: none;" id="bonusTip">Press space to use a bonus.</p>
+    <div class="canvasContainer">
+        <canvas id="myCanvas" width="500" height="300"></canvas>
+    </div>
+
+<script>
+const canvas = document.getElementById('myCanvas');
+const ctx = canvas.getContext('2d');
+
+let playerX = 50;
+let playerY = 50;
+let playerR = 10;
+
+let moveOffset = 2;
+
+let canvasIt = 0;
+
+class Circle {
+    constructor(x, y, r, vx=0, vy=0) {
+        this.x = x;
+        this.y = y;
+        this.r = r;
+        this.vx = vx;
+        this.vy = vy;
+    }
+
+    overlapsPlayer() {
+        return (this.x-playerX)**2 + (this.y-playerY)**2 < (this.r+playerR-3)**2; // -3 for leniency
+    }
+    
+    move() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        let sqdist = (this.x - playerX)**2 + (this.y - playerY)**2;
+
+        if (Math.random() < 0.002*difficultyFactor && this.r >= 7.99 &&
+            sqdist >= 10000*difficultyFactor*difficultyFactor && sqdist <= 40000*difficultyFactor*difficultyFactor) {
+            for (let theta = 0; theta < 2*Math.PI-0.001; theta += 2*Math.PI/(difficultyFactor*10))
+                enemies.push(new Enemy(this.x, this.y, 3,
+                2*difficultyFactor*Math.cos(theta), 2*difficultyFactor*Math.sin(theta)));
+        }
+    }
+}
+
+class Enemy extends Circle {
+    draw(ctx) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
+        ctx.fillStyle = "red";
+        ctx.fill();
+    }
+}
+
+class Bonus extends Circle {
+    draw(ctx) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
+        ctx.fillStyle = "yellow";
+        ctx.fill();
+    }
+}
+
+function changeBonus() {
+    includeBonuses = document.getElementById("bonusCheckbox").checked;
+    if (includeBonuses) document.getElementById("bonusTip").style.display = "";
+    else document.getElementById("bonusTip").style.display = "none";
+    restart();
+}
+
+let enemies = [];
+let bonuses = [];
+let keysHeld = [0,0,0,0];
+let bonusesHeld = 0;
+let usingBonus = 0;
+let difficultyFactor = 0.8;
+let includeBonuses = document.getElementById("bonusCheckbox").checked;
+if (includeBonuses) document.getElementById("bonusTip").style.display = "";
+else document.getElementById("bonusTip").style.display = "none";
+
+let gameover = false;
+
+function gameOver() {
+    gameover = true;
+}
+
+function addRandomEnemy() {
+    enemies.push(new Enemy(Math.random()*500,300,10*(difficultyFactor**0.75),Math.random()*5-2.5,Math.random()-3));
+}
+
+function addRandomBonus() {
+    bonuses.push(new Bonus(Math.random()*500,300,10,Math.random()*5-2.5,Math.random()-3));
+}
+
+function addRandomWaveEnemy() {
+    enemies.push(new Enemy(Math.random()*500,0,3*difficultyFactor,Math.random()-0.5,2-Math.random()));
+}
+
+function addScriptedEnemy() {
+    let theta = 15+40*Math.random();
+    theta = theta / 180 * Math.PI;
+    let drp = 0.9 + Math.random() * 0.2;
+    drp *= 1/2;
+    if (Math.random() < 0.333)
+        enemies.push(new Enemy(0,300,5,5*drp*Math.cos(theta),-3*drp*Math.sin(theta)));
+    else if (Math.random() < 0.5)
+        enemies.push(new Enemy(500,300,5,-5*drp*Math.cos(theta),-3*drp*Math.sin(theta)));
+    else
+        enemies.push(new Enemy(250,0,5,-0.3+0.6*Math.random(),2));
+}
+
+function useBonus() {
+    if (bonusesHeld <= 0) return;
+    bonusesHeld -= 1;
+    
+    for (let i = enemies.length-1; i >= 0; i--) {
+        let enemy = enemies[i];
+        if ((enemy.x-playerX)**2 + (enemy.y-playerY)**2 < 10000) enemies.splice(i,1);
+    }
+    usingBonus = 15;
+
+    document.activeElement.blur();
+}
+
+function restart() {
+    addAnimate = gameover;
+
+    playerX = 50;
+    playerY = 50;
+    gameover = false;
+    usingBonus = 0;
+    enemies = [];
+    bonuses = [];
+    bonusesHeld = 0;
+    difficultyFactor = 0.8;
+    canvasIt = 0;
+    keysHeld = [0,0,0,0];
+    if (addAnimate) doAnimate();
+}
+
+const doAnimate = () => {
+    ctx.clearRect(0, 0, canvas.width,canvas.height);
+
+    for (let enemy of enemies) {
+        if (enemy.overlapsPlayer()) gameOver();
+    }
+
+    ctx.fillStyle = "#FF9999";
+    if (canvasIt % 1000 >= 900 && canvasIt % 50 < 25 && !gameover) ctx.fillRect(0, 0, canvas.width, 50);
+    if (canvasIt % 1000 >= 400 && canvasIt % 50 < 25 && canvasIt % 1000 < 500 && !gameover) {
+        ctx.fillRect(225, 0, 50, 50);
+        ctx.fillRect(0, 250, 50, 50);
+        ctx.fillRect(450, 250, 50, 50);
+    }
+
+    ctx.fillStyle = "#FF9999";
+    if (keysHeld[0]) playerY -= moveOffset;
+    if (keysHeld[1]) playerY += moveOffset;
+    if (keysHeld[2]) playerX -= moveOffset;
+    if (keysHeld[3]) playerX += moveOffset;
+
+    playerX = Math.max(playerR,Math.min(500-playerR, playerX));
+    playerY = Math.max(playerR,Math.min(300-playerR, playerY));
+
+    ctx.lineWidth = 5;
+    
+    usingBonus--;
+
+    if (usingBonus > 0) {
+        ctx.beginPath();
+        ctx.arc(playerX, playerY, 100, 0, 2*Math.PI);
+        ctx.fillStyle = "lightgreen";
+        ctx.fill();
+    }
+
+    if (canvasIt >= 300) difficultyFactor = 1.0;
+    if (canvasIt >= 1300) difficultyFactor = 1.2;
+    if (canvasIt >= 2300) difficultyFactor = 1.5;
+    if (canvasIt >= 3300) difficultyFactor = 1.7;
+    if (canvasIt >= 4300) difficultyFactor = 2.0;
+
+    ctx.beginPath();
+    ctx.arc(playerX, playerY, playerR, 0, 2*Math.PI);
+    ctx.fillStyle = "green";
+    ctx.fill();
+    
+    for (let i = enemies.length-1; i >= 0; i--) {
+        let enemy = enemies[i];
+        if (-100 > enemy.x || -100 > enemy.y || 600 < enemy.x || 400 < enemy.y) enemies.splice(i,1);
+    }
+
+    for (let enemy of enemies) {
+        enemy.move();
+        enemy.draw(ctx);
+    }
+
+    for (let i = bonuses.length-1; i >= 0; i--) {
+        let bonus = bonuses[i];
+        bonus.move();
+        bonus.draw(ctx);
+        if (bonus.overlapsPlayer()) {
+            bonusesHeld++;
+            bonuses.splice(i,1);
+        }
+    }
+    ctx.textBaseline = "alphabetic";
+    ctx.textAlign = "left";
+
+    ctx.fillStyle = "black";
+    ctx.font = "36px serif";
+    ctx.fillText(canvasIt, 475-15*canvasIt.toString().length, 40, 160);
+    ctx.fillStyle = "#BBBB00";
+    if (includeBonuses) ctx.fillText(bonusesHeld, 20, 40, 160);
+
+    if (!gameover) requestAnimationFrame(doAnimate);
+    else {
+        ctx.fillStyle = "red";
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
+        ctx.font = "48px serif";
+        ctx.fillStyle = "#DD6666";
+        ctx.fillText("Game over!", 250, 125, 480);
+        ctx.fillText("Press R to restart.", 250, 175, 480);
+    }
+
+    if (canvasIt % 150 == 149 && includeBonuses) addRandomBonus();
+    if (canvasIt % 1000 == 999) {
+        for (let eit = 0; eit < 40*Math.sqrt(difficultyFactor); eit++) addRandomWaveEnemy();
+    } else if (canvasIt % 1000 == 49 && canvasIt > 1000) {
+        for (let eit = 0; eit < 40*Math.sqrt(difficultyFactor); eit++) addRandomWaveEnemy();
+    } else if (canvasIt % 10 == 0 && 500 <= canvasIt % 1000 && canvasIt % 1000 < 700) {
+        for (let eit = 0; eit < 2+Math.floor(Math.random()*difficultyFactor); eit++) addScriptedEnemy();
+    } else if (canvasIt % (17-6*Math.floor(difficultyFactor)) == 0
+        && canvasIt % 1000 < 950
+        && (canvasIt % 1000 > 200 || canvasIt < 1000)
+        && !(canvasIt % 1000 > 500 && canvasIt % 1000 < 600)) {
+        addRandomEnemy();
+    }
+    canvasIt++;
+}
+
+doAnimate()
+
+// document.onkeydown = (e) => {
+//          if (e.key == "ArrowUp"    || e.key == "w") playerY -= moveOffset;
+//     else if (e.key == "ArrowDown"  || e.key == "s") playerY += moveOffset;
+//     else if (e.key == "ArrowLeft"  || e.key == "a") playerX -= moveOffset;
+//     else if (e.key == "ArrowRight" || e.key == "d") playerX += moveOffset;
+// }
+
+document.onkeydown = (e) => {
+         if (e.key == "ArrowUp"   ) keysHeld[0] = 1;
+    else if (e.key == "ArrowDown" ) keysHeld[1] = 1;
+    else if (e.key == "ArrowLeft" ) keysHeld[2] = 1;
+    else if (e.key == "ArrowRight") keysHeld[3] = 1;
+
+    else if (e.key == " ") {
+        e.preventDefault();
+        useBonus();
+    }
+    else if (e.key == "r") restart();
+}
+document.onkeyup = (e) => {
+         if (e.key == "ArrowUp"   ) keysHeld[0] = 0;
+    else if (e.key == "ArrowDown" ) keysHeld[1] = 0;
+    else if (e.key == "ArrowLeft" ) keysHeld[2] = 0;
+    else if (e.key == "ArrowRight") keysHeld[3] = 0;
+}
+</script>
+</body>
+</html>
