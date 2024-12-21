@@ -13,12 +13,9 @@
             height: 100%;
             display: block;
         }
-        p,button {
+        p,input {
             display: inline;
             font-size: 24pt;
-        }
-        input {
-            display: inline;
             height: 18pt;
             width: 18pt;
         }
@@ -26,9 +23,7 @@
 </head>
 
 <body>
-    <p id="versionText">V1.1</p> 
-    <button onclick="alert('If you are within 100 pixels of an exploding enemy, it cannot explode. Your hitbox has radius 3 less than your displayed radius.')">Tips</button>
-    <br>
+    <p id="versionText">V1.0</p> <br>
     <p>Include bonuses?</p>
     <input type="checkbox" id="bonusCheckbox" onchange="changeBonus()" tabindex="-1">
     <p style="display: none;" id="bonusTip">Press space to use a bonus.</p>
@@ -64,6 +59,15 @@ class Circle {
     move() {
         this.x += this.vx;
         this.y += this.vy;
+
+        let sqdist = (this.x - playerX)**2 + (this.y - playerY)**2;
+
+        if (Math.random() < 0.002*difficultyFactor && this.r >= 7.99 &&
+            sqdist >= 10000*difficultyFactor*difficultyFactor && sqdist <= 40000*difficultyFactor*difficultyFactor) {
+            for (let theta = 0; theta < 2*Math.PI-0.001; theta += 2*Math.PI/(difficultyFactor*10))
+                enemies.push(new Enemy(this.x, this.y, 3,
+                2*difficultyFactor*Math.cos(theta), 2*difficultyFactor*Math.sin(theta)));
+        }
     }
 }
 
@@ -73,55 +77,6 @@ class Enemy extends Circle {
         ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
         ctx.fillStyle = "red";
         ctx.fill();
-    }
-}
-
-class ExplodingEnemy extends Circle {
-    constructor(x, y, r, vx=0, vy=0) {
-        super(x, y, r, vx, vy);
-
-        this.explodeTicks = 50+Math.floor(Math.random()*100);
-        this.originalTicks = this.explodeTicks;
-    }
-
-    draw(ctx) {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
-
-        let c1 = "#FF0000";
-        let c2 = "#800080";
-        let c = "#";
-        for(let i = 0; i < 3; i++) {
-            let sub1 = c1.substring(1+2*i, 3+2*i);
-            let sub2 = c2.substring(1+2*i, 3+2*i);
-            let v1 = parseInt(sub1, 16);
-            let v2 = parseInt(sub2, 16);
-            let v = Math.floor((v1*this.explodeTicks + v2*(this.originalTicks-this.explodeTicks)) / this.originalTicks);
-            let sub = v.toString(16).toUpperCase();
-            let padsub = ('0'+sub).slice(-2);
-            c += padsub;
-        }
-
-        ctx.fillStyle = c;
-        ctx.fill();
-    }
-    
-    move() {
-        this.x += this.vx;
-        this.y += this.vy;
-        this.explodeTicks--;
-
-        if (this.explodeTicks % (this.originalTicks / 4.5 | 0) == 0) this.r++;
-
-        let sqdist = (this.x - playerX)**2 + (this.y - playerY)**2;
-
-        if (this.explodeTicks <= 0 && (100*difficultyFactor)**2 <= sqdist) {
-            for (let theta = 0; theta < 2*Math.PI-0.001; theta += 2*Math.PI/(difficultyFactor*10))
-                enemies.push(new Enemy(this.x, this.y, 3,
-                2*difficultyFactor*Math.cos(theta), 2*difficultyFactor*Math.sin(theta)));
-            this.x = -1000;
-            this.y = -1000;
-        }
     }
 }
 
@@ -157,11 +112,8 @@ function gameOver() {
     gameover = true;
 }
 
-let randomEnemyIt = 0;
 function addRandomEnemy() {
-    randomEnemyIt++;
-    if (randomEnemyIt % Math.floor(10/difficultyFactor) != 0) enemies.push(new Enemy(Math.random()*500,300,10*(difficultyFactor**0.5),Math.random()*5-2.5,Math.random()-3));
-    else enemies.push(new ExplodingEnemy(Math.random()*500,300,10*(difficultyFactor**0.5),Math.random()*5-2.5,Math.random()-3));
+    enemies.push(new Enemy(Math.random()*500,300,10*(difficultyFactor**0.75),Math.random()*5-2.5,Math.random()-3));
 }
 
 function addRandomBonus() {
@@ -283,10 +235,8 @@ const doAnimate = () => {
     ctx.textAlign = "left";
 
     ctx.fillStyle = "black";
-    ctx.textAlign = "right";
     ctx.font = "36px serif";
-    ctx.fillText(canvasIt, 490, 40, 160);
-    ctx.textAlign = "left";
+    ctx.fillText(canvasIt, 475-15*canvasIt.toString().length, 40, 160);
     ctx.fillStyle = "#BBBB00";
     if (includeBonuses) ctx.fillText(bonusesHeld, 20, 40, 160);
 
@@ -306,12 +256,12 @@ const doAnimate = () => {
 
     if (canvasIt % 150 == 149 && includeBonuses) addRandomBonus();
     if (canvasIt % 1000 == 999) {
-        for (let eit = 0; eit < 30*difficultyFactor; eit++) addRandomWaveEnemy();
+        for (let eit = 0; eit < 40*Math.sqrt(difficultyFactor); eit++) addRandomWaveEnemy();
     } else if (canvasIt % 1000 == 49 && canvasIt > 1000) {
-        for (let eit = 0; eit < 30*difficultyFactor; eit++) addRandomWaveEnemy();
+        for (let eit = 0; eit < 40*Math.sqrt(difficultyFactor); eit++) addRandomWaveEnemy();
     } else if (canvasIt % 10 == 0 && 500 <= canvasIt % 1000 && canvasIt % 1000 < 700) {
         for (let eit = 0; eit < 2+Math.floor(Math.random()*difficultyFactor); eit++) addScriptedEnemy();
-    } else if (canvasIt % (19-6*Math.floor(difficultyFactor)) == 0
+    } else if (canvasIt % (17-6*Math.floor(difficultyFactor)) == 0
         && canvasIt % 1000 < 950
         && (canvasIt % 1000 > 200 || canvasIt < 1000)
         && !(canvasIt % 1000 > 500 && canvasIt % 1000 < 600)) {
