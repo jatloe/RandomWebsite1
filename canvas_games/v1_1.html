@@ -26,7 +26,7 @@
 </head>
 
 <body>
-    <p id="versionText">V1.2</p> 
+    <p id="versionText">V1.1</p> 
     <button onclick="alert('If you are within 100 pixels of an exploding enemy, it cannot explode. Your hitbox has radius 3 less than your displayed radius.')">Tips</button>
     <br>
     <p>Include bonuses?</p>
@@ -61,9 +61,9 @@ class Circle {
         return (this.x-playerX)**2 + (this.y-playerY)**2 < (this.r+playerR-3)**2; // -3 for leniency
     }
     
-    move(dt) {
-        this.x += this.vx*dt;
-        this.y += this.vy*dt;
+    move() {
+        this.x += this.vx;
+        this.y += this.vy;
     }
 }
 
@@ -106,9 +106,9 @@ class ExplodingEnemy extends Circle {
         ctx.fill();
     }
     
-    move(dt) {
-        this.x += this.vx*dt;
-        this.y += this.vy*dt;
+    move() {
+        this.x += this.vx;
+        this.y += this.vy;
         this.explodeTicks--;
 
         if (this.explodeTicks % (this.originalTicks / 4.5 | 0) == 0) this.r++;
@@ -214,17 +214,7 @@ function restart() {
     if (addAnimate) doAnimate();
 }
 
-let lastTick = Date.now();
-let desiredFramerate = 1000/60;
 const doAnimate = () => {
-    if (gameover) return;
-
-    let currTime = Date.now();
-    let dt = currTime - lastTick;
-    dt /= desiredFramerate; // Number of ticks
-
-    lastTick = currTime;
-
     ctx.clearRect(0, 0, canvas.width,canvas.height);
 
     for (let enemy of enemies) {
@@ -240,10 +230,10 @@ const doAnimate = () => {
     }
 
     ctx.fillStyle = "#FF9999";
-    if (keysHeld[0]) playerY -= moveOffset*dt;
-    if (keysHeld[1]) playerY += moveOffset*dt;
-    if (keysHeld[2]) playerX -= moveOffset*dt;
-    if (keysHeld[3]) playerX += moveOffset*dt;
+    if (keysHeld[0]) playerY -= moveOffset;
+    if (keysHeld[1]) playerY += moveOffset;
+    if (keysHeld[2]) playerX -= moveOffset;
+    if (keysHeld[3]) playerX += moveOffset;
 
     playerX = Math.max(playerR,Math.min(500-playerR, playerX));
     playerY = Math.max(playerR,Math.min(300-playerR, playerY));
@@ -276,13 +266,13 @@ const doAnimate = () => {
     }
 
     for (let enemy of enemies) {
-        enemy.move(dt);
+        enemy.move();
         enemy.draw(ctx);
     }
 
     for (let i = bonuses.length-1; i >= 0; i--) {
         let bonus = bonuses[i];
-        bonus.move(dt);
+        bonus.move();
         bonus.draw(ctx);
         if (bonus.overlapsPlayer()) {
             bonusesHeld++;
@@ -300,7 +290,8 @@ const doAnimate = () => {
     ctx.fillStyle = "#BBBB00";
     if (includeBonuses) ctx.fillText(bonusesHeld, 20, 40, 160);
 
-    if (gameover) {
+    if (!gameover) requestAnimationFrame(doAnimate);
+    else {
         ctx.fillStyle = "red";
         ctx.textBaseline = "middle";
         ctx.textAlign = "center";
@@ -329,7 +320,7 @@ const doAnimate = () => {
     canvasIt++;
 }
 
-setInterval(doAnimate, desiredFramerate);
+doAnimate()
 
 // document.onkeydown = (e) => {
 //          if (e.key == "ArrowUp"    || e.key == "w") playerY -= moveOffset;
