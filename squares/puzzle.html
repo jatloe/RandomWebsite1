@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Solver - Squared Squares</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    
+    <style>
+        #leftDiv {
+            width: 50%;
+            float: left;
+        }
+        #rightDiv {
+            width: 50%;
+            float: right;
+        }
+    </style>
+    <body>
+        <div id="leftDiv">
+            <h2 id="title">Untitled</h2>
+            <p id="timer">Time: 0:00</p>
+            <table id="enterGrid"></table> <br>
+            <button type="button" onclick="clearGrid()">Clear grid</button> <br> <br>
+            <a href="browse.html">Return</a>
+        </div>
+        <div id="rightDiv">
+            <p>Targets:</p>
+            <ul id="targets" class="mult-cols">
+            </ul>
+        </div>
+    </body>
+    <script>
+        window.onload = () => {
+            let params = new URLSearchParams(document.location.search);
+            startingGrid = params.get("grid") || ".".repeat(49);
+            dims[0] = params.get("height") || 7;
+            dims[1] = params.get("width") || 7;
+            if (params.get("targets")) {
+                targets = params.get("targets").split(",").map(x => parseInt(x));
+                targets.sort();
+            } else {
+                targets = Array(22).fill(0).map((_,n) => (n+10)**2);
+                targets.sort();
+            }
+
+            document.title = params.get("title") + " - Squared Squares";
+
+            document.getElementById("title").innerHTML = params.get("title");
+
+            tableCreate();
+            targetsCreate();
+            addBlocks();
+            startTime = Date.now();
+            setInterval(manageTime, 10);
+        }
+
+        let dims = [0,0];
+        let targets = [];
+        targets.sort();
+        let startTime = 0;
+        let completed = false;
+        
+        let startingGrid = ""; // .s and #s
+        
+        function tableCreate() {
+            let body = document.body,
+                tbl = document.getElementById("enterGrid");
+            
+            tbl.innerHTML = "";
+          
+            for (let i = 0; i < dims[0]; i++) {
+                let tr = tbl.insertRow();
+                for (let j = 0; j < dims[1]; j++) {
+                    let td = tr.insertCell();
+                    td.classList.add("enterCell");
+                    td.style.backgroundColor = "white";
+                }
+            }
+          
+            table = document.getElementById("enterGrid");
+            for (let i = 0; i < table.rows.length; i++) {
+                for (let j = 0; j < table.rows[i].cells.length; j++) {
+                    table.rows[i].cells[j].onclick = function () {
+                        tableColor(this);
+                    };
+                }
+            }
+
+            tableColor(table.rows[0].cells[0]);
+        }
+
+        function targetsCreate() {
+            let counts = new Map();
+            for (let x of targets) counts.set(x, 0);
+            for (let x of targets) {
+                let el = document.createElement("li");
+                el.appendChild(document.createTextNode(x));
+                el.setAttribute("id",`target-${x}-${counts.get(x)}`);
+                document.getElementById("targets").appendChild(el);
+                counts.set(x,counts.get(x)+1);
+            }
+        }
+
+        function addBlocks() {
+            while (startingGrid.length < dims[0]*dims[1]) startingGrid += ".";
+            startingGrid.length = startingGrid.substring(0, dims[0]*dims[1]);
+            for (let i = 0; i < startingGrid.length; i++) {
+                if (startingGrid[i] == "#") {
+                    table.rows[Math.floor(i/dims[1])].cells[i%dims[1]].style.backgroundColor = "black";
+                    // table.rows[Math.floor(i/dims[1])].cells[i%dims[1]].innerHTML = "#";
+                }
+            }
+        }
+        
+        function manageTime() {
+            if (completed) return;
+            let numSeconds = Math.floor((Date.now() - startTime)/1000);
+            let timeString = Math.floor(numSeconds / 60) + ":" +
+                (numSeconds % 60 < 10 ? "0" : "") + (numSeconds % 60);
+            document.getElementById("timer").innerHTML = "Time: " + timeString;
+        }
+
+        function checkTargets() {
+            correct = false;
+            
+            let gotten = [];
+            let targetSet = new Set(targets);
+            for (let i = 0; i < dims[0]; i++) {
+                let s = "";
+                for (let cell of table.rows[i].cells) {
+                    s += cell.innerHTML ? cell.innerHTML : "#";
+                }
+                for (let t of targetSet) {
+                    for (let ii = 0; ii < stringCount(s,t); ii++) gotten.push(t);
+                }
+            }
+            for (let j = 0; j < dims[1]; j++) {
+                let s = "";
+                for (let i = 0; i < dims[0]; i++) {
+                    let cell = table.rows[i].cells[j];
+                    s += cell.innerHTML ? cell.innerHTML : "#";
+                }
+                for (let t of targetSet) {
+                    for (let ii = 0; ii < stringCount(s,t); ii++) gotten.push(t);
+                }
+            }
+            gotten.sort();
+            
+            let counts = new Map();
+            for (let x of targets) counts.set(x, 0);
+            for (let x of targets) {
+                document.getElementById(`target-${x}-${counts.get(x)}`).style.textDecoration = "";
+                document.getElementById(`target-${x}-${counts.get(x)}`).style.color = "black";
+                counts.set(x, counts.get(x)+1);
+            }
+            
+            let gottencounts = new Map();
+            for (let x of gotten) gottencounts.set(x, 0);
+            
+            for (let x of gotten) {
+                if (gottencounts.get(x) >= counts.get(x)) continue;
+                document.getElementById(`target-${x}-${gottencounts.get(x)}`).style.textDecoration = "line-through";
+                document.getElementById(`target-${x}-${gottencounts.get(x)}`).style.color = "gray";
+                gottencounts.set(x, gottencounts.get(x)+1);
+            }
+
+            if (targets.every(
+                item =>
+                gotten .filter(u => u==item).length
+                    >=
+                targets.filter(u => u==item).length
+            )) {
+                document.getElementById("timer").innerHTML += " <b>You win!</b>";
+                completed = true;
+            }
+        }
+
+        function clearGrid() {
+            if (!confirm("Are you sure you want to clear the grid?")) return;
+
+            for (let i = 0; i < table.rows.length; i++) {
+                for (let j = 0; j < table.rows[0].cells.length; j++) {
+                    currCell = table.rows[i].cells[j];
+                    changeCell("");
+                }
+            }
+        }
+
+        let currCell = null;
+        let table = document.getElementById("enterGrid");
+
+        function tableColor(tableCell) {
+            for (let i = 0; i < table.rows.length; i++) {
+                for (let j = 0; j < table.rows[i].cells.length; j++) {
+                    if (table.rows[i].cells[j].style.backgroundColor != "black") {
+                        table.rows[i].cells[j].style.backgroundColor = "white";
+                    }
+                }
+            }
+            if (tableCell && tableCell.style.backgroundColor != "black")
+                tableCell.style.backgroundColor = "beige";
+            currCell = tableCell;
+        }
+
+        function changeCell(char) {
+            if ("1234567890".indexOf(char) == -1) return;
+
+            char = char.toUpperCase();
+
+            if (currCell && currCell.style.backgroundColor != "black") {
+                currCell.innerHTML = char.toUpperCase();
+            }
+
+            checkTargets();
+        }
+          
+        function findCurrCell() {
+            for (let i = 0; i < table.rows.length; i++) {
+                for (let j = 0; j < table.rows[i].cells.length; j++) {
+                    let cell = table.rows[i].cells[j];
+                    if (cell == currCell) return [i,j];
+                }
+            }
+        }
+
+        function stringCount(big, small) {
+            big = big.toString();
+            small = small.toString();
+
+            let bl = big.length;
+            let sl = small.length;
+            let ans = 0;
+            for (let i = 0; i <= bl-sl; i++) {
+                if (big.substring(i,i+sl) == small) ans += 1;
+            }
+            return ans;
+        }
+
+        function moveCell(num) {
+            if (!currCell) return;
+
+            let table = document.getElementById("enterGrid");
+            let found = findCurrCell();
+            let a = found[0];
+            let b = found[1];
+          
+                 if (num == 38) a = Math.max(a-1,0);
+            else if (num == 40) a = Math.min(a+1,table.rows.length-1);
+            else if (num == 37) b = Math.max(b-1,0);
+            else if (num == 39) b = Math.min(b+1,table.rows[0].cells.length-1);
+            else changeCellColor(num);
+            
+            currCell = table.rows[a].cells[b];
+            tableColor(currCell);
+        }
+
+        document.onkeydown = function(e) {
+            changeCell(e.key == "Backspace" ? "" : e.key);
+
+            if ([37,38,39,40,61,173].includes(e.which)) {
+                e.preventDefault();
+                moveCell(e.which);
+            }
+        };
+    </script>
+</html>

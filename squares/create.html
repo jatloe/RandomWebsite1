@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Create - Squared Squares</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    
+    <style>
+    </style>
+    <body>
+        <label for="height">Height</label>
+        <input type="number" min="1" max="999" value="5" id="height">
+        <label for="width">Width</label>
+        <input type="number" min="1" max="999" value="5" id=width>
+        <button type="button" onclick="create()">Create!</button> <br> <br>
+        <a href="home.html">Return to home</a>
+    </body>
+    <script>
+        function create() {
+            location.href = `editor.html?height=${document.getElementById("height").value}` +
+                            `&width=${document.getElementById("width").value}`;
+        }
+    </script>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Browser - Squared Squares</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    
+    <style>
+    </style>
+    <body>
+        <h2>Puzzle browser</h2>
+        <label for="puzzleNum">Number of puzzles: </label>
+        <input type="number" id="puzzleNum" min="1" max="99" value="8" onchange="queryAgain()">
+        <label for="min-stars">Difficulty: </label>
+        <select name="min-stars" id="min-stars" onchange="queryAgain()">
+            <option value="1" selected>1★</option>
+            <option value="2">2★</option>
+            <option value="3">3★</option>
+            <option value="4">4★</option>
+            <option value="5">5★</option>
+        </select>
+        <label for="max-stars"> - </label>
+        <select name="max-stars" id="max-stars" onchange="queryAgain()">
+            <option value="1">1★</option>
+            <option value="2">2★</option>
+            <option value="3">3★</option>
+            <option value="4">4★</option>
+            <option value="5" selected>5★</option>
+        </select>
+        <label for="puzzleTitle">Puzzle title: </label>
+        <input type="text" id="puzzleTitle" onchange="queryAgain()" onkeyup="this.onchange();">
+        <br> <br>
+        <div id="puzzle-previews">
+
+        </div>
+        <br>
+        <a href="home.html">Return to home</a>
+    </body>
+    <script>
+        let querying = false;
+
+        window.onload = () => {
+            queryAgain();
+        }
+
+        async function queryAgain() {
+            if (querying) return;
+            document.getElementById("puzzle-previews").innerHTML = "";
+            await populatePuzzles(
+                document.getElementById("puzzleNum").value,
+                document.getElementById("min-stars").value,
+                document.getElementById("max-stars").value,
+                document.getElementById("puzzleTitle").value
+            );
+        }
+
+        async function populatePuzzles(n, minStars, maxStars, title) {
+            querying = true;
+
+            const res = await fetch(`https://jatloe-site-2.vercel.app/api/squares/find_puzzles?num=${n}&minstars=${minStars}&maxstars=${maxStars}&title=${title}`);
+            let ans = await res.json();
+            for (let i = 0; i < ans.length; i++) addPuzzle(ans[i]);
+
+            querying = false;
+        }
+
+        // <a href="/puzzle?height=3&width=3&targets=100,289,400,900">
+        //     <div class="preview-container">
+        //         <div class="preview-left">
+        //             <img src="https://picsum.photos/200" alt="Grid image">
+        //         </div>
+        //         <div class="preview-right">
+        //             <p class="puzzle-title">Puzzle</p>
+        //             <p>Author: Jo Student</p>
+        //             <p>Difficulty: 3★</p>
+        //             <p>Date created: 01/15/2025</p>
+        //         </div>
+        //     </div>
+        // </a>
+
+        function addPuzzle(ans) {
+            let elementToBuild = document.createElement("a");
+            
+            elementToBuild.href = `puzzle.html?grid=${ans['grid'].replaceAll('#',"%23")}` + 
+            `&height=${ans['height']}&width=${ans['width']}&targets=${ans['targets']}` +
+            `&title=${ans['title']}`;
+
+            let bigDiv = document.createElement("div");
+            bigDiv.classList.add("preview-container");
+            elementToBuild.appendChild(bigDiv);
+
+            let leftDiv = document.createElement("div");
+            leftDiv.classList.add("preview-left");
+            bigDiv.appendChild(leftDiv);
+
+            let puzzleImg = document.createElement("img");
+            puzzleImg.src = `https://picsum.photos/id/${Math.floor(Math.random()*200)+100}/200/200`;
+            puzzleImg.alt = "Grid image";
+            leftDiv.appendChild(puzzleImg);
+
+            let rightDiv = document.createElement("div");
+            rightDiv.classList.add("preview-right");
+            bigDiv.appendChild(rightDiv);
+
+            let titleText = document.createElement("p");
+            titleText.classList.add("puzzle-title");
+            titleText.innerText = ans["title"];
+            rightDiv.appendChild(titleText);
+
+            let authorText = document.createElement("p");
+            authorText.innerText = "Author: " + ans["author"];
+            rightDiv.appendChild(authorText);
+
+            let difficultyText = document.createElement("p");
+            difficultyText.innerText = "Difficulty: " + ans["difficulty"] + "★";
+            rightDiv.appendChild(difficultyText);
+
+            let dateText = document.createElement("p");
+            dateText.innerText = "Date created: " + ans["date"];
+            rightDiv.appendChild(dateText);
+
+            document.getElementById("puzzle-previews").appendChild(elementToBuild);
+        }
+    </script>
+</html>
