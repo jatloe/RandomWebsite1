@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" href="jatloesmile-hd.png">
+    <title>Drill Drill Drill</title>
+    <style>
+      .side{
+        display: inline;
+      }
+      body, button, p, input {
+        font-family: 'Monospace Typewriter', monospace;
+        font-size: 48px;
+      }
+      #mainTimer {
+        display: inline-block;
+        transform-origin: center;
+      }
+    </style>
+</head>
+
+<body>
+    <p id="problem">Press space to start</p>
+    <p id="timer">--------------------------------------------------</p>
+    <p id="score">Score: 0</p>
+    <input type="text" id="ansbox" disabled>
+</body>
+
+<script>
+
+let fps = 20;
+let maxTimerLen = 50;
+let timer = document.getElementById("timer");
+let problemElement = document.getElementById("problem");
+let scoreElement = document.getElementById("score");
+let answerBox = document.getElementById("ansbox");
+let answer = "";
+let playing = false;
+let score = 0;
+
+function lose() {
+    playing = false;
+    problemElement.innerText = "Press space to start";
+    timer.innerText = "-".repeat(maxTimerLen);
+    answerBox.value = "";
+    answerBox.disabled = true;
+    score = 0; // Don't update display until restart
+}
+
+function answerChanged() {
+    if (!playing) return;
+
+    answerBox.value = answerBox.value.replaceAll(/[asdfg]/g, "1").replaceAll(/[hjkl;]/g, "0").replaceAll(/[^0-9asdfghjkl; ]/g, ""); // Space to give up
+    let currInput = answerBox.value;
+
+    if (answer == currInput) {
+        answerBox.value = "";
+        score++;
+        newProblem();
+    }
+    else if (answer.substring(0, currInput.length) != currInput) lose();
+    else console.log(currInput);
+
+    return false;
+}
+
+answerBox.oninput = answerChanged;
+// answerBox.onmousedown = () => {
+//     return true;
+// }
+
+function decreaseTimer() {
+    if (!playing) return;
+
+    answerBox.focus();
+
+    if (timer.innerText) timer.innerText = timer.innerText.substring(1);
+    if (!timer.innerText) lose();
+}
+
+function randomInteger(min, max) {
+    return Math.floor(Math.random()*(max-min+1)) + min;
+}
+
+function generateNewProblem() {
+    playing = true;
+    answerBox.disabled = false;
+    
+    let num = randomInteger(32,63);
+    let problem = num.toString();
+    answer = "";
+
+    while (num) {
+        answer = (num % 2).toString() + answer;
+        num >>= 1;
+    }
+
+    return problem;
+}
+
+function newProblem() {
+    problemElement.innerText = generateNewProblem();
+    timer.innerText = "-".repeat(maxTimerLen);
+    scoreElement.innerText = "Score: " + score.toString();
+}
+
+setInterval(decreaseTimer, 1000/fps);
+
+document.onkeydown = (e) => {
+    if (e.keyCode === 32 && playing === false) {
+        newProblem();
+    }
+}
+
+</script>
+</html>
