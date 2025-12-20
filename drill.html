@@ -7,7 +7,7 @@
       .side{
         display: inline;
       }
-      body, button, p, input {
+      body, button, p, input, select {
         font-family: 'Monospace Typewriter', monospace;
         font-size: 48px;
       }
@@ -23,23 +23,40 @@
     <p id="timer">--------------------------------------------------</p>
     <p id="score">Score: 0</p>
     <input type="text" id="ansbox" disabled>
+    <br> <br> <br>
+    <p class="side">Problem type:</p>
+    <select name="problemType" id="problemType" onchange="changeProblemType()">
+        <option value="binary">Binary</option>
+        <option value="divisors">Divisors</option>
+        <option value="addition">Addition</option>
+    </select>
+    <br> <br>
+    <button onclick="alert('For binary, you can use ASDFG for 1 and HJKL; for 0. Space to give up or restart.')">Read this</button>
 </body>
 
 <script>
 
 let fps = 20;
-let maxTimerLen = 50;
+let maxTimerLen = 60;
 let timer = document.getElementById("timer");
 let problemElement = document.getElementById("problem");
 let scoreElement = document.getElementById("score");
+let problemTypeElement = document.getElementById("problemType");
 let answerBox = document.getElementById("ansbox");
 let answer = "";
 let playing = false;
 let score = 0;
+let problemType = "binary"; // binary, divisors, addition
+
+function changeProblemType() {
+    problemType = problemTypeElement.value;
+}
 
 function lose() {
     playing = false;
-    problemElement.innerText = "Press space to start";
+    problemElement.innerText = `${problemElement.innerText} -> ${answer} but you put ${answerBox.value}.`;
+    if (timer.innerText) problemElement.innerText += " (Incorrect)";
+    else problemElement.innerText += " (Out of time)";
     timer.innerText = "-".repeat(maxTimerLen);
     answerBox.value = "";
     answerBox.disabled = true;
@@ -49,7 +66,9 @@ function lose() {
 function answerChanged() {
     if (!playing) return;
 
-    answerBox.value = answerBox.value.replaceAll(/[asdfg]/g, "1").replaceAll(/[hjkl;]/g, "0").replaceAll(/[^0-9asdfghjkl; ]/g, ""); // Space to give up
+    if (problemType === "binary")
+        answerBox.value = answerBox.value.replaceAll(/[asdfg]/g, "1").replaceAll(/[hjkl;]/g, "0").replaceAll(/[^0-9asdfghjkl; ]/g, ""); // Space to give up
+
     let currInput = answerBox.value;
 
     if (answer == currInput) {
@@ -84,14 +103,34 @@ function randomInteger(min, max) {
 function generateNewProblem() {
     playing = true;
     answerBox.disabled = false;
-    
-    let num = randomInteger(32,63);
-    let problem = num.toString();
-    answer = "";
 
-    while (num) {
-        answer = (num % 2).toString() + answer;
-        num >>= 1;
+    let problem = "";
+
+    if (problemType === "binary") {
+        let num = randomInteger(32,63);
+        problem = num.toString();
+        answer = "";
+
+        while (num) {
+            answer = (num % 2).toString() + answer;
+            num >>= 1;
+        }
+    } else if (problemType === "divisors") {
+        let num = randomInteger(10,99);
+        problem = num.toString();
+        answer = 0;
+
+        for (let i = 1; i <= num; i++) {
+            if (num % i == 0) answer += 1;
+        }
+
+        answer = answer.toString();
+    } else if (problemType === "addition") {
+        let num1 = randomInteger(100,999);
+        let num2 = randomInteger(100,999);
+        problem = num1.toString() + " + " + num2.toString();
+
+        answer = (num1+num2).toString();
     }
 
     return problem;
