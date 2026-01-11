@@ -180,6 +180,15 @@
             ][currnum+1-won];
             document.getElementById("guess").disabled = true;
             document.getElementById("guessbutton").disabled = true;
+
+            for (let i = 1; i <= 5; i++) {
+                let el = document.getElementById("hint"+i);
+                if (el.classList.contains("notshown")) {
+                    el.classList.remove("notshown");
+                    el.style.color = "#444444";
+                    el.innerText = "(" + el.innerText + ")";
+                }
+            }
         }
 
         function guess() {
