@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" href="jatloesmile-hd.png">
+        <title>MOPdle</title>
+        <style>
+            body {
+                width: 99%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+
+            p,select,button {
+                font-size: 18pt;
+            }
+            
+            .notshown {
+                /* display: none; */
+                visibility: hidden;
+            }
+
+            .hint-container {
+                text-align: center;
+                background-color: lightgray;
+                border-radius: 1vw;
+                /* border: 0px; */
+                padding-left: 5vw;
+                padding-right: 5vw;
+            }
+
+            .guessing {
+                display: inline;
+            }
+
+            .title-area {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="title-area">
+            <h2>MOPdle</h2>
+            <h3>yay</h3>
+        </div>
+        <div class="hint-container">
+            <p id="hint1">abc</p>
+        </div> <br>
+
+        <div class="hint-container">
+            <p id="hint2" class="notshown">abc</p>
+        </div> <br>
+
+        <div class="hint-container">
+            <p id="hint3" class="notshown">abc</p>
+        </div> <br>
+
+        <div class="hint-container">
+            <p id="hint4" class="notshown">abc</p>
+        </div> <br>
+
+        <div class="hint-container">
+            <p id="hint5" class="notshown">abc</p>
+        </div> <br>
+
+        <div class="guessing">
+            <select name="guess" id="guess">
+                <option value="grantblitz">Grant Blitz</option>
+                <option value="krittikachandra">Krittika Chandra</option>
+                <option value="ryanchen">Ryan Chen</option>
+                <option value="kailuacheng">Kailua Cheng</option>
+                <option value="karnchutinan">Karn Chutinan</option>
+                <option value="laniedeng">Lanie Deng</option>
+                <option value="jonathandu">Jonathan Du</option>
+                <option value="evanfan">Evan Fan</option>
+                <option value="yollfeng">Yoll Feng</option>
+                <option value="davidfox">David Fox</option>
+                <option value="hannahfox">Hannah Fox</option>
+                <option value="rohangarg">Rohan Garg</option>
+                <option value="danielge">Daniel Ge</option>
+                <option value="selenage">Selena Ge</option>
+                <option value="vihaangupta">Vihaan Gupta</option>
+                <option value="darrenhan">Darren Han</option>
+                <option value="leohong">Leo Hong</option>
+                <option value="shihankanungo">Shihan Kanungo</option>
+                <option value="keshavkarumbunathan">Keshav Karumbunathan</option>
+                <option value="ekamkaur">Ekam Kaur</option>
+                <option value="hyun-jinkim">Hyun-Jin Kim</option>
+                <option value="jasonlee">Jason Lee</option>
+                <option value="connorleong">Connor Leong</option>
+                <option value="xinyili">Xinyi Li</option>
+                <option value="hengruiliang">Hengrui Liang</option>
+                <option value="andrewlin">Andrew Lin</option>
+                <option value="kylelin">Kyle Lin</option>
+                <option value="alexanderliu">Alexander Liu</option>
+                <option value="jiaheliu">Jiahe Liu</option>
+                <option value="kevinlong">Kevin Long</option>
+                <option value="tonylu">Tony Lu</option>
+                <option value="michaelluo">Michael Luo</option>
+                <option value="rohanmallick">Rohan Mallick</option>
+                <option value="grishampaimagam">Grisham Paimagam</option>
+                <option value="aryanraj">Aryan Raj</option>
+                <option value="tarunrapaka">Tarun Rapaka</option>
+                <option value="liamreddy">Liam Reddy</option>
+                <option value="ianrui">Ian Rui</option>
+                <option value="draketan">Drake Tan</option>
+                <option value="lingfeitang">Lingfei Tang</option>
+                <option value="aaryanvaishya">Aaryan Vaishya</option>
+                <option value="ariwachtel">Ari Wachtel</option>
+                <option value="alexanderwang">Alexander Wang</option>
+                <option value="calvinwang">Calvin Wang</option>
+                <option value="heatherwang">Heather Wang</option>
+                <option value="laurawang">Laura Wang</option>
+                <option value="oronwang">Oron Wang</option>
+                <option value="richardwang">Richard Wang</option>
+                <option value="ryanwang">Ryan Wang</option>
+                <option value="vincentwang">Vincent Wang</option>
+                <option value="kylewu">Kyle Wu</option>
+                <option value="catherinexu">Catherine Xu</option>
+                <option value="channingyang">Channing Yang</option>
+                <option value="kevinyang">Kevin Yang</option>
+                <option value="royceyao">Royce Yao</option>
+                <option value="feodoryevtushenko">Feodor Yevtushenko</option>
+                <option value="alizaman">Ali Zaman</option>
+                <option value="tigerzhang">Tiger Zhang</option>
+                <option value="michaelzhao">Michael Zhao</option>
+                <option value="vivianzhong">Vivian Zhong</option>
+                <option value="haofangzhu">Haofang Zhu</option>
+                <option value="raymondzhu">Raymond Zhu</option>
+                <option value="ericzou">Eric Zou</option>
+            </select>
+            <button type="button" onclick="guess()">Guess</button>
+        </div>
+    </body>
+    <script>
+        let answer = "calvinwang";
+        let currnum = 1;
+
+        function guess() {
+            if (document.getElementById("guess").value == answer) {
+                alert("You win!");
+            } else if (currnum == 5) {
+                alert("You lose!");
+            } else {
+                currnum++;
+                document.getElementById("hint"+currnum).classList.remove("notshown");
+            }
+        }
+    </script>
+</html>
