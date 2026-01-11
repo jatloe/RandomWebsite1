@@ -187,11 +187,11 @@
             let correct = guessed == answer;
 
             if (guessed == answer) {
-                stringtoshare += "✅";
+                stringtoshare += "✅\nPlay at: https://jatloe.github.io/RandomWebsite1/mopdle.html";
                 stringtoshare = `MOPdle Day ${day} - ${currnum}/5\n` + stringtoshare;
                 endGame(true);
             } else if (currnum == 5) {
-                stringtoshare += `❌ ||${guessed}||`;
+                stringtoshare += `❌ ||${guessed}||\nPlay at: https://jatloe.github.io/RandomWebsite1/mopdle.html`;
                 stringtoshare = `MOPdle Day ${day} - X/5\n` + stringtoshare;
                 endGame(false);
             } else {
