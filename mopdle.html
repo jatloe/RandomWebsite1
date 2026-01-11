@@ -25,7 +25,7 @@
                 text-align: center;
                 background-color: lightgray;
                 border-radius: 1vw;
-                /* border: 0px; */
+                width: 50%;
                 padding-left: 5vw;
                 padding-right: 5vw;
             }
@@ -37,115 +37,178 @@
             .title-area {
                 text-align: center;
             }
+
+            .inline {
+                display: inline;
+            }
+
+            .smaller {
+                font-size: 15pt;
+            }
         </style>
     </head>
     <body>
         <div class="title-area">
-            <h2>MOPdle</h2>
-            <h3>yay</h3>
+            <h1>MOPdle</h1>
+            <h3 id="daynum">Day ???</h3>
+            <div id="results" class="notshown">
+                <p class="smaller inline notshown">Copied to clipboard!</p> <!-- To offset the shared on the right :skull: -->
+                <p class="inline" id="resultsnumber">?/5 ???</p>
+                <button onclick="share()" class="inline">Share</button>
+                <p id="sharedtext" class="smaller inline notshown">Copied to clipboard!</p>
+            </div>
+            <br>
         </div>
         <div class="hint-container">
-            <p id="hint1">abc</p>
+            <p id="hint1">???</p>
         </div> <br>
 
         <div class="hint-container">
-            <p id="hint2" class="notshown">abc</p>
+            <p id="hint2" class="notshown">???</p>
         </div> <br>
 
         <div class="hint-container">
-            <p id="hint3" class="notshown">abc</p>
+            <p id="hint3" class="notshown">???</p>
         </div> <br>
 
         <div class="hint-container">
-            <p id="hint4" class="notshown">abc</p>
+            <p id="hint4" class="notshown">???</p>
         </div> <br>
 
         <div class="hint-container">
-            <p id="hint5" class="notshown">abc</p>
+            <p id="hint5" class="notshown">???</p>
         </div> <br>
 
         <div class="guessing">
             <select name="guess" id="guess">
-                <option value="grantblitz">Grant Blitz</option>
-                <option value="krittikachandra">Krittika Chandra</option>
-                <option value="ryanchen">Ryan Chen</option>
-                <option value="kailuacheng">Kailua Cheng</option>
-                <option value="karnchutinan">Karn Chutinan</option>
-                <option value="laniedeng">Lanie Deng</option>
-                <option value="jonathandu">Jonathan Du</option>
-                <option value="evanfan">Evan Fan</option>
-                <option value="yollfeng">Yoll Feng</option>
-                <option value="davidfox">David Fox</option>
-                <option value="hannahfox">Hannah Fox</option>
-                <option value="rohangarg">Rohan Garg</option>
-                <option value="danielge">Daniel Ge</option>
-                <option value="selenage">Selena Ge</option>
-                <option value="vihaangupta">Vihaan Gupta</option>
-                <option value="darrenhan">Darren Han</option>
-                <option value="leohong">Leo Hong</option>
-                <option value="shihankanungo">Shihan Kanungo</option>
-                <option value="keshavkarumbunathan">Keshav Karumbunathan</option>
-                <option value="ekamkaur">Ekam Kaur</option>
-                <option value="hyun-jinkim">Hyun-Jin Kim</option>
-                <option value="jasonlee">Jason Lee</option>
-                <option value="connorleong">Connor Leong</option>
-                <option value="xinyili">Xinyi Li</option>
-                <option value="hengruiliang">Hengrui Liang</option>
-                <option value="andrewlin">Andrew Lin</option>
-                <option value="kylelin">Kyle Lin</option>
-                <option value="alexanderliu">Alexander Liu</option>
-                <option value="jiaheliu">Jiahe Liu</option>
-                <option value="kevinlong">Kevin Long</option>
-                <option value="tonylu">Tony Lu</option>
-                <option value="michaelluo">Michael Luo</option>
-                <option value="rohanmallick">Rohan Mallick</option>
-                <option value="grishampaimagam">Grisham Paimagam</option>
-                <option value="aryanraj">Aryan Raj</option>
-                <option value="tarunrapaka">Tarun Rapaka</option>
-                <option value="liamreddy">Liam Reddy</option>
-                <option value="ianrui">Ian Rui</option>
-                <option value="draketan">Drake Tan</option>
-                <option value="lingfeitang">Lingfei Tang</option>
-                <option value="aaryanvaishya">Aaryan Vaishya</option>
-                <option value="ariwachtel">Ari Wachtel</option>
-                <option value="alexanderwang">Alexander Wang</option>
-                <option value="calvinwang">Calvin Wang</option>
-                <option value="heatherwang">Heather Wang</option>
-                <option value="laurawang">Laura Wang</option>
-                <option value="oronwang">Oron Wang</option>
-                <option value="richardwang">Richard Wang</option>
-                <option value="ryanwang">Ryan Wang</option>
-                <option value="vincentwang">Vincent Wang</option>
-                <option value="kylewu">Kyle Wu</option>
-                <option value="catherinexu">Catherine Xu</option>
-                <option value="channingyang">Channing Yang</option>
-                <option value="kevinyang">Kevin Yang</option>
-                <option value="royceyao">Royce Yao</option>
-                <option value="feodoryevtushenko">Feodor Yevtushenko</option>
-                <option value="alizaman">Ali Zaman</option>
-                <option value="tigerzhang">Tiger Zhang</option>
-                <option value="michaelzhao">Michael Zhao</option>
-                <option value="vivianzhong">Vivian Zhong</option>
-                <option value="haofangzhu">Haofang Zhu</option>
-                <option value="raymondzhu">Raymond Zhu</option>
-                <option value="ericzou">Eric Zou</option>
+                <option value="Grant Blitz">Grant Blitz</option>
+                <option value="Krittika Chandra">Krittika Chandra</option>
+                <option value="Ryan Chen">Ryan Chen</option>
+                <option value="Kailua Cheng">Kailua Cheng</option>
+                <option value="Karn Chutinan">Karn Chutinan</option>
+                <option value="Lanie Deng">Lanie Deng</option>
+                <option value="Jonathan Du">Jonathan Du</option>
+                <option value="Evan Fan">Evan Fan</option>
+                <option value="Yoll Feng">Yoll Feng</option>
+                <option value="David Fox">David Fox</option>
+                <option value="Hannah Fox">Hannah Fox</option>
+                <option value="Rohan Garg">Rohan Garg</option>
+                <option value="Daniel Ge">Daniel Ge</option>
+                <option value="Selena Ge">Selena Ge</option>
+                <option value="Vihaan Gupta">Vihaan Gupta</option>
+                <option value="Darren Han">Darren Han</option>
+                <option value="Leo Hong">Leo Hong</option>
+                <option value="Shihan Kanungo">Shihan Kanungo</option>
+                <option value="Keshav Karumbunathan">Keshav Karumbunathan</option>
+                <option value="Ekam Kaur">Ekam Kaur</option>
+                <option value="Hyun-Jin Kim">Hyun-Jin Kim</option>
+                <option value="Jason Lee">Jason Lee</option>
+                <option value="Connor Leong">Connor Leong</option>
+                <option value="Xinyi Li">Xinyi Li</option>
+                <option value="Hengrui Liang">Hengrui Liang</option>
+                <option value="Andrew Lin">Andrew Lin</option>
+                <option value="Kyle Lin">Kyle Lin</option>
+                <option value="Alexander Liu">Alexander Liu</option>
+                <option value="Jiahe Liu">Jiahe Liu</option>
+                <option value="Kevin Long">Kevin Long</option>
+                <option value="Tony Lu">Tony Lu</option>
+                <option value="Michael Luo">Michael Luo</option>
+                <option value="Rohan Mallick">Rohan Mallick</option>
+                <option value="Grisham Paimagam">Grisham Paimagam</option>
+                <option value="Aryan Raj">Aryan Raj</option>
+                <option value="Tarun Rapaka">Tarun Rapaka</option>
+                <option value="Liam Reddy">Liam Reddy</option>
+                <option value="Ian Rui">Ian Rui</option>
+                <option value="Drake Tan">Drake Tan</option>
+                <option value="Lingfei Tang">Lingfei Tang</option>
+                <option value="Aaryan Vaishya">Aaryan Vaishya</option>
+                <option value="Ari Wachtel">Ari Wachtel</option>
+                <option value="Alexander Wang">Alexander Wang</option>
+                <option value="Calvin Wang">Calvin Wang</option>
+                <option value="Heather Wang">Heather Wang</option>
+                <option value="Laura Wang">Laura Wang</option>
+                <option value="Oron Wang">Oron Wang</option>
+                <option value="Richard Wang">Richard Wang</option>
+                <option value="Ryan Wang">Ryan Wang</option>
+                <option value="Vincent Wang">Vincent Wang</option>
+                <option value="Kyle Wu">Kyle Wu</option>
+                <option value="Catherine Xu">Catherine Xu</option>
+                <option value="Channing Yang">Channing Yang</option>
+                <option value="Kevin Yang">Kevin Yang</option>
+                <option value="Royce Yao">Royce Yao</option>
+                <option value="Feodor Yevtushenko">Feodor Yevtushenko</option>
+                <option value="Ali Zaman">Ali Zaman</option>
+                <option value="Tiger Zhang">Tiger Zhang</option>
+                <option value="Michael Zhao">Michael Zhao</option>
+                <option value="Vivian Zhong">Vivian Zhong</option>
+                <option value="Haofang Zhu">Haofang Zhu</option>
+                <option value="Raymond Zhu">Raymond Zhu</option>
+                <option value="Eric Zou">Eric Zou</option>
             </select>
-            <button type="button" onclick="guess()">Guess</button>
+            <button type="button" onclick="guess()" id="guessbutton">Guess</button>
         </div>
     </body>
     <script>
-        let answer = "calvinwang";
+        let day = 0;
+        let answer = "???";
+        let stringtoshare = "";
+
+        window.onload = () => {
+            let s = prompt("Input daily string (Calvin should have sent this in #dailies)");
+            s = JSON.parse(window.atob(s));
+            day = parseInt(s["day"]);
+            answer = s["answer"];
+
+            document.getElementById("daynum").innerText = "Day " + day;
+            
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById("hint"+i).innerText = s["hint"+i];
+            }
+        }
+
         let currnum = 1;
 
+        function endGame(won) {
+            document.getElementById("results").classList.remove("notshown");
+            document.getElementById("resultsnumber").innerText = ["",
+                "1/5 OVERMITTING!",
+                "2/5 YAY!",
+                "3/5 OOK!",
+                "4/5 BUH!",
+                "5/5 SKISS!",
+                "X/5 🦧",
+            ][currnum+1-won];
+            document.getElementById("guess").disabled = true;
+            document.getElementById("guessbutton").disabled = true;
+        }
+
         function guess() {
-            if (document.getElementById("guess").value == answer) {
-                alert("You win!");
+            let guessed = document.getElementById("guess").value;
+            let correct = guessed == answer;
+
+            if (guessed == answer) {
+                stringtoshare += "✅";
+                stringtoshare = `MOPdle Day ${day} - ${currnum}/5\n` + stringtoshare;
+                endGame(true);
             } else if (currnum == 5) {
-                alert("You lose!");
+                stringtoshare += `❌ ||${guessed}||`;
+                stringtoshare = `MOPdle Day ${day} - X/5\n` + stringtoshare;
+                endGame(false);
             } else {
+                stringtoshare += `❌ ||${guessed}||\n`;
                 currnum++;
                 document.getElementById("hint"+currnum).classList.remove("notshown");
             }
         }
+
+        function share() {
+            navigator.clipboard.writeText(stringtoshare.trim());
+            document.getElementById("sharedtext").classList.remove("notshown");
+        }
     </script>
 </html>
+
+<!--
+Reminder to self:
+window.btoa(JSON.stringify({"day":0,"answer":"","hint1":"","hint2":"","hint3":"","hint4":"","hint5":""}))
+-->
