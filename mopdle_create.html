@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" href="jatloesmile-hd.png">
+        <title>MOPdle</title>
+        <style>
+            body {
+                width: 99%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+
+            p,select,button,input {
+                font-size: 18pt;
+            }
+
+            input {
+                width: 80vw;
+            }
+            
+            .title-area {
+                text-align: center;
+            }
+
+            .hint-entering {
+                text-align: center;
+            }
+
+            .hint-entering * {
+                display: inline;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="title-area">
+            <h1>MOPdle Creation</h1>
+            <h3>(Check below for guidelines)</h3>
+        </div>
+
+        <div class="hint-entering">
+            <p>Hint 1:</p>
+            <input type="text" id="hint1">
+        </div>
+
+        <div class="hint-entering">
+            <p>Hint 2:</p>
+            <input type="text" id="hint2">
+        </div>
+
+        <div class="hint-entering">
+            <p>Hint 3:</p>
+            <input type="text" id="hint3">
+        </div>
+
+        <div class="hint-entering">
+            <p>Hint 4:</p>
+            <input type="text" id="hint4">
+        </div>
+
+        <div class="hint-entering">
+            <p>Hint 5:</p>
+            <input type="text" id="hint5">
+        </div>
+
+        <br>
+
+        <div class="hint-entering">
+            <p>Your name: </p>
+            <select name="guess" id="guess">
+                <option value="Grant Blitz">Grant Blitz</option>
+                <option value="Krittika Chandra">Krittika Chandra</option>
+                <option value="Ryan Chen">Ryan Chen</option>
+                <option value="Kailua Cheng">Kailua Cheng</option>
+                <option value="Karn Chutinan">Karn Chutinan</option>
+                <option value="Lanie Deng">Lanie Deng</option>
+                <option value="Jonathan Du">Jonathan Du</option>
+                <option value="Evan Fan">Evan Fan</option>
+                <option value="Yoll Feng">Yoll Feng</option>
+                <option value="David Fox">David Fox</option>
+                <option value="Hannah Fox">Hannah Fox</option>
+                <option value="Rohan Garg">Rohan Garg</option>
+                <option value="Daniel Ge">Daniel Ge</option>
+                <option value="Selena Ge">Selena Ge</option>
+                <option value="Vihaan Gupta">Vihaan Gupta</option>
+                <option value="Darren Han">Darren Han</option>
+                <option value="Leo Hong">Leo Hong</option>
+                <option value="Shihan Kanungo">Shihan Kanungo</option>
+                <option value="Keshav Karumbunathan">Keshav Karumbunathan</option>
+                <option value="Ekam Kaur">Ekam Kaur</option>
+                <option value="Hyun-Jin Kim">Hyun-Jin Kim</option>
+                <option value="Jason Lee">Jason Lee</option>
+                <option value="Connor Leong">Connor Leong</option>
+                <option value="Xinyi Li">Xinyi Li</option>
+                <option value="Hengrui Liang">Hengrui Liang</option>
+                <option value="Andrew Lin">Andrew Lin</option>
+                <option value="Kyle Lin">Kyle Lin</option>
+                <option value="Alexander Liu">Alexander Liu</option>
+                <option value="Jiahe Liu">Jiahe Liu</option>
+                <option value="Kevin Long">Kevin Long</option>
+                <option value="Tony Lu">Tony Lu</option>
+                <option value="Michael Luo">Michael Luo</option>
+                <option value="Rohan Mallick">Rohan Mallick</option>
+                <option value="Grisham Paimagam">Grisham Paimagam</option>
+                <option value="Aryan Raj">Aryan Raj</option>
+                <option value="Tarun Rapaka">Tarun Rapaka</option>
+                <option value="Liam Reddy">Liam Reddy</option>
+                <option value="Ian Rui">Ian Rui</option>
+                <option value="Drake Tan">Drake Tan</option>
+                <option value="Lingfei Tang">Lingfei Tang</option>
+                <option value="Aaryan Vaishya">Aaryan Vaishya</option>
+                <option value="Ari Wachtel">Ari Wachtel</option>
+                <option value="Alexander Wang">Alexander Wang</option>
+                <option value="Calvin Wang">Calvin Wang</option>
+                <option value="Heather Wang">Heather Wang</option>
+                <option value="Laura Wang">Laura Wang</option>
+                <option value="Oron Wang">Oron Wang</option>
+                <option value="Richard Wang">Richard Wang</option>
+                <option value="Ryan Wang">Ryan Wang</option>
+                <option value="Vincent Wang">Vincent Wang</option>
+                <option value="Kyle Wu">Kyle Wu</option>
+                <option value="Catherine Xu">Catherine Xu</option>
+                <option value="Channing Yang">Channing Yang</option>
+                <option value="Kevin Yang">Kevin Yang</option>
+                <option value="Royce Yao">Royce Yao</option>
+                <option value="Feodor Yevtushenko">Feodor Yevtushenko</option>
+                <option value="Ali Zaman">Ali Zaman</option>
+                <option value="Tiger Zhang">Tiger Zhang</option>
+                <option value="Michael Zhao">Michael Zhao</option>
+                <option value="Vivian Zhong">Vivian Zhong</option>
+                <option value="Haofang Zhu">Haofang Zhu</option>
+                <option value="Raymond Zhu">Raymond Zhu</option>
+                <option value="Eric Zou">Eric Zou</option>
+            </select>
+            <button type="button" onclick="submit_form()">Submit</button>
+        </div>
+
+        <br><br>
+
+        <div class="title-area">
+            <h2>Guidelines:</h2>
+            <p>The hints should generally be specific enough. You want the player's reaction when seeing the first clue to be "what the heck is that" instead of, say, "bro that applies to like half the moppers".</p>
+            <p>You should maintain a very visible difficulty curve. A person who does not know it is you, upon seeing the clues, should be able to sort them in the order you did without much trouble.</p>
+            <p>In particular, make the last two clues easy enough that the proportion of X/5's is less than 10%.</p>
+        </div>
+    </body>
+    <script>
+        function submit_form() {
+            let themap = {
+                "day": "-1",
+                "answer": document.getElementById("guess").value,
+                "hint1": document.getElementById("hint1").value,
+                "hint2": document.getElementById("hint2").value,
+                "hint3": document.getElementById("hint3").value,
+                "hint4": document.getElementById("hint4").value,
+                "hint5": document.getElementById("hint5").value
+            };
+            console.log(window.btoa(JSON.stringify(themap)));
+        }
+    </script>
+</html>
+
+<!--
+Reminder to self:
+window.btoa(JSON.stringify({"day":0,"answer":"","hint1":"","hint2":"","hint3":"","hint4":"","hint5":""}))
+-->
