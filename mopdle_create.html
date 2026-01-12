@@ -156,7 +156,23 @@
                 "hint4": document.getElementById("hint4").value,
                 "hint5": document.getElementById("hint5").value
             };
-            console.log(window.btoa(JSON.stringify(themap)));
+            let tosend = window.btoa(JSON.stringify(themap));
+
+            let payload = {
+                username: "MOPdle Form",
+                content: tosend
+            }
+            
+            // Please don't spam this webhook
+            fetch("https://discord.com/api/webhooks/1460393751020306545/i74CljXF75MNz3UN6U2W7HitZaXhyBYbwukDHQAOHCiv54zObwwcyOebK9yUqBzYdUzm",{
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            }).then(response => {
+                alert(response.ok ? "Submitted!" : "Submission failed! Try submitting again?");
+            });
         }
     </script>
 </html>
