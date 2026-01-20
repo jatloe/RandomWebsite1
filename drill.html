@@ -78,6 +78,9 @@ function answerChanged() {
     if (problemType === "binary")
         answerBox.value = answerBox.value.replaceAll(/[asdfg]/g, "1").replaceAll(/[hjkl;]/g, "0").replaceAll(/[^0-9asdfghjkl; ]/g, ""); // Space to give up
 
+    if (problemType === "alphabetrev")
+        answerBox.value = answerBox.value.toUpperCase();
+
     let currInput = answerBox.value;
 
     if (answer == currInput) {
@@ -149,7 +152,7 @@ function generateNewProblem() {
         let num1 = randomInteger(1,26);
         problem = num1.toString();
 
-        answer = "_ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(num1).toLowerCase();
+        answer = "_ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(num1);
     }
 
     return problem;
