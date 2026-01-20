@@ -29,9 +29,17 @@
         <option value="binary">Binary</option>
         <option value="divisors">Divisors</option>
         <option value="addition">Addition</option>
+        <option value="alphabet">Alphabet</option>
+        <option value="alphabetrev">Alphabet (Rev)</option>
     </select>
     <br> <br>
-    <button onclick="alert('For binary, you can use ASDFG for 1 and HJKL; for 0. Space to give up or restart.')">Read this</button>
+    <p class="side">Time:</p>
+    <input type="number" value="60" min="1" max="999" id="timelimit">
+    <p class="side">frames in</p>
+    <input type="number" value="20" min="1" max="999" id="timelimitfps">
+    <p class="side">fps</p>
+    <br> <br>
+    <button onclick="alert('For binary, you can use ASDFG for 1 and HJKL; for 0. Space to give up or restart. Recommended for Alphabet and Alphabet (Rev) is 60 frames in 60 fps.')">Read this</button>
 </body>
 
 <script>
@@ -46,7 +54,8 @@ let answerBox = document.getElementById("ansbox");
 let answer = "";
 let playing = false;
 let score = 0;
-let problemType = "binary"; // binary, divisors, addition
+let problemType = "binary"; // binary, divisors, addition, alphabet
+let playedAtAll = false;
 
 function changeProblemType() {
     problemType = problemTypeElement.value;
@@ -131,18 +140,39 @@ function generateNewProblem() {
         problem = num1.toString() + " + " + num2.toString();
 
         answer = (num1+num2).toString();
+    } else if (problemType === "alphabet") {
+        let num1 = randomInteger(1,26);
+        problem = "_ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(num1);
+
+        answer = num1.toString();
+    } else if (problemType === "alphabetrev") {
+        let num1 = randomInteger(1,26);
+        problem = num1.toString();
+
+        answer = "_ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(num1).toLowerCase();
     }
 
     return problem;
 }
 
+function initialize() {
+    document.getElementById("timelimit").disabled = true;
+    document.getElementById("timelimitfps").disabled = true;
+    maxTimerLen = parseInt(document.getElementById("timelimit").value);
+    fps = parseInt(document.getElementById("timelimitfps").value);
+    setInterval(decreaseTimer, 1000/fps);
+}
+
 function newProblem() {
+    if (!playedAtAll) {
+        initialize();
+        playedAtAll = true;
+    }
+
     problemElement.innerText = generateNewProblem();
     timer.innerText = "-".repeat(maxTimerLen);
     scoreElement.innerText = "Score: " + score.toString();
 }
-
-setInterval(decreaseTimer, 1000/fps);
 
 document.onkeydown = (e) => {
     if (e.keyCode === 32 && playing === false) {
