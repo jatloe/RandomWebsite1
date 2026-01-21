@@ -31,6 +31,7 @@
         <option value="addition">Addition</option>
         <option value="alphabet">Alphabet</option>
         <option value="alphabetrev">Alphabet (Rev)</option>
+        <option value="sudoku">Sudoku</option>
     </select>
     <br> <br>
     <p class="side">Time:</p>
@@ -112,6 +113,14 @@ function randomInteger(min, max) {
     return Math.floor(Math.random()*(max-min+1)) + min;
 }
 
+// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
 function generateNewProblem() {
     playing = true;
     answerBox.disabled = false;
@@ -153,6 +162,16 @@ function generateNewProblem() {
         problem = num1.toString();
 
         answer = "_ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(num1);
+    } else if (problemType === "sudoku") {
+        let num = randomInteger(1,9);
+        let arr = [1,2,3,4,5,6,7,8,9];
+        arr.splice(num-1,1);
+        shuffleArray(arr);
+
+        problem = "";
+        for (let i of arr) problem += i.toString();
+
+        answer = num;
     }
 
     return problem;
