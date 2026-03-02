@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" href="jatloesmile-hd.png">
+        <title>MOPdle</title>
+        <style>
+            body {
+                width: 99%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+
+            p,select,button,input {
+                font-size: 18pt;
+            }
+
+            input {
+                width: 80vw;
+            }
+            
+            .title-area {
+                text-align: center;
+            }
+
+            .hint-entering {
+                text-align: center;
+            }
+
+            .hint-entering * {
+                display: inline;
+            }
+            
+            .notshown {
+                /* display: none; */
+                visibility: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="title-area">
+            <h1>MOPdle Day Changer</h1>
+            <h3>(Don't use this unless you are Calvin)</h3>
+        </div>
+
+        <div class="hint-entering">
+            <p class="notshown">Day</p>
+            <p>Code:</p>
+            <input type="text" id="code">
+        </div>
+
+        <div class="hint-entering">
+            <p class="notshown">Code</p>
+            <p>Day:</p>
+            <input type="text" id="day">
+        </div>
+
+        <br>
+
+        <div class="hint-entering">
+            <button type="button" onclick="submit_form()">Copy</button>
+        </div>
+
+        <br>
+
+        <div class="hint-entering">
+            <p id="copiedtext" class="notshown">Copied!</p>
+        </div>
+    </body>
+    <script>
+        function submit_form() {
+            let wow = JSON.parse(window.atob(document.getElementById("code").value));
+            let oldday = wow["day"];
+            wow["day"] = document.getElementById("day").value;
+            let stringtoshare = window.btoa(JSON.stringify(wow));
+            
+            navigator.clipboard.writeText(stringtoshare.trim());
+            document.getElementById("copiedtext").innerText = `Copied! (Old day was ${oldday})`;
+            document.getElementById("copiedtext").classList.remove("notshown");
+        }
+    </script>
+</html>
+
+<!--
+Reminder to self:
+window.btoa(JSON.stringify({"day":0,"answer":"","hint1":"","hint2":"","hint3":"","hint4":"","hint5":""}))
+-->
