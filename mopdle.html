@@ -151,14 +151,14 @@
         </div>
     </body>
     <script>
-        let day = 0;
+        let day = "0";
         let answer = "???";
         let stringtoshare = "";
 
         window.onload = () => {
             let s = prompt("Input daily string (Calvin should have sent this in #dailies)");
             s = JSON.parse(window.atob(s));
-            day = parseInt(s["day"]);
+            day = s["day"];
             answer = s["answer"];
 
             document.getElementById("daynum").innerText = "Day " + day;
@@ -221,5 +221,5 @@
 
 <!--
 Reminder to self:
-window.btoa(JSON.stringify({"day":0,"answer":"","hint1":"","hint2":"","hint3":"","hint4":"","hint5":""}))
+window.btoa(JSON.stringify({"day":"0","answer":"","hint1":"","hint2":"","hint3":"","hint4":"","hint5":""}))
 -->
