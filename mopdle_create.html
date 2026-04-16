@@ -68,72 +68,7 @@
 
         <div class="hint-entering">
             <p>Your name: </p>
-            <select name="guess" id="guess">
-                <option value="Grant Blitz">Grant Blitz</option>
-                <option value="Krittika Chandra">Krittika Chandra</option>
-                <option value="Ryan Chen">Ryan Chen</option>
-                <option value="Kailua Cheng">Kailua Cheng</option>
-                <option value="Ashen Chutinan">Ashen Chutinan</option>
-                <option value="Lanie Deng">Lanie Deng</option>
-                <option value="Jonathan Du">Jonathan Du</option>
-                <option value="Evan Fan">Evan Fan</option>
-                <option value="Yoll Feng">Yoll Feng</option>
-                <option value="David Fox">David Fox</option>
-                <option value="Hannah Fox">Hannah Fox</option>
-                <option value="Rohan Garg">Rohan Garg</option>
-                <option value="Daniel Ge">Daniel Ge</option>
-                <option value="Selena Ge">Selena Ge</option>
-                <option value="Vihaan Gupta">Vihaan Gupta</option>
-                <option value="Darren Han">Darren Han</option>
-                <option value="Eden He">Eden He</option>
-                <option value="Leo Hong">Leo Hong</option>
-                <option value="Shihan Kanungo">Shihan Kanungo</option>
-                <option value="Keshav Karumbunathan">Keshav Karumbunathan</option>
-                <option value="Ekam Kaur">Ekam Kaur</option>
-                <option value="Hyun-Jin Kim">Hyun-Jin Kim</option>
-                <option value="Jason Lee">Jason Lee</option>
-                <option value="Connor Leong">Connor Leong</option>
-                <option value="Xinyi Li">Xinyi Li</option>
-                <option value="Hengrui Liang">Hengrui Liang</option>
-                <option value="Andrew Lin">Andrew Lin</option>
-                <option value="Kyle Lin">Kyle Lin</option>
-                <option value="Alexander Liu">Alexander Liu</option>
-                <option value="Jiahe Liu">Jiahe Liu</option>
-                <option value="Kevin Long">Kevin Long</option>
-                <option value="Tony Lu">Tony Lu</option>
-                <option value="Michael Luo">Michael Luo</option>
-                <option value="Rohan Mallick">Rohan Mallick</option>
-                <option value="Grisham Paimagam">Grisham Paimagam</option>
-                <option value="Aryan Raj">Aryan Raj</option>
-                <option value="Tarun Rapaka">Tarun Rapaka</option>
-                <option value="Liam Reddy">Liam Reddy</option>
-                <option value="Ian Rui">Ian Rui</option>
-                <option value="Drake Tan">Drake Tan</option>
-                <option value="Lingfei Tang">Lingfei Tang</option>
-                <option value="Aaryan Vaishya">Aaryan Vaishya</option>
-                <option value="Ari Wachtel">Ari Wachtel</option>
-                <option value="Alexander Wang">Alexander Wang</option>
-                <option value="Calvin Wang">Calvin Wang</option>
-                <option value="Heather Wang">Heather Wang</option>
-                <option value="Laura Wang">Laura Wang</option>
-                <option value="Oron Wang">Oron Wang</option>
-                <option value="Richard Wang">Richard Wang</option>
-                <option value="Ryan Wang">Ryan Wang</option>
-                <option value="Vincent Wang">Vincent Wang</option>
-                <option value="Kyle Wu">Kyle Wu</option>
-                <option value="Catherine Xu">Catherine Xu</option>
-                <option value="Channing Yang">Channing Yang</option>
-                <option value="Kevin Yang">Kevin Yang</option>
-                <option value="Royce Yao">Royce Yao</option>
-                <option value="Feodor Yevtushenko">Feodor Yevtushenko</option>
-                <option value="Ali Zaman">Ali Zaman</option>
-                <option value="Tiger Zhang">Tiger Zhang</option>
-                <option value="Michael Zhao">Michael Zhao</option>
-                <option value="Vivian Zhong">Vivian Zhong</option>
-                <option value="Haofang Zhu">Haofang Zhu</option>
-                <option value="Raymond Zhu">Raymond Zhu</option>
-                <option value="Eric Zou">Eric Zou</option>
-            </select>
+            <select name="guess" id="guess"></select>
             <button type="button" onclick="submit_form()">Submit</button>
         </div>
 
@@ -147,6 +82,17 @@
         </div>
     </body>
     <script>
+        window.onload = () => {
+            let name_list = ['Grant Blitz', 'Krittika Chandra', 'Ryan Chen', 'Kailua Cheng', 'Ashen Chutinan', 'Lanie Deng', 'Jonathan Du', 'Evan Fan', 'Yoll Feng', 'David Fox', 'Hannah Fox', 'Rohan Garg', 'Daniel Ge', 'Selena Ge', 'Vihaan Gupta', 'Darren Han', 'Eden He', 'Leo Hong', 'Shihan Kanungo', 'Keshav Karumbunathan', 'Ekam Kaur', 'Hyun-Jin Kim', 'Jason Lee', 'Connor Leong', 'Wendy Leong', 'Xinyi Li', 'Hengrui Liang', 'Andrew Lin', 'Kyle Lin', 'Alexander Liu', 'Jiahe Liu', 'Kevin Long', 'Tony Lu', 'Michael Luo', 'Rohan Mallick', 'Grisham Paimagam', 'Aryan Raj', 'Tarun Rapaka', 'Liam Reddy', 'Ian Rui', 'Drake Tan', 'Lingfei Tang', 'Aaryan Vaishya', 'Ari Wachtel', 'Alexander Wang', 'Calvin Wang', 'Heather Wang', 'Laura Wang', 'Oron Wang', 'Richard Wang', 'Ryan Wang', 'Vincent Wang', 'Kyle Wu', 'Catherine Xu', 'Channing Yang', 'Kevin Yang', 'Royce Yao', 'Feodor Yevtushenko', 'Ali Zaman', 'Tiger Zhang', 'Michael Zhao', 'Vivian Zhong', 'Haofang Zhu', 'Raymond Zhu', 'Eric Zou'];
+            for (let name of name_list) {
+                let node = document.createElement("option");
+                let textnode = document.createTextNode(name);
+                node.appendChild(textnode);
+                node.value = name;
+                document.getElementById("guess").appendChild(node);
+            }
+        }
+
         function submit_form() {
             let themap = {
                 "day": "-1",
