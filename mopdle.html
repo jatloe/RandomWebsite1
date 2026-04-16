@@ -85,14 +85,15 @@
         </div>
     </body>
     <script>
-        let day = 0;
+        let day = "0";
         let answer = "???";
         let stringtoshare = "";
+        let spin = false;
 
         window.onload = () => {
-            let s = prompt("Input daily string (Calvin should have sent this in #dailies)");
+            let s = prompt("Input daily string (Calvin should have sent this in #mopdle)");
             s = JSON.parse(window.atob(s));
-            day = parseInt(s["day"]);
+            day = s["day"];
             answer = s["answer"];
 
             document.getElementById("daynum").innerText = "Day " + day;
@@ -113,6 +114,47 @@
                 node.value = name;
                 document.getElementById("guess").appendChild(node);
             }
+
+            if (s.hasOwnProperty("spin") && s["spin"]) {            
+                let ind = 0;
+                for (let container of document.querySelectorAll(".hint-container")) {
+                    let x = ind;
+                    setInterval(() => {rotate(container, x)}, 10);
+                    ind++;
+                }
+            }
+        }
+
+        function lerp(start,end,r) {
+            return start + (end-start) * r;
+        }
+
+        class LerpableObject {
+            constructor(min, max, start, speed) {
+                this.min = min;
+                this.max = max;
+                this.speed = speed;
+                this.current = start;
+                this.target = lerp(min, max, Math.random());
+            }
+
+            update() {
+                this.current = lerp(this.current, this.target, this.speed);
+                if (Math.abs(this.current - this.target) / (this.max - this.min) < 0.15) this.target = lerp(this.min, this.max, Math.random());
+            }
+        }
+
+        let rotation = Array.from({length:5}, (x)=>new LerpableObject(-90,90,0,0.005));
+        let offsetx = Array.from({length:5}, (x)=>new LerpableObject(-40,40,0,0.01));
+        let offsety = Array.from({length:5}, (x)=>new LerpableObject(-40,40,0,0.01));
+        let scale = Array.from({length:5}, (x)=>new LerpableObject(0.6,1.4,1,0.015));
+
+        function rotate(container, ind) {
+            container.style.transform = `translate(${offsetx[ind].current}vw, ${offsety[ind].current}vh) scale(${scale[ind].current}) rotate(${rotation[ind].current}deg)`;
+            rotation[ind].update();
+            offsetx[ind].update();
+            offsety[ind].update();
+            scale[ind].update();
         }
 
         let currnum = 1;
@@ -168,5 +210,5 @@
 
 <!--
 Reminder to self:
-window.btoa(JSON.stringify({"day":0,"answer":"","hint1":"","hint2":"","hint3":"","hint4":"","hint5":""}))
+window.btoa(JSON.stringify({"day":"0","answer":"","hint1":"","hint2":"","hint3":"","hint4":"","hint5":""}))
 -->
