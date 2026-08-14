@@ -32,6 +32,7 @@
         <option value="alphabet">Alphabet</option>
         <option value="alphabetrev">Alphabet (Rev)</option>
         <option value="sudoku">Sudoku</option>
+        <option value="bigram">Repeated Bigram</option>
     </select>
     <br> <br>
     <p class="side">Time:</p>
@@ -172,6 +173,31 @@ function generateNewProblem() {
         for (let i of arr) problem += i.toString();
 
         answer = num.toString();
+    } else if (problemType === "bigram") {
+        let s = "";
+        let ans = "";
+        while (true) {
+            s = "";
+            for (let i = 0; i < 20; i++) s += randomInteger(0,9);
+            let cts = [];
+            for (let i = 0; i < 10; i++) {
+                for (let j = 0; j < 10; j++) {
+                    let s1 = i.toString() + j.toString();
+                    let num = 0;
+                    for (let ind = 0; ind < s.length-1; ind++) {
+                        if (s.substring(ind,ind+2) == s1) num++;
+                    }
+                    if (num == 2) ans = s1;
+                    cts.push(num);
+                }
+            }
+            cts.sort();
+            if (cts[cts.length-1] == 2 && cts[cts.length-2] < 2) break;
+        }
+
+        problem = s;
+
+        answer = ans;
     }
 
     return problem;
