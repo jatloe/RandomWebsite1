@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="icon" href="jatloesmile-hd.png">
+<title>Idledle</title>
+<style>
+.side{
+    display: inline;
+}
+body {
+    font-family: 'Monospace Typewriter', monospace;
+    font-size: 15px;
+}
+</style>
+</head>
+<body>
+    <p id="day_num">Day 2</p>
+    <p class="side" id="time_taken">Time taken:</p>
+    <button onclick="share()" id="share_button" style="display:none;">Share</button>
+    <br>
+    <p id="goal">Goal: 1e62 points</p>
+    <h3 id="points" style="font-size:18px;">You have 210.000 points.</h3>
+    <!-- <button id="add_one_point" onclick="add_one_point()">+1 point</button> -->
+    <!-- <br> <br> -->
+    <p class="side" id="display_a">Generator A: 0</p>
+    <button type="button" onclick="buy(0)" id="buy_a">Buy Generator A: 10 points</button>
+    <button type="button" onclick="sell(0)" id="sell_a">Sell One</button>
+    <br>
+    <p class="side" id="display_b">Generator B: 0</p>
+    <button type="button" onclick="buy(1)" id="buy_b">Buy Generator B: 100 points</button>
+    <button type="button" onclick="sell(1)" id="sell_c">Sell One</button>
+    <br>
+    <p class="side" id="display_c">Generator C: 0</p>
+    <button type="button" onclick="buy(2)" id="buy_c">Buy Generator C: 100 points</button>
+    <button type="button" onclick="sell(2)" id="sell_c">Sell One</button>
+    <p>Point increase formula: A*|sqrt2-B/C|^(-sqrt(A)) per second</p>
+    <p>Cost scaling formula: multiplies by 2 each time</p>
+    <p>Sell One sells one of the generator for the same price as you bought it</p>
+    <p>Hotkeys: 1, 2, 3 to buy A, B, C</p>
+    <p>Q, W, E to sell A, B, C</p>
+</body>
+<script>
+let start_time = 0;
+let last_tick = 0;
+let completed = false;
+let current_time = 0;
+
+let num_generators = 3;
+
+let letter_list = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+let costs = [10, 100, 100];
+let amounts = [0, 0, 0]; // Amount bought
+
+let points = 210;
+
+window.onload = () => {
+    alert("Press OK when you are ready to start!");
+    start_time = Date.now();
+    last_tick = Date.now();
+    buy(0);
+    buy(1);
+    buy(2);
+    setInterval(update, 10);
+}
+
+function update() {
+    if (points >= 1e62) completed = true;
+
+    if (!completed) {
+        current_time = ((Date.now() - start_time) / 1000).toFixed(3);    
+        document.getElementById("time_taken").innerText =
+        `Time taken: ${current_time}s`;
+    } else if (!document.getElementById("time_taken").innerText.endsWith(" (Complete)")) {
+        document.getElementById("time_taken").innerText += " (Complete)";
+        document.getElementById("share_button").style.display = "";
+    }
+
+    if (completed) return;
+
+    let tick_difference = (Date.now() - last_tick) / 1000;
+    last_tick = Date.now();
+
+    let sqrt_part = amounts[2] * (amounts[1] + amounts[2] * Math.SQRT2) / (amounts[1] * amounts[1] - 2 * amounts[2] * amounts[2]);
+
+    let point_change =
+        amounts[0] * Math.pow(Math.abs(sqrt_part),Math.sqrt(amounts[0]));
+    points += point_change * tick_difference;
+
+    document.getElementById("points").innerText = `You have ${make_string(points)} points.`;
+
+    for (let i = 0; i < num_generators; i++) {
+        document.getElementById("display_"+letter_list[i]).innerText =
+            `Generator ${letter_list[i].toUpperCase()}: ${amounts[i]}`;
+        document.getElementById("buy_"+letter_list[i]).innerText =
+            `Buy Generator ${letter_list[i].toUpperCase()}: ${make_string(costs[i])} points`;
+    }
+}
+
+/*
+function add_one_point() {
+    points++;
+}
+*/
+
+function buy(n) {
+    if (points < costs[n]) return;
+
+    points -= costs[n];
+    amounts[n]++;
+    costs[n] *= 2;
+}
+
+function sell(n) {
+    if (amounts[n] <= 1) return; // Specific to day 2
+
+    amounts[n]--;
+    costs[n] /= 2;
+    points += costs[n];
+}
+
+// Hotkeys, keycodes are here https://www.toptal.com/developers/keycode
+document.onkeydown = function(e) { // onkeydown is repeatable, onkeyup is not
+    if (e.which == 49) {
+        buy(0);
+    } else if (e.which == 50) {
+        buy(1);
+    } else if (e.which == 51) {
+        buy(2);
+    } else if (e.which == 81) {
+        sell(0);
+    } else if (e.which == 87) {
+        sell(1);
+    } else if (e.which == 69) {
+        sell(2);
+    }
+};
+
+async function share() {
+    let share_string =
+    `Idledle ${document.getElementById("day_num").innerText} - Time: ${current_time}s\n` +
+    "Play at: http://jatloe.github.io/RandomWebsite1/idledle.html";
+    await navigator.clipboard.writeText(share_string);
+    alert("Copied to clipboard!");
+}
+
+// This function turns numbers into nice numbers (for example, make_string(1234567) = 1.234e6)
+function make_string(number) {
+    if (number < 1000000) {
+        return number.toFixed(3);
+    } else if (isFinite(number)) {
+        let power = Math.floor(Math.log10(number));
+        number = number / Math.pow(10,power);
+        return number.toFixed(3) + "e" + String(power);
+    } else if(isNaN(number)) {
+        return "NaN";
+    } else {
+        return "Infinity";
+    }
+}
+
+// Log function because I can't find it anywhere
+function log(a,b) {
+    return Math.round(Math.log(b) / Math.log(a));
+}
+</script>
+</html>
