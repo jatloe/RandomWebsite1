@@ -14,11 +14,11 @@ body {
 </style>
 </head>
 <body>
-    <p id="day_num">Day 1</p>
+    <p id="day_num">Day 3</p>
     <p class="side" id="time_taken">Time taken:</p>
     <button onclick="share()" id="share_button" style="display:none;">Share</button>
     <br>
-    <p id="goal">Goal: 1e9 points</p>
+    <p id="goal">Goal: 1e18 points</p>
     <h3 id="points" style="font-size:18px;">You have 10.000 points.</h3>
     <!-- <button id="add_one_point" onclick="add_one_point()">+1 point</button> -->
     <!-- <br> <br> -->
@@ -30,12 +30,12 @@ body {
     <br>
     <p class="side" id="display_c">Generator C: 0</p>
     <button type="button" onclick="buy(2)" id="buy_c">Buy Generator C: 10000 points</button>
-    <p>Point increase formula: 5A+2A^2B+A^3B^2C per second</p>
+    <p>Point increase formula: 5*A^sqrt(B+C)+100*B*C^(A^0.001) per second</p>
     <p>Cost scaling formula: multiplies by 2 each time</p>
     <p>Hotkeys: 1, 2, 3 to buy A, B, C</p>
 </body>
 <script>
-let TIME_CUTOFFS = [85, 95, 110];
+let TIME_CUTOFFS = [75, 85, 100];
 
 let start_time = 0;
 let last_tick = 0;
@@ -45,17 +45,17 @@ let current_time = 0;
 let num_generators = 3;
 
 let letter_list = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
-let costs = [10, 100, 10000];
+let costs = [10, 100, 1000];
 let amounts = [0, 0, 0]; // Amount bought
 
-let points = 10;
+let points = 0;
 
 window.onload = () => {
     alert("Press OK when you are ready to start!");
     start_time = Date.now();
     last_tick = Date.now();
     setInterval(update, 10);
-    buy(0);
+    // buy(0);
 
     let prev_attempts = localStorage.getItem(
         "Idledle " + document.getElementById("day_num").innerText + " Attempts"
@@ -66,7 +66,7 @@ window.onload = () => {
 }
 
 function update() {
-    if (points >= 1e9) completed = true;
+    if (points >= 1e18) completed = true;
 
     if (!completed) {
         current_time = ((Date.now() - start_time) / 1000).toFixed(3);    
@@ -83,9 +83,8 @@ function update() {
     last_tick = Date.now();
 
     let point_change =
-        amounts[0] * 5 + 
-        Math.pow(amounts[0], 2) * amounts[1] * 2 + 
-        Math.pow(amounts[0], 3) * Math.pow(amounts[1], 2) * amounts[2];
+        Math.pow(amounts[0], Math.sqrt(amounts[1] + amounts[2])) * 5 + 
+        amounts[1] * Math.pow(amounts[2], Math.pow(amounts[0], 0.001)) * 100;
     points += point_change * tick_difference;
 
     document.getElementById("points").innerText = `You have ${make_string(points)} points.`;

@@ -38,6 +38,8 @@ body {
     <p>Hotkeys: 1, 2, 3, 4 to buy A, B, C, D</p>
 </body>
 <script>
+let TIME_CUTOFFS = [75, 85, 100];
+
 let start_time = 0;
 let last_tick = 0;
 let completed = false;
@@ -57,6 +59,13 @@ window.onload = () => {
     last_tick = Date.now();
     setInterval(update, 10);
     buy(0);
+
+    let prev_attempts = localStorage.getItem(
+        "Idledle " + document.getElementById("day_num").innerText + " Attempts"
+    ) ?? 0;
+    localStorage.setItem(
+        "Idledle " + document.getElementById("day_num").innerText + " Attempts"
+    , parseInt(prev_attempts) + 1);
 }
 
 function update() {
@@ -122,11 +131,24 @@ document.onkeydown = function(e) { // onkeydown is repeatable, onkeyup is not
 };
 
 async function share() {
+    let num_attempts = localStorage.getItem(
+        "Idledle " + document.getElementById("day_num").innerText + " Attempts"
+    );
+
     let share_string =
-    `Idledle ${document.getElementById("day_num").innerText} - Time: ${current_time}s\n` +
+    `Idledle ${document.getElementById("day_num").innerText}\n` +
+    `Attempts: ${num_attempts}\n` +
+    `Time: ${current_time}s ${medal_emoji(current_time)}\n` +
     "Play at: http://jatloe.github.io/RandomWebsite1/idledle.html";
     await navigator.clipboard.writeText(share_string);
     alert("Copied to clipboard!");
+}
+
+function medal_emoji(time) {
+    if (time < TIME_CUTOFFS[0]) return ":first_place:";
+    if (time < TIME_CUTOFFS[1]) return ":second_place:";
+    if (time < TIME_CUTOFFS[2]) return ":third_place:";
+    return "";
 }
 
 // This function turns numbers into nice numbers (for example, make_string(1234567) = 1.234e6)
