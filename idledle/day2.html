@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="icon" href="jatloesmile-hd.png">
+<title>Idledle</title>
+<style>
+.side{
+    display: inline;
+}
+body {
+    font-family: 'Monospace Typewriter', monospace;
+    font-size: 15px;
+}
+</style>
+</head>
+<body>
+    <p id="day_num">Day 2</p>
+    <p class="side" id="time_taken">Time taken:</p>
+    <button onclick="share()" id="share_button" style="display:none;">Share</button>
+    <br>
+    <p id="goal">Goal: 1e18 points</p>
+    <h3 id="points" style="font-size:18px;">You have 10.000 points.</h3>
+    <!-- <button id="add_one_point" onclick="add_one_point()">+1 point</button> -->
+    <!-- <br> <br> -->
+    <p class="side" id="display_a">Generator A: 0</p>
+    <button type="button" onclick="buy(0)" id="buy_a">Buy Generator A: 10 points</button>
+    <br>
+    <p class="side" id="display_b">Generator B: 0</p>
+    <button type="button" onclick="buy(1)" id="buy_b">Buy Generator B: 100 points</button>
+    <br>
+    <p class="side" id="display_c">Generator C: 0</p>
+    <button type="button" onclick="buy(2)" id="buy_c">Buy Generator C: 1000 points</button>
+    <br>
+    <p class="side" id="display_d">Generator D: 0</p>
+    <button type="button" onclick="buy(3)" id="buy_d">Buy Generator D: 10000 points</button>
+    <p>Point increase formula: 10*(A+B+C+D)*(1.5^B)*(1.25^C)*(1.1^D) per second</p>
+    <p>Cost scaling formula: multiplies by 2 each time</p>
+    <p>Hotkeys: 1, 2, 3, 4 to buy A, B, C, D</p>
+</body>
+<script>
+let start_time = 0;
+let last_tick = 0;
+let completed = false;
+let current_time = 0;
+
+let num_generators = 4;
+
+let letter_list = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+let costs = [10, 100, 1000, 10000];
+let amounts = [0, 0, 0, 0]; // Amount bought
+
+let points = 10;
+
+window.onload = () => {
+    alert("Press OK when you are ready to start!");
+    start_time = Date.now();
+    last_tick = Date.now();
+    setInterval(update, 10);
+    buy(0);
+}
+
+function update() {
+    if (points >= 1e18) completed = true;
+
+    if (!completed) {
+        current_time = ((Date.now() - start_time) / 1000).toFixed(3);    
+        document.getElementById("time_taken").innerText =
+        `Time taken: ${current_time}s`;
+    } else if (!document.getElementById("time_taken").innerText.endsWith(" (Complete)")) {
+        document.getElementById("time_taken").innerText += " (Complete)";
+        document.getElementById("share_button").style.display = "";
+    }
+
+    if (completed) return;
+
+    let tick_difference = (Date.now() - last_tick) / 1000;
+    last_tick = Date.now();
+
+    let point_change =
+        (amounts[0] + amounts[1] + amounts[2] + amounts[3]) *
+        Math.pow(1.5, amounts[1]) *
+        Math.pow(1.25, amounts[2]) *
+        Math.pow(1.1, amounts[3]) * 10
+    ;
+    points += point_change * tick_difference;
+
+    document.getElementById("points").innerText = `You have ${make_string(points)} points.`;
+
+    for (let i = 0; i < num_generators; i++) {
+        document.getElementById("display_"+letter_list[i]).innerText =
+            `Generator ${letter_list[i].toUpperCase()}: ${amounts[i]}`;
+        document.getElementById("buy_"+letter_list[i]).innerText =
+            `Buy Generator ${letter_list[i].toUpperCase()}: ${make_string(costs[i])} points`;
+    }
+}
+
+/*
+function add_one_point() {
+    points++;
+}
+*/
+
+function buy(n) {
+    if (points < costs[n]) return;
+
+    points -= costs[n];
+    amounts[n]++;
+    costs[n] *= 2;
+}
+
+// Hotkeys, keycodes are here https://www.toptal.com/developers/keycode
+document.onkeydown = function(e) { // onkeydown is repeatable, onkeyup is not
+    if (e.which == 49) {
+        buy(0);
+    } else if (e.which == 50) {
+        buy(1);
+    } else if (e.which == 51) {
+        buy(2);
+    } else if (e.which == 52) {
+        buy(3);
+    }
+};
+
+async function share() {
+    let share_string =
+    `Idledle ${document.getElementById("day_num").innerText} - Time: ${current_time}s\n` +
+    "Play at: http://jatloe.github.io/RandomWebsite1/idledle.html";
+    await navigator.clipboard.writeText(share_string);
+    alert("Copied to clipboard!");
+}
+
+// This function turns numbers into nice numbers (for example, make_string(1234567) = 1.234e6)
+function make_string(number) {
+    if (number < 1000000) {
+        return number.toFixed(3);
+    } else if (isFinite(number)) {
+        let power = Math.floor(Math.log10(number));
+        number = number / Math.pow(10,power);
+        return number.toFixed(3) + "e" + String(power);
+    } else if(isNaN(number)) {
+        return "NaN";
+    } else {
+        return "Infinity";
+    }
+}
+
+// Log function because I can't find it anywhere
+function log(a,b) {
+    return Math.round(Math.log(b) / Math.log(a));
+}
+
+function factorial(n) {
+    let x = n;
+    let ans = 1;
+    while (x > 1) {
+        ans *= x;
+        x--;
+    }
+    return ans;
+}
+</script>
+</html>
