@@ -33,10 +33,13 @@ body {
     <br>
     <p class="side" id="display_d">Generator D: 0</p>
     <button type="button" onclick="buy(3)" id="buy_d">Buy Generator D: 10000 points</button>
-    <p>Point increase formula: 10*(A+B+C+D)*(1.5^B)*(1.25^C)*(1.1^D) per second</p>
+    <p>Point increase formula: \(10(A+B+C+D)\cdot 1.5^B\cdot 1.25^C\cdot 1.1^D\) per second</p>
     <p>Cost scaling formula: multiplies by 2 each time</p>
     <p>Hotkeys: 1, 2, 3, 4 to buy A, B, C, D</p>
 </body>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.2.1/math.js" type="text/javascript"></script>
 <script>
 let TIME_CUTOFFS = [75, 85, 100];
 
