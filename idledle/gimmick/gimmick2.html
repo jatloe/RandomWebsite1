@@ -14,11 +14,11 @@ body {
 </style>
 </head>
 <body>
-    <p id="day_num">Gimmick 1 - Convergents of sqrt(2)</p>
+    <p id="day_num">Gimmick 2 - Not An Idle</p>
     <p class="side" id="time_taken">Time taken:</p>
     <button onclick="share()" id="share_button" style="display:none;">Share</button>
     <br>
-    <p id="goal">Goal: 1e62 points</p>
+    <p id="goal">Goal: 1e9 points</p>
     <h3 id="points" style="font-size:18px;">You have 210.000 points.</h3>
     <!-- <button id="add_one_point" onclick="add_one_point()">+1 point</button> -->
     <!-- <br> <br> -->
@@ -30,41 +30,35 @@ body {
     <button type="button" onclick="buy(1)" id="buy_b">Buy Generator B: 100 points</button>
     <button type="button" onclick="sell(1)" id="sell_c">Sell One</button>
     <br>
-    <p class="side" id="display_c">Generator C: 0</p>
-    <button type="button" onclick="buy(2)" id="buy_c">Buy Generator C: 100 points</button>
-    <button type="button" onclick="sell(2)" id="sell_c">Sell One</button>
-    <p>Point increase formula: \(A\cdot\left|\sqrt2-\frac BC\right|^{-\sqrt{A}}\) per second</p>
-    <p>Cost scaling formula: multiplies by 2 each time</p>
+    <p>Point increase formula: \(1000000000^{1-(629-AB)^2}\) per second</p>
+    <p>Cost scaling formula: multiplies by 1 each time</p>
     <p>Sell One sells one of the generator for the same price as you bought it</p>
-    <p>Hotkeys: 1, 2, 3 to buy A, B, C</p>
-    <p>Q, W, E to sell A, B, C</p>
+    <p>Hotkeys: 1, 2 to buy A, B</p>
+    <p>Q, W to sell A, B</p>
 </body>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.2.1/math.js" type="text/javascript"></script>
 <script>
-let TIME_CUTOFFS = [85, 95, 120];
+let TIME_CUTOFFS = [20, 30, 50];
 
 let start_time = 0;
 let last_tick = 0;
 let completed = false;
 let current_time = 0;
 
-let num_generators = 3;
+let num_generators = 2;
 
 let letter_list = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
-let costs = [10, 100, 100];
-let amounts = [0, 0, 0]; // Amount bought
+let costs = [10, 10];
+let amounts = [0, 0]; // Amount bought
 
-let points = 210;
+let points = 1000;
 
 window.onload = () => {
     alert("Press OK when you are ready to start!");
     start_time = Date.now();
     last_tick = Date.now();
-    buy(0);
-    buy(1);
-    buy(2);
     setInterval(update, 10);
 
     let prev_attempts = localStorage.getItem(
@@ -76,7 +70,7 @@ window.onload = () => {
 }
 
 function update() {
-    if (points >= 1e62) completed = true;
+    if (points >= 1e9) completed = true;
 
     if (!completed) {
         current_time = ((Date.now() - start_time) / 1000).toFixed(3);    
@@ -92,10 +86,8 @@ function update() {
     let tick_difference = (Date.now() - last_tick) / 1000;
     last_tick = Date.now();
 
-    let sqrt_part = amounts[2] * (amounts[1] + amounts[2] * Math.SQRT2) / (amounts[1] * amounts[1] - 2 * amounts[2] * amounts[2]);
-
     let point_change =
-        amounts[0] * Math.pow(Math.abs(sqrt_part),Math.sqrt(amounts[0]));
+        Math.pow(Math.pow(10,9), 1-Math.pow(629-amounts[0]*amounts[1],2));
     points += point_change * tick_difference;
 
     document.getElementById("points").innerText = `You have ${make_string(points)} points.`;
@@ -119,14 +111,14 @@ function buy(n) {
 
     points -= costs[n];
     amounts[n]++;
-    costs[n] *= 2;
+    costs[n] *= 1;
 }
 
 function sell(n) {
-    if (amounts[n] <= 1) return; // Specific to day 2
+    if (amounts[n] <= 0) return;
 
     amounts[n]--;
-    costs[n] /= 2;
+    costs[n] /= 1;
     points += costs[n];
 }
 
@@ -136,14 +128,10 @@ document.onkeydown = function(e) { // onkeydown is repeatable, onkeyup is not
         buy(0);
     } else if (e.which == 50) {
         buy(1);
-    } else if (e.which == 51) {
-        buy(2);
     } else if (e.which == 81) {
         sell(0);
     } else if (e.which == 87) {
         sell(1);
-    } else if (e.which == 69) {
-        sell(2);
     }
 };
 
@@ -156,7 +144,7 @@ async function share() {
     `Idledle ${document.getElementById("day_num").innerText}\n` +
     `Attempts: ${num_attempts}\n` +
     `Time: ${current_time}s ${medal_emoji(current_time)}\n` +
-    "Play at: https://jatloe.github.io/RandomWebsite1/idledle/gimmick/gimmick1.html";
+    "Play at: https://jatloe.github.io/RandomWebsite1/idledle/gimmick/gimmick2.html";
     await navigator.clipboard.writeText(share_string);
     alert("Copied to clipboard!");
 }
